@@ -1,0 +1,6 @@
+{% extends 'musicians/login.html'%}
+
+{% block add%}
+<h4>Only registered users can add articles.</h4>
+<h4>Sign in or <a href="{% url 'register' %}">register</a>.</h4>
+{% endblock %}
