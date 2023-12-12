@@ -71,42 +71,64 @@
         {% endblock %}
 	</div>
 <!-- End of block content -->
-{% if page_obj.has_other_pages %}
-<nav class="list-pages">
-	<ul>
-		{% if page_obj.has_previous %}
-			<li class="page-num">
-				<a href="?page=1">1&Lt;</a>
-			</li>
-			<li class="page-num">
-				<a href="?page={{page_obj.previous_page_number}}">&lt;</a>
-			</li>
-		{% endif %}
 
+<!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+        <div class="pagination-wrapper">
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                       class="large-text tooltip-last"
+                       data-tooltip="Previous page">&laquo;</a>
+                {% else %}
+                    <a href="" class="large-text tooltip disabled"
+                       data-tooltip="Previous page">&laquo;</a>
+                {% endif %}
 
-		{% for page_num in paginator.page_range %}
-			{% if page_num == page_obj.number %}
-				<li class="page-num-selected">
-					{{page_num}}
-				</li>
-			{% elif page_num >= page_obj.number|add:-1 and page_num <= page_obj.number|add:1 %}
-				<li class="page-num">
-					<a href="?page={{page_num}}">{{page_num}}</a>
-				</li>
-			{% endif %}
-		{% endfor %}
+                {% if page_obj.number == 1 %}
+                    <a href="" class="active tooltip" data-tooltip="Current page">1</a>
+                {% else %}
+                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page=1" class="tooltip">1</a>
+                {% endif %}
 
-		{% if page_obj.has_next %}
-			<li class="page-num">
-				<a href="?page={{page_obj.next_page_number}}">&gt;</a>
-			</li>
-			<li class="page-num">
-				<a href="?page={{paginator.num_pages}}">&Gt;{{paginator.num_pages}}</a>
-			</li>
-		{% endif %}
-	</ul>
-</nav>
-{% endif %}
+                {% if page_obj.number > 3 %}
+                    <a href="" class="tooltip default-cursor">...</a>
+                {% endif %}
+
+                {% for p in paginator.page_range %}
+                    {% if p > 1 and p < paginator.num_pages %}
+                        {% if p == page_obj.number %}
+                            <a href="" class="active tooltip" data-tooltip="Current page">{{ p }}</a>
+                        {% elif p > page_obj.number|add:-2 and p < page_obj.number|add:2 %}
+                            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ p }}"
+                               class="tooltip">{{ p }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.number < paginator.num_pages|add:-2 %}
+                    <a href="#" class="tooltip default-cursor">...</a>
+                {% endif %}
+
+                {% if page_obj.number == paginator.num_pages %}
+                    <a href="#" class="active tooltip" data-tooltip="Current page">{{ paginator.num_pages }}</a>
+                {% else %}
+                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ paginator.num_pages }}"
+                       class="tooltip">{{ paginator.num_pages }}</a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.next_page_number }}"
+                       class="large-text tooltip-last"
+                       data-tooltip="Next page">&raquo;</a>
+                {% else %}
+                    <a href="" class="large-text tooltip disabled"
+                       data-tooltip="Next page">&raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+<!-- End of pagination -->
 
 </td></tr></table>
 </td></tr>
