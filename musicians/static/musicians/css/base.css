@@ -1,0 +1,110 @@
+/* Global Styles */
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #444;
+}
+
+/* Main Content Customization */
+.container {
+    background: floralwhite;
+    padding-top: 20px;
+}
+
+/* Sidebar Customization */
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    color: #444;
+}
+.list-group-item:hover {
+    background-color: #eee;
+    color: #CC0000;
+}
+.list-group-item a {
+    color: #0059b2;
+    text-decoration: none;
+}
+
+.list-group-item a:hover {
+    color: #CC0000;
+    text-decoration: underline;
+}
+
+/* Navbar Customization */
+.navbar {
+    transition: top 0.3s; /* Add transition for smooth effect */
+    background: #3F4137;
+    position: sticky;
+    top: 0;
+    z-index: 1020; /* Higher than other elements but below the modal overlay */
+}
+
+.navbar-brand .logo {
+    background: url('../images/logo.png') no-repeat;
+    width: 50px;
+    height: 50px;
+    display: block;
+}
+
+
+
+.navbar-toggler {
+    border-color: #fdc073;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23fdc073' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar, .col-lg-3 {
+        position: fixed; /* Make sure they are fixed for mobile */
+        left: 0; /* Align to the left edge */
+        right: 0; /* Align to the right edge */
+        width: 100%; /* Ensure full width */
+    }
+
+    .navbar-nav .nav-item {
+        width: 100%;
+    }
+
+    .mobile-content {
+        margin-top: 94px; /* Adjust margin to account for the navbar */
+    }
+}
+
+/* Footer Customization */
+.footer {
+    background: #3F4137;
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    padding: 5px;
+}
+
+.footer .container {
+    background: inherit;
+}
+
+/* Styles Menu Customization */
+.col-lg-3 {
+    z-index: 1010; /* Below the navbar */
+    transition: top 0.3s; /* Smooth transition */
+}
+
+/* Selected Sidebar Item Styling */
+.list-group-item.selected {
+    background-color: #5c598b;
+    color: white;
+    font-weight: bold;
+}
+
+.sticky-menu {
+    position: sticky;
+    top: 94px;
+    overflow-y: auto;
+    margin-top: 15px;
+}

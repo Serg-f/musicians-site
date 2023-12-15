@@ -1,0 +1,43 @@
+
+
+/* Responsive Image Customization */
+.img-article-left {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-right: 15px;
+}
+
+/* Article Panel Customization */
+.article-panel {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+.article-text {
+    flex: 1;
+}
+.article-panel .first,
+.article-panel .last {
+    color: #555;
+}
+.article-panel h5 {
+    margin-top: 10px;
+    color: #333671;
+}
+
+/* Media Queries for Responsive Adjustments */
+@media (max-width: 992px) {
+    .img-article-left {
+        max-width: 250px;
+    }
+}
+@media (max-width: 768px) {
+    .img-article-left {
+        max-width: 100%;
+        float: none;
+        margin-bottom: 15px;
+    }
+}
+

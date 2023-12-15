@@ -3,142 +3,157 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-	<meta http-equiv="Cache-Control" content="no-cache">
-    <title>{{title}}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'musicians/css/styles.css' %}"/>
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'musicians/css/base.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% block extra_css %}
+    {% endblock %}
     <link rel="shortcut icon" href="{% static 'musicians/images/main.ico' %}" type="image/x-icon"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<table class="table-page" border=0 cellpadding="0" cellspacing="0">
-<tr><td valign=top>
-{% block topmenu%}
-    <div class="header">
-        <ul id="mainmenu" class="mainmenu">
-			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
-            {% for di in menu %}
-				<li><a href="{% url di.url_name %}">{{di.title}}</a></li>
-            {% endfor %}
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <div class="logo"></div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link mx-2 {{ menu.0.is_active }}"
+                       href="{% url menu.0.url_name 'all' %}">{{ menu.0.title }}</a>
+                </li>
+                {% for item in menu %}
+                    {% if not forloop.first %}
+                        <li class="nav-item">
+                            <a class="nav-link mx-2 {{ item.is_active }}"
+                               href="{% url item.url_name %}">{{ item.title }}</a>
+                        </li>
+                    {% endif %}
 
-			{% if request.user.is_authenticated %}
-				<li class="last">
-					{{user.username}} | <a href="{% url 'logout' %}">Log Out</a>
-				</li>
-			{% else%}
-				<li class="last">
-					<a href="{% url 'register' %}">Register</a> | <a href="{% url 'login' %}">Log In</a>
-				</li>
-			{% endif %}
-        </ul>
-        <div class="clear"></div>
-    </div>
-{% endblock topmenu%}
-
-<table class="table-content" border=0 cellpadding="0" cellspacing="0">
-<tr>
-<!-- Left sidebar -->
-	<td valign="top" class="left-chapters">
-	<ul id="leftchapters">
-		{% if style_selected == 0 %}
-			<li class="selected">All styles</li>
-		{% else %}
-			<li><a href='{% url "home" %}'>All styles</a></li>
-		{% endif %}
-
-		{% for style in styles %}
-			{% if style_selected == style.id %}
-				<li class="selected">{{style.name}}</li>
-			{% else %}
-				<li><a href="{{ style.get_absolute_url }}">{{style.name}}</a></li>
-			{% endif %}
-		{% endfor %}
-
-		<li class="share">
-		<p>Our partners:</p>
-		<a class="share-yt" href="https://www.mtv.com/" target="_blank" rel="nofollow"></a>
-		</li>
-	</ul>
-</td>
-<!-- End of left sidebar -->
-<td valign="top" class="content">
-	<!-- Breadcrumbs -->
-	{% block breadcrumbs %}
-	{% endblock %}
-
-<!-- Block content -->
-    <div class="content-text">
-        {% block content %}
-        {% endblock %}
-	</div>
-<!-- End of block content -->
-
-<!-- Pagination -->
-    {% if page_obj.has_other_pages %}
-        <div class="pagination-wrapper">
-            <div class="pagination">
-                {% if page_obj.has_previous %}
-                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.previous_page_number }}"
-                       class="large-text tooltip-last"
-                       data-tooltip="Previous page">&laquo;</a>
-                {% else %}
-                    <a href="" class="large-text tooltip disabled"
-                       data-tooltip="Previous page">&laquo;</a>
-                {% endif %}
-
-                {% if page_obj.number == 1 %}
-                    <a href="" class="active tooltip" data-tooltip="Current page">1</a>
-                {% else %}
-                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page=1" class="tooltip">1</a>
-                {% endif %}
-
-                {% if page_obj.number > 3 %}
-                    <a href="" class="tooltip default-cursor">...</a>
-                {% endif %}
-
-                {% for p in paginator.page_range %}
-                    {% if p > 1 and p < paginator.num_pages %}
-                        {% if p == page_obj.number %}
-                            <a href="" class="active tooltip" data-tooltip="Current page">{{ p }}</a>
-                        {% elif p > page_obj.number|add:-2 and p < page_obj.number|add:2 %}
-                            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ p }}"
-                               class="tooltip">{{ p }}</a>
+                {% endfor %}
+            </ul>
+            <!-- Right aligned last item -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> Welcome, {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="#">Blog</a></li>
+                            <li><a class="dropdown-item" href="#">About Us</a></li>
+                            <li><a class="dropdown-item" href="#">Contact us</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#">Profile</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Orders</a></li>
+                            {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="#">Admin-panel</a></li>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Log out
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Log in
+                                </a>
+                            </li>
                         {% endif %}
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Main Content Area -->
+<div class="container">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <ul class="list-group sticky-menu">
+                {% if style_selected == 'all' %}
+                    <li class="list-group-item selected">All styles</li>
+                {% else %}
+                    <li class="list-group-item"><a class="stretched-link" href='{% url "home" %}'>All styles</a></li>
+                {% endif %}
+                {% for style in styles %}
+                    {% if style_selected == style.slug %}
+                        <li class="list-group-item selected">
+                            {{ style.name }}
+                        </li>
+                    {% else %}
+                        <li class="list-group-item">
+                            <a class="stretched-link" href="{{ style.get_absolute_url }}">{{ style.name }}</a>
+                        </li>
                     {% endif %}
                 {% endfor %}
-
-                {% if page_obj.number < paginator.num_pages|add:-2 %}
-                    <a href="#" class="tooltip default-cursor">...</a>
-                {% endif %}
-
-                {% if page_obj.number == paginator.num_pages %}
-                    <a href="#" class="active tooltip" data-tooltip="Current page">{{ paginator.num_pages }}</a>
-                {% else %}
-                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ paginator.num_pages }}"
-                       class="tooltip">{{ paginator.num_pages }}</a>
-                {% endif %}
-
-                {% if page_obj.has_next %}
-                    <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.next_page_number }}"
-                       class="large-text tooltip-last"
-                       data-tooltip="Next page">&raquo;</a>
-                {% else %}
-                    <a href="" class="large-text tooltip disabled"
-                       data-tooltip="Next page">&raquo;</a>
-                {% endif %}
-            </div>
+            </ul>
         </div>
-    {% endif %}
-<!-- End of pagination -->
 
-</td></tr></table>
-</td></tr>
+        <!-- Main Content -->
+        <div class="col-lg-9 mobile-content">
+            {% block content %}
+                <!-- Content will be here -->
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
 <!-- Footer -->
-<tr><td valign=top>
-	<div id="footer">
-		<p>&copy; 2022 Designed by Serhii Fil. All rights belong to their respective owners.</p>
-	</div>
-</td></tr></table>
-<!-- End of footer and page -->
+<footer class="footer bg-dark text-white text-center py-3 mt-4">
+    <div class="container">
+        <p>&copy; 2022 Designed by Serhii Fil. All rights belong to their respective owners.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JavaScript Bundle with Popper (Bootstrap 5) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", function () {
+        var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (window.innerWidth < 992) { // Apply only on smaller screens
+            let navbarHeight = document.querySelector('.navbar').offsetHeight;
+            let stylesMenu = document.querySelector('.col-lg-3');
+
+            if (currentScroll > lastScrollTop) {
+                // Scrolling down
+                document.querySelector('.navbar').style.top = '-' + navbarHeight + 'px';
+                stylesMenu.style.top = `-${stylesMenu.offsetHeight + navbarHeight}px`;
+            } else {
+                // Scrolling up
+                document.querySelector('.navbar').style.top = '0';
+                stylesMenu.style.top = `${navbarHeight}px`;
+            }
+        } else {
+            // For desktop, keep navbar and styles menu visible
+            document.querySelector('.navbar').style.top = '0';
+            document.querySelector('.col-lg-3').style.top = '0';
+        }
+
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, false);
+</script>
+
 
 </body>
 </html>

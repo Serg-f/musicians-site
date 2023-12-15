@@ -2,133 +2,69 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView, RedirectView
 
-from .forms import *
-from .utils import *
-
-
-def show_admin(request):
-    return redirect('admin/musicians/musicians/')
+from musicians.models import Musicians, Styles
+from musicians.nav_menu import menu
 
 
-class ShowIndex(MixinData, ListView):
+class Home(RedirectView):
+    url = reverse_lazy('articles_list', kwargs={'slug': 'all'})
+
+
+class ArticlesList(ListView):
     model = Musicians
-    template_name = 'musicians/index.html'
-    context_object_name = 'posts'
+    template_name = 'musicians/articles.html'
+    paginate_by = 3
 
     def get_queryset(self):
-        return Musicians.objects.filter(is_published=True).select_related('style')
+        if self.kwargs['slug'] == 'all':
+            return Musicians.objects.filter(is_published=True)
+        return Musicians.objects.filter(style__slug=self.kwargs['slug'], is_published=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-        user_dict = self.get_user_context(title='Main page')
-        context.update(user_dict)
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Famous musicians'
+        context['styles'] = Styles.objects.all()
+        context['style_selected'] = self.kwargs['slug']
+        context['menu'] = menu
+        context['menu'][0]['is_active'] = 'active'
         return context
 
 
-class ShowStyles(MixinData, ListView):
+class ArticleAdd(LoginRequiredMixin, CreateView):
     model = Musicians
-    template_name = 'musicians/index.html'
-    context_object_name = 'posts'
-    allow_empty = False
-
-    def get_queryset(self):
-        return Musicians.objects.filter(style__slug=self.kwargs['style_slug'], is_published=True).select_related(
-            'style')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-        s = Styles.objects.get(slug=self.kwargs['style_slug'])
-        title = 'Стиль - ' + s.name.lower()
-        style_selected = s.pk
-        user_dict = self.get_user_context(title=title, style_selected=style_selected)
-        context.update(user_dict)
-        return context
-
-
-class ShowPost(MixinData, DetailView):
-    model = Musicians
-    template_name = 'musicians/post.html'
-    context_object_name = 'post'
-    slug_url_kwarg = 'post_slug'
+    template_name = 'musicians/add_article.html'
+    fields = ['title', 'content', 'photo', 'style', 'video']
+    success_url = reverse_lazy('articles', kwargs={'slug': 'all'})
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        title = context['post'].title
-        style_selected = context['post'].style_id
-        user_dict = self.get_user_context(title=title, style_selected=style_selected)
-        context.update(user_dict)
-        return context
-
-
-class AddArticle(LoginRequiredMixin, MixinData, CreateView):
-    form_class = AddArticleForm
-    template_name = 'musicians/add_article.html'
-    success_url = reverse_lazy('home')
-    login_url = reverse_lazy('login_add_art')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-        user_dict = self.get_user_context(title='Add article')
-        context.update(user_dict)
-        return context
-
-
-class Contact(MixinData, FormView):
-    form_class = ContactForm
-    template_name = 'musicians/contact.html'
-    success_url = reverse_lazy('home')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-        user_dict = self.get_user_context(title='Contact us')
-        context.update(user_dict)
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add article'
+        context['menu'] = menu
+        context['menu'][1]['is_active'] = 'active'
         return context
 
     def form_valid(self, form):
-        print(form.cleaned_data)
-        return redirect('home')
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
-def about(request):
-    params = {
-        'title': 'About',
-        'menu': menu,
-        'styles': Styles.objects.filter(musicians__is_published=True).distinct()
-    }
-    return render(request, 'musicians/about.html', params)
+class ArticleEdit(LoginRequiredMixin, UpdateView):
+    pass
 
 
+class ArticleDelete(LoginRequiredMixin, DeleteView):
+    pass
 
 
-class RegisterUser(MixinData, CreateView):
-    form_class = RegisterUserForm
-    template_name = 'musicians/register.html'
-    success_url = reverse_lazy('login')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_di = self.get_user_context(title='Register')
-        context.update(user_di)
-        return context
+class ArticleDetail(DetailView):
+    pass
 
 
-class LoginUser(MixinData, LoginView):
-    form_class = LoginUserForm
-    template_name = 'musicians/login.html'
-    next_page = reverse_lazy('home')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_di = self.get_user_context(title='Log In')
-        context.update(user_di)
-        return context
+class About(FormView):
+    pass
 
 
-class LoginUserAddArt(LoginUser):
-    template_name = 'musicians/login_add_art.html'
-
-
-class LogoutUser(LogoutView):
-    next_page = reverse_lazy('login')
+class Contact(FormView):
+    pass

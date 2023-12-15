@@ -30,12 +30,11 @@ class Styles(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('styles', args=[self.slug])
+        return reverse('articles_list', args=[self.slug])
 
     class Meta:
         verbose_name = 'Music style'
         verbose_name_plural = 'Music styles'
-        ordering = ['pk']
 
 
 class Musicians(models.Model):
@@ -48,12 +47,13 @@ class Musicians(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Publishing')
     style = models.ForeignKey(Styles, on_delete=models.CASCADE, verbose_name='Style')
     video = EmbedVideoField(verbose_name='Link for video', blank=True)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Author')
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post', args=[self.slug])
+        return reverse('article_detail', args=[self.slug])
 
     class Meta:
         verbose_name = 'Famous musicians'
