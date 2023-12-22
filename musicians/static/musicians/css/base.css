@@ -26,7 +26,6 @@ body, html {
     color: #0059b2;
     text-decoration: none;
 }
-
 .list-group-item a:hover {
     color: #CC0000;
     text-decoration: underline;
@@ -34,11 +33,11 @@ body, html {
 
 /* Navbar Customization */
 .navbar {
-    transition: top 0.3s; /* Add transition for smooth effect */
+    transition: top 0.3s;
     background: #3F4137;
     position: sticky;
     top: 0;
-    z-index: 1020; /* Higher than other elements but below the modal overlay */
+    z-index: 1000;
 }
 
 .navbar-brand .logo {
@@ -48,8 +47,6 @@ body, html {
     display: block;
 }
 
-
-
 .navbar-toggler {
     border-color: #fdc073;
 }
@@ -58,23 +55,54 @@ body, html {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23fdc073' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-/* Media Queries for Responsive Adjustments */
+/* Styles Toggler Customization */
+.styles-toggler {
+    display: none; /* Hidden by default */
+    color: #fdc073; /* Adjust the color for visibility */
+    font-size: 1.5rem; /* Increase the size for visibility */
+    background: none; /* Remove any default background */
+    border: none; /* Remove any default border */
+}
+
+/* Ensure color stays consistent on focus and active */
+.styles-toggler:focus, .styles-toggler:active {
+    color: #fdc073; /* Maintain the same color */
+    background: none; /* Maintain no background */
+    border: none; /* Maintain no border */
+}
+
 @media (max-width: 992px) {
-    .navbar, .col-lg-3 {
-        position: fixed; /* Make sure they are fixed for mobile */
-        left: 0; /* Align to the left edge */
-        right: 0; /* Align to the right edge */
-        width: 100%; /* Ensure full width */
+    .styles-toggler {
+        display: block; /* Show on small screens */
     }
 
-    .navbar-nav .nav-item {
-        width: 100%;
+    /* Styles Menu Customization for Mobile */
+    .col-lg-3 {
+        z-index: 1010;
+        position: fixed;
+        left: 0;
+        top: 70px;
+        transition: transform 0.3s ease;
+        transform: translateX(-100%);
     }
 
-    .mobile-content {
-        margin-top: 94px; /* Adjust margin to account for the navbar */
+    .col-lg-3.open {
+        transform: translateX(0);
+    }
+    
+    #navbarNav {
+        padding-top: 10px;
     }
 }
+
+/* Desktop specific adjustments */
+@media (min-width: 992px) {
+    .col-lg-3 {
+        position: static; /* Reset to default positioning */
+        transform: translateX(0); /* Reset any transformation */
+    }
+}
+
 
 /* Footer Customization */
 .footer {
@@ -87,12 +115,6 @@ body, html {
 
 .footer .container {
     background: inherit;
-}
-
-/* Styles Menu Customization */
-.col-lg-3 {
-    z-index: 1010; /* Below the navbar */
-    transition: top 0.3s; /* Smooth transition */
 }
 
 /* Selected Sidebar Item Styling */
