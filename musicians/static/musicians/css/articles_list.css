@@ -1,5 +1,3 @@
-
-
 /* Responsive Image Customization */
 .img-article-left {
     width: 100%;
@@ -15,13 +13,16 @@
     padding: 15px;
     border-bottom: 1px solid #ccc;
 }
+
 .article-text {
     flex: 1;
 }
+
 .article-panel .first,
 .article-panel .last {
     color: #555;
 }
+
 .article-panel h5 {
     margin-top: 10px;
     color: #333671;
@@ -33,6 +34,7 @@
         max-width: 250px;
     }
 }
+
 @media (max-width: 768px) {
     .img-article-left {
         max-width: 100%;
@@ -41,3 +43,16 @@
     }
 }
 
+.form-check.form-switch {
+    margin-top: 15px;
+}
+
+.form-check.form-switch input {
+    transform: scale(1.5); /* Adjust the scale factor to make it bigger */
+    margin-right: 10px; /* Add some space between the checkbox and label */
+}
+
+.form-check.form-switch label {
+    font-size: 18px; /* Adjust the font size for the label */
+    font-weight: bold; /* Make the label bold for better visibility */
+}

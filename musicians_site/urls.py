@@ -22,7 +22,7 @@ from musicians_site import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('captcha/', include('captcha.urls')),
-    path('', include('musicians.urls'))
+    path('', include('musicians.urls', namespace='musicians')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

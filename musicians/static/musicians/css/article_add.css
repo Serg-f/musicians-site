@@ -1,0 +1,18 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: .375rem .75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+/* Custom styles for buttons or other form elements */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}

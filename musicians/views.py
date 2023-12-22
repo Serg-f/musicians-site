@@ -1,65 +1,90 @@
+from pprint import pprint
+
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render, redirect
+from django.forms import modelformset_factory
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView, RedirectView
+from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView, TemplateView
 
 from musicians.models import Musicians, Styles
 from musicians.nav_menu import menu
 
 
-class Home(RedirectView):
-    url = reverse_lazy('articles_list', kwargs={'slug': 'all'})
+class MenuMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['styles'] = Styles.objects.all()
+        context['style_selected'] = self.kwargs.get('style_slug') or self.kwargs.get('slug', 'all')
+        context['menu'] = menu
+        return context
 
 
-class ArticlesList(ListView):
+class ArticlesList(MenuMixin, ListView):
     model = Musicians
-    template_name = 'musicians/articles.html'
+    template_name = 'musicians/articles_list.html'
     paginate_by = 3
+    extra_context = {'title': 'Famous musicians'}
 
     def get_queryset(self):
-        if self.kwargs['slug'] == 'all':
+        if 'slug' not in self.kwargs or self.kwargs['slug'] == 'all':
             return Musicians.objects.filter(is_published=True)
         return Musicians.objects.filter(style__slug=self.kwargs['slug'], is_published=True)
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Famous musicians'
-        context['styles'] = Styles.objects.all()
-        context['style_selected'] = self.kwargs['slug']
-        context['menu'] = menu
-        context['menu'][0]['is_active'] = 'active'
-        return context
 
-
-class ArticleAdd(LoginRequiredMixin, CreateView):
+class ArticleDetail(MenuMixin, DetailView):
     model = Musicians
-    template_name = 'musicians/add_article.html'
-    fields = ['title', 'content', 'photo', 'style', 'video']
-    success_url = reverse_lazy('articles', kwargs={'slug': 'all'})
+    template_name = 'musicians/article_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Add article'
-        context['menu'] = menu
-        context['menu'][1]['is_active'] = 'active'
+        context['title'] = kwargs['object'].title
         return context
+
+
+class ArticleAdd(LoginRequiredMixin, MenuMixin, CreateView):
+    model = Musicians
+    template_name = 'musicians/article_add.html'
+    fields = ['title', 'content', 'style', 'is_published', 'photo', 'video']
+    success_url = reverse_lazy('musicians:home')
+    extra_context = {'title': 'Add article', 'menu_item_selected': 2}
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
 
-class ArticleEdit(LoginRequiredMixin, UpdateView):
+class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
     pass
 
 
-class ArticleDelete(LoginRequiredMixin, DeleteView):
-    pass
+class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
+    model = Musicians
+    template_name = 'musicians/article_confirm_delete.html'
+    success_url = reverse_lazy('musicians:home')
+    extra_context = {'title': 'Delete article'}
 
 
-class ArticleDetail(DetailView):
-    pass
+class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
+    template_name = 'musicians/articles_user.html'
+    extra_context = {'title': 'User articles'}
+    formset_class = modelformset_factory(Musicians, fields=('is_published',), extra=0)
+
+    def get_queryset(self):
+        return Musicians.objects.filter(author=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        formset = self.formset_class(queryset=self.get_queryset())
+        context = self.get_context_data(**kwargs, formset=formset)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        formset = self.formset_class(request.POST, queryset=self.get_queryset())
+        if formset.is_valid():
+            formset.save()
+            # messages.success(request, 'Articles updated')
+        return redirect('musicians:home')
 
 
 class About(FormView):

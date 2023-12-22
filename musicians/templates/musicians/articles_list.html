@@ -1,0 +1,63 @@
+{% extends 'musicians/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'musicians/css/articles_list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% for article in object_list %}
+            <div class="col-12 mb-4">
+                <div class="article-panel">
+                    {% if article.photo %}
+                        <img src="{{ article.photo.url }}" class="img-article-left me-3">
+                    {% endif %}
+                    <div class="article-text">
+                        <p class="first">Style: {{ article.style }}</p>
+                        <p class="last">Date: {{ article.time_update|date:"d-m-Y H:i:s" }}</p>
+                        <p class="author-style">Author: {{ user }}</p>
+                        <h5>{{ article.title }}</h5>
+                        <p>{{ article.content|linebreaks|truncatewords:50 }}</p>
+                        <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read article</a>
+                        {% if request.user == article.author %}
+                            <a href="{% url 'musicians:article_edit' article.style.slug article.slug %}"
+                               class="btn btn-secondary">Edit</a>
+                            <a href="{% url 'musicians:article_delete' article.style.slug article.slug %}"
+                               class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}

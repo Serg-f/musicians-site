@@ -1,0 +1,70 @@
+{% extends 'musicians/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'musicians/css/articles_list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="mt-3">
+        <form method="POST" action="{% url 'musicians:articles_user' %}">
+            {% csrf_token %}
+            {{ formset.management_form }}
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" class="btn btn-secondary" id="check-all">Check All</button>
+                    <button type="button" class="btn btn-secondary" id="uncheck-all">Uncheck All</button>
+                    <button type="submit" class="btn btn-success">Submit Changes</button>
+                </div>
+            </div>
+            <div class="row">
+                {% for form in formset %}
+                    <div class="col-12 mb-4">
+                        {{ form.id }}
+                        <div class="article-panel">
+                            {% if form.instance.photo %}
+                                <img src="{{ form.instance.photo.url }}" class="img-article-left me-3">
+                            {% endif %}
+                            <div class="article-text">
+                                <p class="first">Style: {{ form.instance.style }}</p>
+                                <p class="last">Date: {{ form.instance.time_update|date:"d-m-Y H:i:s" }}</p>
+                                <h5>{{ form.instance.title }}</h5>
+                                <p>{{ form.instance.content|truncatewords:50 }}</p>
+                                <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                    <div>
+                                        <a href="{{ form.instance.get_absolute_url }}" class="btn btn-primary me-2">
+                                            Read article</a>
+                                        <a href="{% url 'musicians:article_edit' form.instance.style.slug form.instance.slug %}"
+                                           class="btn btn-secondary me-2">Edit</a>
+                                        <a href="{% url 'musicians:article_delete' form.instance.style.slug form.instance.slug %}"
+                                           class="btn btn-danger me-2">Delete</a>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        {{ form.is_published }}
+                                        <label class="form-check-label"
+                                               for="{{ form.is_published.id_for_label }}">Published</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('check-all').addEventListener('click', function () {
+            document.querySelectorAll('[id^="id_form-"][id$="-is_published"]').forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+        });
+
+        document.getElementById('uncheck-all').addEventListener('click', function () {
+            document.querySelectorAll('[id^="id_form-"][id$="-is_published"]').forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 menu = [
-    {'title': 'Musicians', 'url_name': 'articles_list'},
-    {'title': 'Add article', 'url_name': 'article_add'},
-    {'title': 'About', 'url_name': 'about'},
-    {'title': 'Contact us', 'url_name': 'contact'},
+    {'title': 'Musicians', 'url_name': 'musicians:home'},
+    {'title': 'Add article', 'url_name': 'musicians:article_add'},
+    {'title': 'About', 'url_name': 'musicians:about'},
+    {'title': 'Contact us', 'url_name': 'musicians:contact'},
 ]

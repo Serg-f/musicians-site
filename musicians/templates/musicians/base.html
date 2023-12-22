@@ -18,7 +18,7 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">
+        <a class="navbar-brand" href="{% url 'musicians:home' %}">
             <div class="logo"></div>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -27,20 +27,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link mx-2 {{ menu.0.is_active }}"
-                       href="{% url menu.0.url_name 'all' %}">{{ menu.0.title }}</a>
-                </li>
                 {% for item in menu %}
-                    {% if not forloop.first %}
-                        <li class="nav-item">
-                            <a class="nav-link mx-2 {{ item.is_active }}"
-                               href="{% url item.url_name %}">{{ item.title }}</a>
-                        </li>
-                    {% endif %}
-
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 {% if not menu_item_selected and forloop.counter == 1 or forloop.counter == menu_item_selected %}active{% endif %}"
+                           href="{% url item.url_name %}">{{ item.title }}</a>
+                    </li>
                 {% endfor %}
             </ul>
+
             <!-- Right aligned last item -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
@@ -50,7 +44,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="#">Blog</a></li>
+                            <li><a class="dropdown-item" href="{% url 'musicians:articles_user' %}">My articles</a></li>
                             <li><a class="dropdown-item" href="#">About Us</a></li>
                             <li><a class="dropdown-item" href="#">Contact us</a></li>
                             <li>
@@ -92,7 +86,8 @@
                 {% if style_selected == 'all' %}
                     <li class="list-group-item selected">All styles</li>
                 {% else %}
-                    <li class="list-group-item"><a class="stretched-link" href='{% url "home" %}'>All styles</a></li>
+                    <li class="list-group-item"><a class="stretched-link"
+                                                   href='{% url "musicians:articles_list" "all" %}'>All styles</a></li>
                 {% endif %}
                 {% for style in styles %}
                     {% if style_selected == style.slug %}
