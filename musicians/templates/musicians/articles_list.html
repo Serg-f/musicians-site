@@ -14,9 +14,9 @@
                         <img src="{{ article.photo.url }}" class="img-article-left me-3">
                     {% endif %}
                     <div class="article-text">
-                        <p class="first">Style: {{ article.style }}</p>
-                        <p class="last">Date: {{ article.time_update|date:"d-m-Y H:i:s" }}</p>
-                        <p class="author-style">Author: {{ user }}</p>
+                        <p class="property">Style: {{ article.style }}</p>
+                        <p class="property">Date: {{ article.time_create|date:"d-m-Y H:i:s" }}</p>
+                        <p class="property">Author: {{ user }}</p>
                         <h5>{{ article.title }}</h5>
                         <p>{{ article.content|linebreaks|truncatewords:50 }}</p>
                         <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read article</a>

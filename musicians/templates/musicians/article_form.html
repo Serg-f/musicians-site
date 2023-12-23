@@ -2,16 +2,24 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'musicians/css/article_add.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'musicians/css/article_form.css' %}">
 {% endblock %}
 
 {% block content %}
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <h1>Add Article</h1>
+                <h1>{{ title }}</h1>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    {% if request.resolver_match.url_name == 'article_edit' %}
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" class="form-control" value="{{ form.instance.title }}"
+                                   disabled>
+                        </div>
+                    {% endif %}
+
                     {{ form.as_p }}
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -21,4 +29,5 @@
     </div>
 
     <script defer src="{% static 'musicians/js/article_form_preview.js' %}"></script>
+
 {% endblock content %}

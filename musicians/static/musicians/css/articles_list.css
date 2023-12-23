@@ -1,3 +1,46 @@
+/* Buttons Customization */
+.button-toolbar {
+    position: sticky;
+    top: 76px; /* Adjust this value based on your navbar's height */
+    background-color: floralwhite; /* Match navbar color */
+    padding: 10px;
+    z-index: 900; /* Slightly lower than navbar's z-index */
+    transition: top 0.3s; /* Smooth transition */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+}
+.button-toolbar .btn {
+        margin: 0 3px; /* Add space between buttons */
+    }
+
+
+/* Desktop view: Align the toolbar to the right with minimal width */
+@media (min-width: 992px) {
+    .button-toolbar {
+        width: fit-content; /* Take minimum necessary width */
+        margin-left: auto; /* Push it to the right */
+    }
+}
+
+/* Mobile view: Align "Check All" and "Uncheck All" to the left, "Submit" to the right */
+@media (max-width: 991px) {
+    .button-toolbar {
+        width: 100%; /* Full width */
+        /*justify-content: space-between; !* Space out buttons *!*/
+    }
+
+    .button-toolbar .btn {
+        margin: 0 4px; /* Add space between buttons */
+    }
+
+    .button-toolbar .btn-success {
+        margin-left: auto; /* Push "Submit" button to the right */
+    }
+}
+
+
+
 /* Responsive Image Customization */
 .img-article-left {
     width: 100%;
@@ -18,8 +61,7 @@
     flex: 1;
 }
 
-.article-panel .first,
-.article-panel .last {
+.article-panel .property {
     color: #555;
 }
 
@@ -55,4 +97,19 @@
 .form-check.form-switch label {
     font-size: 18px; /* Adjust the font size for the label */
     font-weight: bold; /* Make the label bold for better visibility */
+}
+
+/* No articles message */
+.no-articles-message {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.no-articles-message p {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0;
 }

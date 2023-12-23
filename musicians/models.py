@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinLengthValidator
 from django.db import models
 from django.urls import reverse
 from embed_video.fields import EmbedVideoField
@@ -28,7 +28,7 @@ class Styles(models.Model):
 class Musicians(models.Model):
     title = models.CharField(max_length=200, unique=True, validators=[TitleValidator], verbose_name='Title')
     slug = AutoSlugField(populate_from='title', unique=True, db_index=True)
-    content = models.TextField(verbose_name='Content', max_length=8000)
+    content = models.TextField(verbose_name='Content', max_length=8000, validators=[MinLengthValidator(80)])
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Photo', blank=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Updated')

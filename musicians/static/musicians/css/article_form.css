@@ -2,8 +2,13 @@
     margin-bottom: 1rem;
 }
 
-input,
-textarea {
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="file"],
+textarea,
+select {
     width: 100%;
     padding: .375rem .75rem;
     margin-bottom: 1rem;
@@ -11,8 +16,15 @@ textarea {
     border-radius: .25rem;
 }
 
+input[type="checkbox"] {
+    margin-right: .25rem;
+    vertical-align: middle;
+}
+
 /* Custom styles for buttons or other form elements */
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
 }
+
+/* Additional responsive styling as needed */

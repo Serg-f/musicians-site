@@ -45,10 +45,10 @@ class ArticleDetail(MenuMixin, DetailView):
 
 class ArticleAdd(LoginRequiredMixin, MenuMixin, CreateView):
     model = Musicians
-    template_name = 'musicians/article_add.html'
+    template_name = 'musicians/article_form.html'
     fields = ['title', 'content', 'style', 'is_published', 'photo', 'video']
     success_url = reverse_lazy('musicians:home')
-    extra_context = {'title': 'Add article', 'menu_item_selected': 2}
+    extra_context = {'title': 'Add Article', 'menu_item_selected': 2}
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -56,7 +56,13 @@ class ArticleAdd(LoginRequiredMixin, MenuMixin, CreateView):
 
 
 class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
-    pass
+    model = Musicians
+    template_name = 'musicians/article_form.html'
+    fields = ['content', 'style', 'is_published', 'photo', 'video']
+    extra_context = {'title': 'Edit Article'}
+
+    def get_success_url(self):
+        return reverse_lazy('musicians:article_detail', args=[self.object.style.slug, self.object.slug])
 
 
 class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
@@ -73,6 +79,7 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
 
     def get_queryset(self):
         return Musicians.objects.filter(author=self.request.user)
+        # return Musicians.objects.none()
 
     def get(self, request, *args, **kwargs):
         formset = self.formset_class(queryset=self.get_queryset())
