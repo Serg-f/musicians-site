@@ -8,33 +8,34 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView, TemplateView
 
-from musicians.models import Musicians, Styles
+from musicians.models import Musician, Style
 from musicians.nav_menu import menu
+from users.models import Message
 
 
 class MenuMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['styles'] = Styles.objects.all()
+        context['styles'] = Style.objects.all()
         context['style_selected'] = self.kwargs.get('style_slug') or self.kwargs.get('slug', 'all')
         context['menu'] = menu
         return context
 
 
 class ArticlesList(MenuMixin, ListView):
-    model = Musicians
+    model = Musician
     template_name = 'musicians/articles_list.html'
     paginate_by = 3
     extra_context = {'title': 'Famous musicians'}
 
     def get_queryset(self):
         if 'slug' not in self.kwargs or self.kwargs['slug'] == 'all':
-            return Musicians.objects.filter(is_published=True)
-        return Musicians.objects.filter(style__slug=self.kwargs['slug'], is_published=True)
+            return Musician.objects.filter(is_published=True)
+        return Musician.objects.filter(style__slug=self.kwargs['slug'], is_published=True)
 
 
 class ArticleDetail(MenuMixin, DetailView):
-    model = Musicians
+    model = Musician
     template_name = 'musicians/article_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -43,12 +44,12 @@ class ArticleDetail(MenuMixin, DetailView):
         return context
 
 
-class ArticleAdd(LoginRequiredMixin, MenuMixin, CreateView):
-    model = Musicians
-    template_name = 'musicians/article_form.html'
+class ArticleCreate(LoginRequiredMixin, MenuMixin, CreateView):
+    model = Musician
+    template_name = 'musicians/form.html'
     fields = ['title', 'content', 'style', 'is_published', 'photo', 'video']
     success_url = reverse_lazy('musicians:home')
-    extra_context = {'title': 'Add Article', 'menu_item_selected': 2}
+    extra_context = {'title': 'Create Article', 'menu_item_selected': 2}
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -56,8 +57,8 @@ class ArticleAdd(LoginRequiredMixin, MenuMixin, CreateView):
 
 
 class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
-    model = Musicians
-    template_name = 'musicians/article_form.html'
+    model = Musician
+    template_name = 'musicians/form.html'
     fields = ['content', 'style', 'is_published', 'photo', 'video']
     extra_context = {'title': 'Edit Article'}
 
@@ -66,7 +67,7 @@ class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
 
 
 class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
-    model = Musicians
+    model = Musician
     template_name = 'musicians/article_confirm_delete.html'
     success_url = reverse_lazy('musicians:home')
     extra_context = {'title': 'Delete article'}
@@ -75,11 +76,11 @@ class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
 class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
     template_name = 'musicians/articles_user.html'
     extra_context = {'title': 'User articles'}
-    formset_class = modelformset_factory(Musicians, fields=('is_published',), extra=0)
+    formset_class = modelformset_factory(Musician, fields=('is_published',), extra=0)
 
     def get_queryset(self):
-        return Musicians.objects.filter(author=self.request.user)
-        # return Musicians.objects.none()
+        # return Musician.objects.filter(author=self.request.user)
+        return Musician.objects.none()
 
     def get(self, request, *args, **kwargs):
         formset = self.formset_class(queryset=self.get_queryset())
@@ -94,9 +95,17 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
         return redirect('musicians:home')
 
 
+class Contact(LoginRequiredMixin, MenuMixin, CreateView):
+    model = Message
+    template_name = 'musicians/form.html'
+    fields = ['title', 'message', 'photo']
+    extra_context = {'title': 'Send us a message', 'menu_item_selected': 3}
+    success_url = reverse_lazy('musicians:home')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
 class About(FormView):
-    pass
-
-
-class Contact(FormView):
     pass

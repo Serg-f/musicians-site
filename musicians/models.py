@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.db import models
 from django.urls import reverse
@@ -10,7 +11,7 @@ TitleValidator = RegexValidator(regex=r'^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29
                                         ' spaces between words are allowed .')
 
 
-class Styles(models.Model):
+class Style(models.Model):
     name = models.CharField(max_length=100, validators=[TitleValidator], verbose_name='Style')
     slug = models.SlugField(max_length=100, unique=True, db_index=True)
 
@@ -20,12 +21,8 @@ class Styles(models.Model):
     def get_absolute_url(self):
         return reverse('musicians:articles_list', args=[self.slug])
 
-    class Meta:
-        verbose_name = 'Music style'
-        verbose_name_plural = 'Music styles'
 
-
-class Musicians(models.Model):
+class Musician(models.Model):
     title = models.CharField(max_length=200, unique=True, validators=[TitleValidator], verbose_name='Title')
     slug = AutoSlugField(populate_from='title', unique=True, db_index=True)
     content = models.TextField(verbose_name='Content', max_length=8000, validators=[MinLengthValidator(80)])
@@ -33,9 +30,9 @@ class Musicians(models.Model):
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Updated')
     is_published = models.BooleanField(default=True, verbose_name='Publishing')
-    style = models.ForeignKey(Styles, on_delete=models.CASCADE, verbose_name='Style')
+    style = models.ForeignKey(Style, on_delete=models.CASCADE, verbose_name='Style')
     video = EmbedVideoField(verbose_name='Link for video', blank=True)
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Author')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Author')
 
     def __str__(self):
         return self.title
@@ -44,6 +41,5 @@ class Musicians(models.Model):
         return reverse('musicians:article_detail', args=[self.style.slug, self.slug])
 
     class Meta:
-        verbose_name = 'Famous musicians'
-        verbose_name_plural = 'Famous musicians'
         ordering = ['-time_update']
+

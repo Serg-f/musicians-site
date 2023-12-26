@@ -5,6 +5,7 @@ from .models import *
 from embed_video.admin import AdminVideoMixin
 
 
+@admin.register(Musician)
 class MusiciansAdmin(AdminVideoMixin, admin.ModelAdmin):
     list_display = ('id', 'title', 'get_html_photo', 'style', 'time_update', 'is_published')
     list_display_links = ('title',)
@@ -13,7 +14,9 @@ class MusiciansAdmin(AdminVideoMixin, admin.ModelAdmin):
     list_filter = ('is_published', 'style', 'time_update')
     # prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('time_create', 'time_update', 'get_html_photo_edit')
-    fields = ('title', 'content', 'style', 'photo', 'get_html_photo_edit', 'video', 'is_published', 'time_create', 'time_update')
+    fields = (
+        'title', 'content', 'style', 'photo', 'get_html_photo_edit', 'video', 'is_published', 'time_create',
+        'time_update')
     save_on_top = True
 
     def get_html_photo(self, object):
@@ -28,15 +31,9 @@ class MusiciansAdmin(AdminVideoMixin, admin.ModelAdmin):
     get_html_photo_edit.short_description = 'Photo preview'
 
 
-
-admin.site.register(Musicians, MusiciansAdmin)
-
-
+@admin.register(Style)
 class StylesAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('name',)
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
-
-
-admin.site.register(Styles, StylesAdmin)
