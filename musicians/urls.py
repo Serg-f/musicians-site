@@ -1,5 +1,5 @@
 from django.urls import path
-from musicians.views import (ArticlesList, About, Contact, ArticleDetail, ArticleEdit, ArticleDelete, ArticleCreate,
+from musicians.views import (ArticlesList, About, ArticleDetail, ArticleEdit, ArticleDelete, ArticleCreate,
                              UserArticlesFormsetView)
 
 app_name = 'musicians'
@@ -13,5 +13,4 @@ urlpatterns = [
     path('article/<slug:style_slug>/<slug:slug>/delete/', ArticleDelete.as_view(), name='article_delete'),
     path('article/add/', ArticleCreate.as_view(), name='article_create'),
     path('about/', About.as_view(), name='about'),
-    path('contact/', Contact.as_view(), name='contact'),
 ]

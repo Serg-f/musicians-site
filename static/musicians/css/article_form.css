@@ -21,6 +21,11 @@ input[type="checkbox"] {
     vertical-align: middle;
 }
 
+input[name="captcha_1"] {
+    margin-left: 10px;
+    max-width: 100px;
+}
+
 /* Custom styles for buttons or other form elements */
 .btn-primary {
     background-color: #007bff;

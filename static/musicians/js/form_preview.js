@@ -39,6 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (videoInput) videoInput.addEventListener('input', updateVideoPreview);
     if (photoInput) photoInput.addEventListener('input', updatePhotoPreview);
 
-    updateVideoPreview(); // Initialize video preview if a value is already set
-    updatePhotoPreview(); // Initialize photo preview if a file is already selected
+    if (videoInput) updateVideoPreview(); // Initialize video preview if a value is already set
+    if (photoInput) updatePhotoPreview(); // Initialize photo preview if a file is already selected
 });

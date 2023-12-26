@@ -95,17 +95,6 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
         return redirect('musicians:home')
 
 
-class Contact(LoginRequiredMixin, MenuMixin, CreateView):
-    model = Message
-    template_name = 'musicians/form.html'
-    fields = ['title', 'message', 'photo']
-    extra_context = {'title': 'Send us a message', 'menu_item_selected': 3}
-    success_url = reverse_lazy('musicians:home')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
 
 class About(FormView):
     pass
