@@ -1,6 +1,18 @@
 {% extends 'musicians/base.html' %}
+
+{% block extra_css %}
+    <!-- Include any additional CSS specific to the About page here -->
+{% endblock %}
+
 {% block content %}
-<h1>{{title}}</h1>
-<p>This site about musicians is my portfolio project made using the Django 4 framework</p>
-<p>You can view the source code of this and my other projects on&nbsp;<a target="_blank" href="https://github.com/Serg-f?tab=repositories">GitHub</a></p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>About</h1>
+            <p>This is my portfolio site, implemented using Django and various other web technologies.</p>
+            <p>For source code visit my GitHub repository:</p>
+            <a href="https://github.com/Serg-f/musicians-site" class="btn btn-outline-primary" target="_blank">GitHub Repo</a>
+        </div>
+    </div>
+</div>
 {% endblock content %}

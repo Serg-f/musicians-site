@@ -103,5 +103,6 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
         return redirect('musicians:home')
 
 
-class About(FormView):
-    pass
+class About(MenuMixin, TemplateView):
+    template_name = 'musicians/about.html'
+    extra_context = {'title': 'About us'}
