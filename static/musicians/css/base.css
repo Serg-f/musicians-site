@@ -139,3 +139,24 @@ body {
     overflow-y: auto;
     margin-top: 15px;
 }
+
+/* Custom Styles for Alert Close Button */
+.alert .btn-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: inherit;
+    opacity: 0.75;
+}
+
+.alert .btn-close:hover {
+    opacity: 1;
+}
+
+/* Additional styling to ensure proper alignment */
+.alert {
+    position: relative;
+    padding-right: 2.5rem; /* Adjust padding to accommodate the close button */
+}

@@ -52,6 +52,7 @@ class ArticleCreate(LoginRequiredMixin, MenuMixin, CreateView):
     extra_context = {'title': 'Create Article', 'menu_item_selected': 2}
 
     def form_valid(self, form):
+        messages.success(self.request, "Your article has been created successfully!")
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -65,12 +66,21 @@ class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('musicians:article_detail', args=[self.object.style.slug, self.object.slug])
 
+    def form_valid(self, form):
+        messages.success(self.request, "Your article has been updated successfully!")
+        return super().form_valid(form)
+
 
 class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
     model = Musician
     template_name = 'musicians/article_confirm_delete.html'
     success_url = reverse_lazy('musicians:home')
     extra_context = {'title': 'Delete article'}
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, "Your article has been deleted successfully!")
+        return response
 
 
 class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
@@ -79,8 +89,7 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
     formset_class = modelformset_factory(Musician, fields=('is_published',), extra=0)
 
     def get_queryset(self):
-        # return Musician.objects.filter(author=self.request.user)
-        return Musician.objects.none()
+        return Musician.objects.filter(author=self.request.user)
 
     def get(self, request, *args, **kwargs):
         formset = self.formset_class(queryset=self.get_queryset())
@@ -91,9 +100,8 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
         formset = self.formset_class(request.POST, queryset=self.get_queryset())
         if formset.is_valid():
             formset.save()
-            # messages.success(request, 'Articles updated')
+            messages.success(request, "Your articles have been updated successfully!")
         return redirect('musicians:home')
-
 
 
 class About(FormView):

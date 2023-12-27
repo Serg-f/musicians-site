@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -13,5 +14,6 @@ class ContactView(LoginRequiredMixin, MenuMixin, CreateView):
     success_url = reverse_lazy('musicians:home')
 
     def form_valid(self, form):
+        messages.success(self.request, "Your message has been sent successfully!")
         form.instance.user = self.request.user
         return super().form_valid(form)
