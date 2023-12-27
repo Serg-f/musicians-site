@@ -77,10 +77,9 @@ class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
     success_url = reverse_lazy('musicians:home')
     extra_context = {'title': 'Delete article'}
 
-    def delete(self, request, *args, **kwargs):
-        response = super().delete(request, *args, **kwargs)
-        messages.success(request, "Your article has been deleted successfully!")
-        return response
+    def form_valid(self, form):
+        messages.success(self.request, "Your article has been deleted successfully!")
+        return super().form_valid(form)
 
 
 class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
