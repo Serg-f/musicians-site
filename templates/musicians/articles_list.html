@@ -16,7 +16,7 @@
                     <div class="article-text">
                         <p class="property">Style: {{ article.style }}</p>
                         <p class="property">Date: {{ article.time_create|date:"d-m-Y H:i:s" }}</p>
-                        <p class="property">Author: {{ user }}</p>
+                        <p class="property">Author: {{ article.author }}</p>
                         <h5>{{ article.title }}</h5>
                         <p>{{ article.content|linebreaks|truncatewords:50 }}</p>
                         <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read article</a>

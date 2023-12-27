@@ -7,7 +7,7 @@ from embed_video.admin import AdminVideoMixin
 
 @admin.register(Musician)
 class MusiciansAdmin(AdminVideoMixin, admin.ModelAdmin):
-    list_display = ('id', 'title', 'get_html_photo', 'style', 'time_update', 'is_published')
+    list_display = ('id', 'title', 'get_html_photo', 'style', 'time_update', 'is_published', 'author')
     list_display_links = ('title',)
     search_fields = ('title', 'content')
     list_editable = ('is_published',)

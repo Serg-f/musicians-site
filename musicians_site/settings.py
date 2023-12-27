@@ -19,6 +19,13 @@ env = environ.Env(
     DEBUG=bool,
     SECRET_KEY=str,
 
+    # database settings
+    DB_NAME=str,
+    DB_USER=str,
+    DB_PASSWORD=str,
+    DB_HOST=str,
+    DB_PORT=int,
+
     # email settings
     EMAIL_HOST=str,
     EMAIL_PORT=int,
@@ -38,7 +45,6 @@ env = environ.Env(
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -108,8 +114,12 @@ WSGI_APPLICATION = 'musicians_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -178,4 +188,3 @@ CELERY_ACCEPT_CONTENT = json.loads(env('CELERY_ACCEPT_CONTENT'))
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = env('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = env('CELERY_TIMEZONE')
-
