@@ -63,6 +63,59 @@ body {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23fdc073' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
+/* Enhanced Style Adjustments for 'Sign In' Button */
+.navbar-dark .navbar-nav .nav-item .sign-in-link {
+    transition: background-color 0.8s ease, color 0.8s ease;
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #444; /* Dark background for contrast */
+    color: #fdc073; /* Font color to match the theme */
+    border: 1px solid #fdc073; /* Border color similar to 'Sign Up' button */
+}
+
+.navbar-dark .navbar-nav .nav-item .sign-in-link:hover {
+    background-color: #3F4137;
+    color: white; /* White text on hover for readability */
+}
+
+/* Existing styles for Sign Up button */
+.btn-sign-up {
+    border: 1px solid #fdc073;
+    border-radius: 15px; /* Rounded corners */
+    padding: 5px 15px; /* Padding for button size */
+    margin-left: 10px; /* Space between sign in and sign up buttons */
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.8s ease, color 0.8s ease; /* Added transition effect */
+}
+
+.btn-sign-up:hover {
+    background-color: #e6b062; /* Slightly darker shade for hover effect */
+    color: #000 !important;
+    text-decoration: none;
+}
+
+/* Styles for Mobile View */
+@media (max-width: 992px) {
+    .navbar-dark .navbar-nav .nav-item .sign-in-link {
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        margin-right: 0;
+        border-radius: 10px; /* Less rounded corners for a sleek look */
+    }
+
+    .navbar-dark .navbar-nav .nav-item .btn-sign-up {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding-left: 24px;
+        border-radius: 10px;
+    }
+}
+
 /* Styles Toggler Customization */
 .styles-toggler {
     display: none; /* Hidden by default */

@@ -43,20 +43,16 @@
 
             <!-- Right aligned last item -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> Welcome, {{ user.username }}
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> Welcome, {{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{% url 'musicians:articles_user' %}">My articles</a></li>
                             <li><a class="dropdown-item" href="#">About Us</a></li>
                             <li><a class="dropdown-item" href="#">Contact us</a></li>
-                            <li>
-                                <a class="dropdown-item" href="#">Profile</a>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Orders</a></li>
                             {% if user.is_staff %}
                                 <li><a class="dropdown-item" href="#">Admin-panel</a></li>
                             {% endif %}
@@ -65,18 +61,20 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#">
-                                    Log out
+                                    Sign out
                                 </a>
                             </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Log in
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </li>
 
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link sign-in-link" href="#"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-sign-up" href="#">Sign Up</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
