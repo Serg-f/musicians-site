@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
+    'crispy_bootstrap4',
     # 'debug_toolbar',
 
     # local apps
@@ -218,3 +220,6 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_USERNAME_BLACKLIST = ['admin', 'administrator', 'superuser', 'user', 'username', 'user_name', 'root',]
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 ACCOUNT_USERNAME_MAX_LENGTH = 20
+
+# crispy forms settings
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
