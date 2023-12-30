@@ -1,9 +1,10 @@
-from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.db import models
 from django.urls import reverse
 from embed_video.fields import EmbedVideoField
 from autoslug import AutoSlugField
+
+from musicians_site.settings import AUTH_USER_MODEL
 
 TitleValidator = RegexValidator(regex=r'^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29}$',
                                 message='Please enter a valid title with 3 to 30 characters.'
@@ -32,7 +33,7 @@ class Musician(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Publishing')
     style = models.ForeignKey(Style, on_delete=models.CASCADE, verbose_name='Style')
     video = EmbedVideoField(verbose_name='Link for video', blank=True)
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Author')
+    author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Author')
 
     def __str__(self):
         return self.title

@@ -63,6 +63,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,10 +71,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third-party apps
     'embed_video',
     'captcha',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     # 'debug_toolbar',
 
+    # local apps
     'musicians.apps.MusiciansConfig',
     'users.apps.UsersConfig',
 ]
@@ -87,6 +93,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'musicians_site.urls'
@@ -105,6 +113,14 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to log in by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'musicians_site.wsgi.application'
@@ -171,9 +187,12 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
 LOGIN_REDIRECT_URL = 'musicians:home'
 
 # email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
@@ -188,3 +207,14 @@ CELERY_ACCEPT_CONTENT = json.loads(env('CELERY_ACCEPT_CONTENT'))
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = env('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = env('CELERY_TIMEZONE')
+
+# django-allauth settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_MAX_EMAIL_ADDRESSES = 3
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_USERNAME_BLACKLIST = ['admin', 'administrator', 'superuser', 'user', 'username', 'user_name', 'root',]
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+ACCOUNT_USERNAME_MAX_LENGTH = 20

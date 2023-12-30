@@ -1,10 +1,11 @@
 from pprint import pprint
 
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.forms import modelformset_factory
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView, TemplateView
 
@@ -20,6 +21,24 @@ class MenuMixin:
         context['style_selected'] = self.kwargs.get('style_slug') or self.kwargs.get('slug', 'all')
         context['menu'] = menu
         return context
+
+
+class LoginRequiredAddMessageMixin(LoginRequiredMixin):
+    def handle_no_permission(self):
+        # Check if a custom message is set in the view
+        if hasattr(self, 'login_required_message'):
+            message = self.login_required_message
+        else:
+            message = "You need to be logged in to access this page."
+
+        messages.warning(self.request, message)
+        return super().handle_no_permission()
+
+
+class AuthorRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        article = get_object_or_404(Musician, slug=self.kwargs['slug'])
+        return self.request.user == article.author
 
 
 class ArticlesList(MenuMixin, ListView):
@@ -44,12 +63,13 @@ class ArticleDetail(MenuMixin, DetailView):
         return context
 
 
-class ArticleCreate(LoginRequiredMixin, MenuMixin, CreateView):
+class ArticleCreate(LoginRequiredAddMessageMixin, MenuMixin, CreateView):
     model = Musician
     template_name = 'musicians/form.html'
     fields = ['title', 'content', 'style', 'is_published', 'photo', 'video']
     success_url = reverse_lazy('musicians:home')
     extra_context = {'title': 'Create Article', 'menu_item_selected': 2}
+    login_required_message = "You need to be logged in to create an article."
 
     def form_valid(self, form):
         messages.success(self.request, "Your article has been created successfully!")
@@ -57,7 +77,7 @@ class ArticleCreate(LoginRequiredMixin, MenuMixin, CreateView):
         return super().form_valid(form)
 
 
-class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
+class ArticleEdit(LoginRequiredAddMessageMixin, AuthorRequiredMixin, MenuMixin, UpdateView):
     model = Musician
     template_name = 'musicians/form.html'
     fields = ['content', 'style', 'is_published', 'photo', 'video']
@@ -71,7 +91,7 @@ class ArticleEdit(LoginRequiredMixin, MenuMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
+class ArticleDelete(LoginRequiredAddMessageMixin, AuthorRequiredMixin, MenuMixin, DeleteView):
     model = Musician
     template_name = 'musicians/article_confirm_delete.html'
     success_url = reverse_lazy('musicians:home')
@@ -82,7 +102,7 @@ class ArticleDelete(LoginRequiredMixin, MenuMixin, DeleteView):
         return super().form_valid(form)
 
 
-class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
+class UserArticlesFormsetView(LoginRequiredAddMessageMixin, MenuMixin, TemplateView):
     template_name = 'musicians/articles_user.html'
     extra_context = {'title': 'User articles'}
     formset_class = modelformset_factory(Musician, fields=('is_published',), extra=0)
@@ -106,3 +126,5 @@ class UserArticlesFormsetView(LoginRequiredMixin, MenuMixin, TemplateView):
 class About(MenuMixin, TemplateView):
     template_name = 'musicians/about.html'
     extra_context = {'title': 'About us'}
+
+
