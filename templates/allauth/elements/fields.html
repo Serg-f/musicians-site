@@ -1,0 +1,34 @@
+{% load allauth %}
+{{ attrs.form.as_p }}
+{#{% for field in attrs.form %}#}
+{#    {{ field.errors }}#}
+{#    <p>#}
+{#        <label for="{{ field.id }}">#}
+{#            {% slot label %}#}
+{#            {% endslot %}#}
+{#        </label>#}
+{#        {% if field.type == "textarea" %}#}
+{#            <textarea {% if field.required %}required{% endif %}#}
+{#                      {% if field.rows %}rows="{{ field.rows }}"{% endif %}#}
+{#                      {% if field.disabled %}disabled{% endif %}#}
+{#                      {% if field.readonly %}readonly{% endif %}#}
+{#                      {% if field.checked %}checked{% endif %}#}
+{#                      {% if field.name %}name="{{ field.name }}"{% endif %}#}
+{#                      {% if field.id %}id="{{ field.id }}"{% endif %}#}
+{#                      {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}>{% slot value %}{% endslot %}</textarea>#}
+{#        {% else %}#}
+{#            <input {% if field.required %}required{% endif %}#}
+{#                   {% if field.disabled %}disabled{% endif %}#}
+{#                   {% if field.readonly %}readonly{% endif %}#}
+{#                   {% if field.checked %}checked{% endif %}#}
+{#                   {% if field.name %}name="{{ field.name }}"{% endif %}#}
+{#                   {% if field.id %}id="{{ field.id }}"{% endif %}#}
+{#                   {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}#}
+{#                   {% if field.autocomplete %}autocomplete="{{ field.autocomplete }}"{% endif %}#}
+{#                   value="{{ field.value|default_if_none:"" }}"#}
+{#                   type="{{ field.type }}">#}
+{#        {% endif %}#}
+{#        {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}#}
+{#    </p>#}
+{##}
+{#{% endfor %}#}

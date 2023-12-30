@@ -50,9 +50,8 @@
                             <i class="fas fa-user-circle"></i> Welcome, {{ user.username }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{% url 'users:profile' %}">My profile</a></li>
                             <li><a class="dropdown-item" href="{% url 'musicians:articles_user' %}">My articles</a></li>
-                            <li><a class="dropdown-item" href="#">About Us</a></li>
-                            <li><a class="dropdown-item" href="#">Contact us</a></li>
                             {% if user.is_staff %}
                                 <li><a class="dropdown-item" href="#">Admin-panel</a></li>
                             {% endif %}
@@ -60,7 +59,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{% url 'account_logout' %}">
                                     Sign out
                                 </a>
                             </li>
@@ -69,10 +68,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link sign-in-link" href="#"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                        <a class="nav-link sign-in-link" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt"></i> Sign In</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn-sign-up" href="#">Sign Up</a>
+                        <a class="nav-link btn-sign-up" href="{% url 'account_signup' %}">Sign Up</a>
                     </li>
                 {% endif %}
             </ul>

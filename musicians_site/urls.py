@@ -21,6 +21,7 @@ from musicians_site import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('captcha/', include('captcha.urls')),
     path('', include('musicians.urls', namespace='musicians')),
     path('users/', include('users.urls', namespace='users')),
