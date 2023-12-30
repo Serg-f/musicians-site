@@ -1,34 +1,43 @@
 {% extends 'musicians/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mb-4">User name: {{ user.username }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p>Last login: {{ user.last_login }}</p>
-    <p>Joined: {{ user.date_joined }}</p>
-    <p>Published articles: {{ articles_published_count }}</p>
-    <p>Total articles: {{ articles_total_count }}</p>
+    <div class="container">
+        <h1 class="mb-4">User name: {{ user.username }}</h1>
+        <p>Email: {{ user.email }}</p>
+        <dl class="row">
+            <dt class="col-4 col-md-4 text-md-right">Last login:</dt>
+            <dd class="col-8 col-md-8 text-right text-md-left">{{ user.last_login }}</dd>
 
-    <!-- Allauth Features and User Actions in Grid -->
-    <div class="row">
-        <div class="col-12 col-md-4 mb-4">
-            <a href="{% url 'account_change_password' %}" class="btn btn-primary btn-block">Change Password</a>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <a href="{% url 'account_reset_password' %}" class="btn btn-secondary btn-block">Reset Password</a>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <a href="{% url 'account_email' %}" class="btn btn-info btn-block">Change Email</a>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <a href="{% url 'musicians:article_create' %}" class="btn btn-success btn-block">Create New Article</a>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <a href="{% url 'musicians:articles_user' %}" class="btn btn-warning btn-block">View My Articles</a>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <a href="{% url 'account_logout' %}" class="btn btn-danger btn-block">Sign out</a>
+            <dt class="col-4 col-md-4 text-md-right">Joined:</dt>
+            <dd class="col-8 col-md-8 text-right text-md-left">{{ user.date_joined }}</dd>
+
+            <dt class="col-6 col-md-4 text-md-right">Published articles:</dt>
+            <dd class="col-6 col-md-8 text-right text-md-left">{{ articles_published_count }}</dd>
+
+            <dt class="col-6 col-md-4 text-md-right">Total articles:</dt>
+            <dd class="col-6 col-md-8 text-right text-md-left">{{ articles_total_count }}</dd>
+        </dl>
+
+        <!-- Allauth Features and User Actions in Grid -->
+        <div class="row">
+            <div class="col-12 col-md-4 mb-4">
+                <a href="{% url 'account_change_password' %}" class="btn btn-primary btn-block">Change Password</a>
+            </div>
+            <div class="col-12 col-md-4 mb-4">
+                <a href="{% url 'account_reset_password' %}" class="btn btn-secondary btn-block">Reset Password</a>
+            </div>
+            <div class="col-12 col-md-4 mb-4">
+                <a href="{% url 'account_email' %}" class="btn btn-info btn-block">Change Email</a>
+            </div>
+            <div class="col-12 col-md-4 mb-4">
+                <a href="{% url 'musicians:article_create' %}" class="btn btn-success btn-block">Create New Article</a>
+            </div>
+            <div class="col-12 col-md-4 mb-4">
+                <a href="{% url 'musicians:articles_user' %}" class="btn btn-warning btn-block">View My Articles</a>
+            </div>
+            <div class="col-12 col-md-4 mb-4">
+                <a href="{% url 'account_logout' %}" class="btn btn-danger btn-block">Sign out</a>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
