@@ -222,10 +222,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Celery Configuration
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
-print('--------------------------------------------------------------------------------------------')
-print(env('CELERY_ACCEPT_CONTENT', default='["application/json"]'))
-print('--------------------------------------------------------------------------------------------')
-CELERY_ACCEPT_CONTENT = json.loads(env('CELERY_ACCEPT_CONTENT', default='["application/json"]'))
+CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = env('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = env('CELERY_TIMEZONE')
@@ -237,7 +234,7 @@ ACCOUNT_AUTHENTICATION_METHOD = env('ACCOUNT_AUTHENTICATION_METHOD')
 ACCOUNT_EMAIL_VERIFICATION = env('ACCOUNT_EMAIL_VERIFICATION')
 ACCOUNT_MAX_EMAIL_ADDRESSES = env('ACCOUNT_MAX_EMAIL_ADDRESSES')
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = env('ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION')
-ACCOUNT_USERNAME_BLACKLIST = json.loads(env('ACCOUNT_USERNAME_BLACKLIST'))
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "administrator", "superuser", "user", "username", "user_name", "root"]
 ACCOUNT_USERNAME_MIN_LENGTH = env('ACCOUNT_USERNAME_MIN_LENGTH')
 ACCOUNT_USERNAME_MAX_LENGTH = env('ACCOUNT_USERNAME_MAX_LENGTH')
 
