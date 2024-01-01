@@ -222,7 +222,9 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Celery Configuration
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+print('--------------------------------------------------------------------------------------------')
 print(env('CELERY_ACCEPT_CONTENT', default='["application/json"]'))
+print('--------------------------------------------------------------------------------------------')
 CELERY_ACCEPT_CONTENT = json.loads(env('CELERY_ACCEPT_CONTENT', default='["application/json"]'))
 CELERY_TASK_SERIALIZER = env('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = env('CELERY_RESULT_SERIALIZER')
