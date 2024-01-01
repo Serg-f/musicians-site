@@ -9,11 +9,48 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+
+    environment:
+      name: secrets_project
+
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9]
+        python-version: ['3.10']
+
+    env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+
+        EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+        EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+        EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
+        EMAIL_USE_SSL: ${{ secrets.EMAIL_USE_SSL }}
+
+        CELERY_BROKER_URL: ${{ secrets.CELERY_BROKER_URL }}
+        CELERY_RESULT_BACKEND: ${{ secrets.CELERY_RESULT_BACKEND }}
+        CELERY_ACCEPT_CONTENT: ${{ secrets.CELERY_ACCEPT_CONTENT }}
+        CELERY_TASK_SERIALIZER: ${{ secrets.CELERY_TASK_SERIALIZER }}
+        CELERY_RESULT_SERIALIZER: ${{ secrets.CELERY_RESULT_SERIALIZER }}
+        CELERY_TIMEZONE: ${{ secrets.CELERY_TIMEZONE }}
+
+        ACCOUNT_EMAIL_REQUIRED: ${{ secrets.ACCOUNT_EMAIL_REQUIRED }}
+        ACCOUNT_USERNAME_REQUIRED: ${{ secrets.ACCOUNT_USERNAME_REQUIRED }}
+        ACCOUNT_AUTHENTICATION_METHOD: ${{ secrets.ACCOUNT_AUTHENTICATION_METHOD }}
+        ACCOUNT_EMAIL_VERIFICATION: ${{ secrets.ACCOUNT_EMAIL_VERIFICATION }}
+        ACCOUNT_MAX_EMAIL_ADDRESSES: ${{ secrets.ACCOUNT_MAX_EMAIL_ADDRESSES }}
+        ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION: ${{ secrets.ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION }}
+        ACCOUNT_USERNAME_BLACKLIST: ${{ secrets.ACCOUNT_USERNAME_BLACKLIST }}
+        ACCOUNT_USERNAME_MIN_LENGTH: ${{ secrets.ACCOUNT_USERNAME_MIN_LENGTH }}
+        ACCOUNT_USERNAME_MAX_LENGTH: ${{ secrets.ACCOUNT_USERNAME_MAX_LENGTH }}
 
     steps:
     - uses: actions/checkout@v3
