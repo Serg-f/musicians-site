@@ -1,5 +1,6 @@
 from captcha.fields import CaptchaField
 from django import forms
+from django.conf import settings
 
 from users.models import Message
 

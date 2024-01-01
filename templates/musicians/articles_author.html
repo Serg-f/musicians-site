@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST" action="{% url 'musicians:articles_user' %}">
+    <form method="post" action="{% url 'musicians:articles_author' %}">
         {% csrf_token %}
         {{ formset.management_form }}
 

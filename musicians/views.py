@@ -1,17 +1,12 @@
-from pprint import pprint
-
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import LoginView, LogoutView
 from django.forms import modelformset_factory
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from musicians.models import Musician, Style
 from musicians.nav_menu import menu
-from users.models import Message
 
 
 class MenuMixin:
@@ -67,7 +62,6 @@ class ArticleCreate(LoginRequiredAddMessageMixin, MenuMixin, CreateView):
     model = Musician
     template_name = 'musicians/form.html'
     fields = ['title', 'content', 'style', 'is_published', 'photo', 'video']
-    success_url = reverse_lazy('musicians:home')
     extra_context = {'title': 'Create Article', 'menu_item_selected': 2}
     login_required_message = "You need to be logged in to create an article."
 
@@ -82,9 +76,6 @@ class ArticleEdit(LoginRequiredAddMessageMixin, AuthorRequiredMixin, MenuMixin, 
     template_name = 'musicians/form.html'
     fields = ['content', 'style', 'is_published', 'photo', 'video']
     extra_context = {'title': 'Edit Article'}
-
-    def get_success_url(self):
-        return reverse_lazy('musicians:article_detail', args=[self.object.style.slug, self.object.slug])
 
     def form_valid(self, form):
         messages.success(self.request, "Your article has been updated successfully!")
@@ -103,8 +94,8 @@ class ArticleDelete(LoginRequiredAddMessageMixin, AuthorRequiredMixin, MenuMixin
 
 
 class UserArticlesFormsetView(LoginRequiredAddMessageMixin, MenuMixin, TemplateView):
-    template_name = 'musicians/articles_user.html'
-    extra_context = {'title': 'User articles'}
+    template_name = 'musicians/articles_author.html'
+    extra_context = {'title': 'My Articles'}
     formset_class = modelformset_factory(Musician, fields=('is_published',), extra=0)
 
     def get_queryset(self):

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import json
 import os
+import sys
 from pathlib import Path
 import environ
 import os
@@ -199,6 +200,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+
+if 'test' in sys.argv:
+    CAPTCHA_TEST_MODE = True
+
 
 AUTH_USER_MODEL = 'users.CustomUser'
 

@@ -51,7 +51,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{% url 'users:profile' %}">My profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'musicians:articles_user' %}">My articles</a></li>
+                            <li><a class="dropdown-item" href="{% url 'musicians:articles_author' %}">My articles</a></li>
                             {% if user.is_staff %}
                                 <li><a class="dropdown-item" href="#">Admin-panel</a></li>
                             {% endif %}
