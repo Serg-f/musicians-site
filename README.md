@@ -27,7 +27,7 @@ Anyone interested in contributing to the project is welcome.
 
 ## License
 
-This project is available for use without any restrictions.
+This project code is entirely or partly available for use without any restrictions.
 
 ## Live Application
 
