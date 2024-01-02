@@ -240,3 +240,4 @@ ACCOUNT_USERNAME_MAX_LENGTH = env('ACCOUNT_USERNAME_MAX_LENGTH')
 
 # crispy forms settings
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
