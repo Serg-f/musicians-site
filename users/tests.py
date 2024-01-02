@@ -24,10 +24,6 @@ class ContactViewTestCase(TestCase):
             'captcha_1': 'PASSED'
         }
 
-        def save(self, *args, **kwargs):
-            super(Message, self).save(*args, **kwargs)
-
-        Message.save = save
         response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 302)
 
