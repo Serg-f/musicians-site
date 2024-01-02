@@ -71,5 +71,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test users.tests.ContactViewTestCase.test_form_submission
+        python manage.py test
 
