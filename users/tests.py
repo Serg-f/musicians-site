@@ -23,6 +23,11 @@ class ContactViewTestCase(TestCase):
             'captcha_0': 'dummy-value',
             'captcha_1': 'PASSED'
         }
+
+        def save(self, *args, **kwargs):
+            super(Message, self).save(*args, **kwargs)
+
+        Message.save = save
         response = self.client.post(self.url, form_data)
         self.assertEqual(response.status_code, 302)
 
@@ -65,4 +70,4 @@ class MessageModelTestCase(TestCase):
     def test_send_email_on_save(self, mock_send_email_task):
         user = CustomUser.objects.create_user(username='testuser', email='test@example.com', password='12345')
         message = Message.objects.create(title='Test Title', message='Test Message', user=user)
-        # mock_send_email_task.assert_called_once_with(message.title, message.message, user.username, user.email)
+        mock_send_email_task.assert_called_once_with(message.title, message.message, user.username, user.email)

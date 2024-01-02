@@ -18,7 +18,7 @@ class Message(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        # send_email_task.delay(self.title, self.message, self.user.username, self.user.email)
+        send_email_task.delay(self.title, self.message, self.user.username, self.user.email)
 
     def __str__(self):
         return self.title
