@@ -8,7 +8,6 @@ from users.models import CustomUser, Message
 class ContactViewTestCase(TestCase):
 
     def setUp(self):
-        self.client = Client()
         self.url = reverse('users:contact')
         self.user = CustomUser.objects.create_user(username='testuser', password='12345')
 
