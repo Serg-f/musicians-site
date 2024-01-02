@@ -201,8 +201,8 @@ INTERNAL_IPS = [
 ]
 
 
-if 'test' in sys.argv:
-    CAPTCHA_TEST_MODE = True
+# if 'test' in sys.argv:
+CAPTCHA_TEST_MODE = True
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
