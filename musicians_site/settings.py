@@ -17,7 +17,10 @@ import environ
 import os
 
 env = environ.Env(
+    # django settings
     SECRET_KEY=str,
+    DEBUG=bool,
+    ALLOWED_HOSTS=str,
 
     # database settings
     DB_NAME=str,
@@ -67,9 +70,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = json.loads(env('ALLOWED_HOSTS'))
 
 # Application definition
 
@@ -90,7 +93,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap4',
-    # 'debug_toolbar',
 
     # local apps
     'musicians.apps.MusiciansConfig',
@@ -105,7 +107,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 
     'allauth.account.middleware.AccountMiddleware',
 ]
@@ -201,8 +202,8 @@ INTERNAL_IPS = [
 ]
 
 
-# if 'test' in sys.argv:
-CAPTCHA_TEST_MODE = True
+if 'test' in sys.argv:
+    CAPTCHA_TEST_MODE = True
 
 
 AUTH_USER_MODEL = 'users.CustomUser'

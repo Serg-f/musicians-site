@@ -117,5 +117,3 @@ class UserArticlesFormsetView(LoginRequiredAddMessageMixin, MenuMixin, TemplateV
 class About(MenuMixin, TemplateView):
     template_name = 'musicians/about.html'
     extra_context = {'title': 'About us'}
-
-# Test CI
