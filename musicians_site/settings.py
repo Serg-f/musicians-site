@@ -57,7 +57,6 @@ env = environ.Env(
     ACCOUNT_USERNAME_MAX_LENGTH=int,
 )
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Take environment variables from .env file
