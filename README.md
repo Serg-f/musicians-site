@@ -31,6 +31,6 @@ This project code is entirely or partly available for use without any restrictio
 
 ## Live Application
 
-Check out the live application here: [Musicians App](https://musicians-app.me)
+Check out the live application here: [Musicians App](#)
 
 [![Django CI](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml/badge.svg)](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml)
