@@ -71,8 +71,13 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+        
   deploy:
     runs-on: ubuntu-22.04
+    
+    environment:
+      name: secrets_project
+        
     steps:
       - name: Checkout
         uses: actions/checkout@v2
