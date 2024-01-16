@@ -74,4 +74,19 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
+      - name: Deploy to Digital Ocean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /var/www/musician-site
+            git pull
+            sudo systemctl restart gunicorn
