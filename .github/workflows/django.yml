@@ -74,17 +74,25 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+
   deploy:
     runs-on: ubuntu-22.04
+    needs: build
+    environment:
+      name: secrets_project
+    env:
+      KEY: ${{ secrets.KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Debug
+        run: echo "key:${KEY}"
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          host: '142.93.173.178'
+          username: 'root'
           key: ${{ secrets.KEY }}
           script: |
             cd /var/www/musician-site
