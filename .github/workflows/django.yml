@@ -77,9 +77,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Debug
-        run: echo "host:${HOST}"
+        run: echo "key:${KEY}"
         env: 
-          HOST: ${{ secrets.HOST }}
+          KEY: ${{ secrets.KEY }}
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
