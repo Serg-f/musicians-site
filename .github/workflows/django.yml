@@ -76,6 +76,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Debug
+        run: echo "host:${HOST}"
+        env: 
+          HOST: ${{ secrets.HOST }}
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
