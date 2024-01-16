@@ -96,15 +96,6 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd /var/www/musicians-site
-            echo "Current directory:" >> debug_output.txt
-            pwd >> debug_output.txt
-            echo "List files:" >> debug_output.txt
-            ls -al >> debug_output.txt
-            echo "Git status:" >> debug_output.txt
-            git status >> debug_output.txt
-            echo "Git remote -v:" >> debug_output.txt
-            git remote -v >> debug_output.txt
-            echo "Performing git pull:" >> debug_output.txt
-            git pull >> debug_output.txt 2>&1
+            git pull > debug_output.txt 2>&1
             echo "Git pull completed" >> debug_output.txt
             sudo systemctl restart gunicorn
