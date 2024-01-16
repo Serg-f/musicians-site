@@ -96,5 +96,6 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             cd /var/www/musicians-site
+            touch hello4.txt
             git pull
             sudo systemctl restart gunicorn
