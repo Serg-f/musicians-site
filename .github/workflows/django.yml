@@ -79,15 +79,14 @@ jobs:
     
     environment:
       name: secrets_project
-        
+    env: 
+          KEY: ${{ secrets.KEY }} 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Debug
         run: echo "key:${KEY}"
-        env: 
-          KEY: ${{ secrets.KEY }}
-
+        
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
         with:
