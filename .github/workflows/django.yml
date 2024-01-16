@@ -95,6 +95,6 @@ jobs:
           username: 'root'
           key: ${{ secrets.KEY }}
           script: |
-            cd /var/www/musician-site
+            cd /var/www/musicians-site
             git pull
             sudo systemctl restart gunicorn
