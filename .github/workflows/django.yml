@@ -84,8 +84,8 @@ jobs:
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          host: '142.93.173.178'
+          username: 'root'
           key: ${{ secrets.KEY }}
           script: |
             cd /var/www/musician-site
