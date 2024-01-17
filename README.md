@@ -33,4 +33,4 @@ This project code is entirely or partly available for use without any restrictio
 
 Check out the live application here: [Musicians App](https://musicians-app.me)
 
-[![Django CI](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml/badge.svg?event=push)](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml) [![Django CD](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml/badge.svg?event=workflow_run)](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml)
+[![Django CI](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml/badge.svg)](https://github.com/Serg-f/musicians-site/actions/workflows/django.yml)
