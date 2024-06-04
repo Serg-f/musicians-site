@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  users-service:
+    build: ./users
+    container_name: users-container
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
