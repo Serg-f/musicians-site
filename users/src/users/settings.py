@@ -24,7 +24,7 @@ env = environ.Env()
 SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
 
     'users_app',
 ]
@@ -78,8 +80,12 @@ WSGI_APPLICATION = 'users.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),
+        'PASSWORD': env.str('DB_PASSWORD'),
+        'HOST': env.str('DB_HOST'),
+        'PORT': env.int('DB_PORT'),
     }
 }
 
