@@ -17,3 +17,21 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8020:8000"
+
+  musicians-service:
+    build: ./musicians
+    container_name: musicians-container
+    environment:
+      DEBUG: "${DEBUG}"
+      SECRET_KEY: "${SECRET_KEY}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+    volumes:
+      - ./musicians/src:/project_dir
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"

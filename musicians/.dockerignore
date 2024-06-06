@@ -1,0 +1,16 @@
+.env
+.env.bak
+*.env.local
+*.env.example
+.idea/
+.vscode/
+**/__pycache__/
+**/*.pyc
+**/*.log
+**/*.tmp
+**/*.bak
+**/db.sqlite3
+**/*local_settings.py
+**/celerybeat-schedule
+venv/
+postgres_data/
