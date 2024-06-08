@@ -1,0 +1,42 @@
+[
+  {
+    "model": "musicians.style",
+    "pk": 1,
+    "fields": {
+      "name": "Rock",
+      "slug": "rok"
+    }
+  },
+  {
+    "model": "musicians.style",
+    "pk": 2,
+    "fields": {
+      "name": "Metall",
+      "slug": "metall"
+    }
+  },
+  {
+    "model": "musicians.style",
+    "pk": 3,
+    "fields": {
+      "name": "Pop",
+      "slug": "pop"
+    }
+  },
+  {
+    "model": "musicians.style",
+    "pk": 4,
+    "fields": {
+      "name": "Rap",
+      "slug": "rep"
+    }
+  },
+  {
+    "model": "musicians.style",
+    "pk": 5,
+    "fields": {
+      "name": "Jazz",
+      "slug": "dzhaz"
+    }
+  }
+]

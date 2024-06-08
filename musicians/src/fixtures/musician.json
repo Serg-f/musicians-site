@@ -1,0 +1,306 @@
+[
+  {
+    "model": "musicians.musician",
+    "pk": 1,
+    "fields": {
+      "title": "Jared Leto",
+      "slug": "dzhared-leto",
+      "content": "Jared Leto was born December 26, 1971 in Bossier City, Louisiana. He has an older brother, Shannon, and two paternal half-brothers from his second marriage.\r\n\r\nJared owes his passion for art to his mother, who in every possible way encouraged him and his brother undertakings. Constance Leto, a former circus performer, raised Jared and Shannon alone after divorcing their father and then remarried.\r\n\r\nAccording to Jared, he and his brother have been passionate about music since childhood. In 1998, Jared organized a group called 30 Seconds to Mars. Today, Jared Leto is the guitarist and vocalist of this band, which also includes his brother Shannon as drummer, and guitarist Tomo Milishevich. Bassist Matt Vokter sadly left the band on March 1, 2007. Temporarily replacing him Tim Kelleher (Tim Kelleher), but he is not yet considered an official member of the group.\r\n\r\nDuring its existence, 30 Seconds to Mars released three full-length albums - the self-titled album in 2002, \"A Beautiful Lie\" in 2005 and \"This Is War\" in 2009.\r\n\r\nAt first, the group performed as an opening act for other bands, but then, in March 2006, the Forever Night Never Day concert program began, where 30 Seconds to Mars were already headliners.\r\n\r\nThe year 2006 brought the group many different awards. For example, the clip of the group \"The Kill\" was a permanent member of MTV's Elite 8. At the MTV \"Video Music Awards-2006\" festival, he received the Mtv2 Award, as well as the award in the nomination \"Best Rock Video\" (Best Rock Video). In addition, Jared himself was awarded the Prince of Darkness award at the Fuse Fangoria Chainsaw Awards on October 28, 2006.\r\n\r\nIn December 2006, the band released a video for the song \"From Yesterday\", the full version of which is thirteen and a half minutes long. \"From Yesterday\" is the first American music video to be filmed entirely in the People's Republic of China. A video for the song A Beautiful Lie was also filmed. The band filmed the video in Greenland at the end of September, directed by Jared, this time under his own name. The money received from downloading this video from the official website is planned to be donated to charity.\r\n\r\nOn December 8, 2009, the band released their 3rd album called \"This Is War\" and at the beginning of 2010 went on a tour called \"Into The Wild Tour\". Clips were shot for the songs: \"Kings And Queens\", \"Closer To The Edge\" (a cut from the group's performances during their tour), as well as a 13-minute film for the song \"Hurricane\", which in most countries is shown in a censored form from -for scenes of sexual content, and in some, he is completely banned from showing.\r\n\r\nLeto directed music videos for his band's songs, such as \"The Kill\", \"From Yesterday\", \"Kings and Queens\", \"Do Or Die\", \"City Of Angels\", \"Closer to the Edge\" and \"Hurricane\", where he used the pseudonym Bartholomew Cubbins and \"A Beautiful Lie\"",
+      "photo": "photos/2022/09/12/72aa72fb493d31aee048456feef6c5de.jpg",
+      "time_create": "2022-09-12T19:05:12.489Z",
+      "time_update": "2023-01-07T20:10:55.064Z",
+      "is_published": true,
+      "style": 1,
+      "video": "https://youtu.be/74s3WXMZZ3Y",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 2,
+    "fields": {
+      "title": "Kurt Cobain",
+      "slug": "kurt-kobejn",
+      "content": "Kurt Donald Cobain (February 20, 1967, Aberdeen, Washington - April 5, 1994, Seattle, Washington) is an American rock musician, vocalist, guitarist and songwriter. He is best known as the founder and leader of the rock band Nirvana.\r\n\r\nIn the mid-1980s, Cobain began to get involved in punk rock, and in 1987, together with Krist Novoselic, he formed the group Nirvana. After signing an agreement with the indie label Sub Pop, Nirvana released their debut album, Bleach. On the wave of interest in Seattle rock music, the group signed a record deal with DGC Records.\r\n\r\nNirvana's second album, Nevermind, was released in 1991 and brought Cobain worldwide fame. The song \"Smells Like Teen Spirit\" became a hit, and the album itself rose to the top of the Billboard 200 album chart. The Seattle alternative rock style was called \"grunge\" and became the most popular rock music trend of the first half of the 1990s. Cobain was called the \"voice of a generation\" because of his rebellious image, catchy music and sincere lyrics that expressed the emotions of teenagers of that time.\r\n\r\nThe flip side of Cobain's fame was his depression and heroin addiction. After marrying rock singer Courtney Love and having a child, music faded into the background for him. As part of Nirvana, the musician managed to release a collection of rare songs Incesticide (1992) and the album In Utero (1993), but due to health problems he had to interrupt the tour. After several futile attempts to recover from drug addiction on April 5, 1994, Kurt Cobain committed suicide.\r\n\r\nCobain is considered one of the key musicians of the grunge scene and is listed among the 100 greatest guitarists of all time by Rolling Stone magazine. In 2014, he was posthumously inducted into the Rock and Roll Hall of Fame with Nirvana.",
+      "photo": "photos/2022/09/12/7777.jpg",
+      "time_create": "2022-09-12T19:06:59.997Z",
+      "time_update": "2023-01-07T19:31:32.525Z",
+      "is_published": true,
+      "style": 1,
+      "video": "https://www.youtube.com/watch?v=m4CQ-Mb0zuY",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 3,
+    "fields": {
+      "title": "Mick Jagger",
+      "slug": "mik-dzhagger",
+      "content": "Mick Jagger was born July 26, 1943 in Dartford, Kent. His father worked as a physical education teacher, and his mother participated in the work of the Conservative Association, Mick has a younger brother, Chris Jagger, who also became a singer and musician.\r\n\r\nMichael studied at the London School of Economics and Political Science (LSE). The university was of no interest to Michael, the only thing he liked was singing. He soon left the university due to the fact that the Rolling Stones, which he formed with Brian Jones and Keith Richards, were becoming more and more popular.\r\n\r\nMick Jagger and Keith Richards met on the playground. In 1958, Jagger became a member of the blues band Little Boy Blue & The Blue Boys. Keith entered art school, where he met Mick's old friend and Little Boy Blue co-star Dick Taylor. At the next meeting of Mike and Keith, the comrades agreed that Keith should audition for Little Boy Blue & The Blue Boys. In 1961, Mike Jagger became Mick Jagger. By then, Brian Jones had left The Ramrods, in which he played alto saxophone, and moved to London. He took a job as a guitarist at Blues Incorporated, dreaming of starting his own band, where he wanted to invite his friend and colleague, blues pianist Ian Stewart. At Blues Inc. Charlie Watts also played. At the end of the year, Brian met Mick and Keith. They often played together, also engaging Dick Taylor and Ian Stewart.\r\n\r\nIn 1962, the name \"Rolling Stones\" first appeared in Jazz News. And on July 12, the band's first official performance took place at the Marquee Club in London. In September Dick Taylor left the band and in December Bill Wyman officially joined the band as bassist. In January 1963, Charlie Watts joined the Stones, replacing Mick Avory.\r\n\r\nThe image created by Jagger on stage is unique. His voice, at times rough, at times feminine and soft, thick lips, lustful smile, unambiguous sexual movements at concerts in front of a crowd of thousands, aggression, energy, and at the same time, goofiness and antics - all this made Jagger one of the most popular rock frontmen. .\r\n\r\nIn an interview, Mick Jagger, comparing 1968 and 1998, said that earlier in the trinity \"Sex, drugs and rock and roll\" sex was in the first place, and now drugs are in its place. Then Jagger announced that he was quitting drinking, smoking and taking drugs. The reason for this decision was concern about his own health, because Jagger is no longer young. “I value my good name and do not want to pass for an old ruin. After all, we are still “stars”, albeit with the status of “living legends”!” Mick Jagger said.\r\n\r\nThe merits of Jagger in the musical field were highly appreciated - for the 60th anniversary (2003), Queen Elizabeth II knighted Jagger.\r\n\r\nIn 2010, Mick Jagger created a new group called \"SuperHeavy\" (Eng. \"Superheavy\"). It included Mick, former Eurythmics project member Dave Stewart, Bob Marley's youngest son Damian, singer Joss Stone and Indian composer A.R. \"127 hours\". Sources close to the musicians say that SuperHeavy recorded a number of songs and even filmed a video for the song \"Miracle Worker\".\r\n\r\nIn 2012, Mick Jagger took part in the famous stand-up comedy show Saturday Night Live, where he not only performed as a performer with Foo Fighters and Arcade Fire, but also demonstrated his acting skills in the miniature genre.\r\n\r\nIn April 2019, Mick Jagger successfully underwent heart surgery.\r\n\r\nIn April 2021, he published on his Youtube channel a video for the song “Easy Sleazy” recorded together with Foo Fighters leader Dave Grohl, dedicated to the coronavirus pandemic. According to the 77-year-old musician, he wrote a new song during the lockdown and was impressed by it.\r\n\r\nSince 1998, Mick Jagger has been a member of the Rock and Roll Hall of Fame, since 2004 (since its foundation) - in the UK Music Hall of Fame.",
+      "photo": "photos/2022/09/12/RollingStonesConcertIndianapolisnTtonsxgZQax.jpg",
+      "time_create": "2022-09-12T19:16:52.266Z",
+      "time_update": "2023-01-07T19:40:42.171Z",
+      "is_published": true,
+      "style": 1,
+      "video": "https://www.youtube.com/watch?v=Nqp2stVMVjM",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 4,
+    "fields": {
+      "title": "Slash",
+      "slug": "sljesh",
+      "content": "Saul Hudson (born July 23, 1965), better known as Slash, is a British-American guitarist who is best known as the lead guitarist of the American hard rock band Guns N' Roses, with whom he achieved worldwide success in the late 1980s and early 1990s. Slash has received critical acclaim and is considered one of the greatest guitarists in history.\r\n\r\nIn his later years with Guns N' Roses, he formed the side project Slash's Snakepit. Later, he co-founded the group Velvet Revolver (since 2002), participation in which restored him to the rank of first-tier performers of the mid-2000s.\r\n\r\nSince then, Slash has released four solo albums: Slash (2010), which he recorded with guest stars, Apocalyptic Love (2012), World on Fire (2014) and Living The Dream (2018), which he recorded with singer/guitarist Miles Kennedy of Alter Bridge, along with a rhythm section consisting of Brent Fitz and Todd Kearns, known from the album as The Conspirators.\r\n\r\nHowever, in 2016, he returned to Guns N` Roses after a long spat with the band's lead singer, Axl Rose.\r\n\r\nNamed one of Rolling Stone's 100 Greatest Guitarists of All Time in 2011.",
+      "photo": "photos/2022/09/12/a1e559074fbef47ed763e65df7d5424d.jpg",
+      "time_create": "2022-09-12T19:17:58.135Z",
+      "time_update": "2023-01-07T19:54:56.894Z",
+      "is_published": true,
+      "style": 1,
+      "video": "https://www.youtube.com/watch?v=hUvo0a1mTmQ",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 5,
+    "fields": {
+      "title": "Freddie Mercury",
+      "slug": "freddi-merkjuri",
+      "content": "Freddie Mercury (Farrukh Bulsara) (1946 - 1991) - singer, vocalist of the Queen group, musician, composer, poet.\r\n\r\nFreddie Mercury was born on September 5, 1946 on the island of Zanzibar. His parents were Parsis. The name Freddie stuck to the boy when he started attending St. Peter's School. At school age, in his biography, Freddie Mercury was fond of tennis, all-around. He studied well, studied painting and music. While studying at school, he completed piano courses. And in 1958, Freddie Mercury, together with his friends, organized the group \"The Hectics\", which played at school parties.\r\n\r\nSoon an important event happened in the life of Freddie Mercury - he met the leader of the Smile group. Then he began to attend group rehearsals, got to know Brian May and Roger Taylor better. After graduating from art college, Mercury opened his own shop with Taylor.\r\n\r\nIn August 1969, Mercury met the musicians of the Ibex group (later renamed Wreckage), and soon began performing with them. But the group did not last long, and Mercury joined a new team: Sour Milk Sea. Here, too, the union of musicians did not last long.\r\nIn 1970, he returned to Smile. Soon the group changed its name to \"Queen\". The place of the guitarist, after a long search and several candidates, was taken by John Deacon. Freddie designed the logo for the band, incorporating elements of British heraldry into it. Two years later, Freddie decided to take the pseudonym Mercury (before that he had his last name). The band's first album was released in 1972. Mercury was the author of several of Queen's first hits: \"Bohemian Rhapsody\", \"Killer Queen\".\r\n\r\nThe group became famous all over the world, began touring in different countries. In 1979, in the biography of the singer Freddie Mercury, a joint performance with the English Royal Ballet took place.\r\n\r\n1980 marked a new period for the singer, Freddie even changed his image, began to wear a mustache and cut his hair short. Taking advantage of the vacation and the suspension of touring activities, Mercury took up solo work. He first released the song \"Love Kills\" (1984). And in 1985, the album \"Mr. Bad guy. Joint work with Montserrat Caballe resulted in several joint performances at various festivals.\r\n\r\nSince 1986, rumors about the singer's illness appeared in the press, which he completely denied. Only those closest to him knew about his illness with AIDS. In 1989, Queen withdrew from the tour. Freddie Mercury devoted this period in his life to recording songs, because he wanted to release as many as possible. The solo album \"Barcelona\" was followed by albums \"Queen\": \"The Miracle\" and \"Innuendo\".\r\n\r\nOn November 23, 1991, Mercury officially confirmed that he had AIDS, and the next day he died of bronchial pneumonia.\r\n\r\nTo this day, Freddie Mercury remains one of the most famous and popular singers in the world. A concert was given in his honor in 1992, at which many stars and friends of the performer performed.",
+      "photo": "photos/2022/09/12/IMG_8044.jpg",
+      "time_create": "2022-09-12T19:19:46.304Z",
+      "time_update": "2023-01-07T19:55:09.969Z",
+      "is_published": true,
+      "style": 1,
+      "video": "https://www.youtube.com/watch?v=vbvyNnw8Qjg",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 6,
+    "fields": {
+      "title": "Chester Bennington",
+      "slug": "chester-bennington",
+      "content": "Chester Charles Bennington (born March 20, 1976, Phoenix, Arizona, USA – July 20, 2017, Los Angeles, California, USA) is an American rock musician and songwriter. He is best known as the vocalist for the band Linkin Park. He was also the vocalist of such bands as Gray Daze, Dead by Sunrise and Stone Temple Pilots.\r\n\r\nIn 1993, Bennington co-founded the group Gray Daze, in which he worked as a vocalist until 1998, recording two studio albums. He first became widely known as a vocalist in 2000 after the release of the debut full-fledged studio album Hybrid Theory by Linkin Park, with whose members he recorded the Hybrid Theory EP a year earlier, which included compositions not included on the full length album in 2000. The full-length album Hybrid Theory brought the band worldwide commercial success, becoming the best-selling debut album of the decade, and one of the few albums to ever reach that number. Linkin Park's next six studio albums, from Meteora (2003) to One More Light (2017), continued the band's commercial success.\r\n\r\nIn 2005, in parallel with his work at Linkin Park, Bennington created the band Dead by Sunrise, whose only album, Out of Ashes, was released in October 2009. Also from 2013 to 2015 he was the vocalist of Stone Temple Pilots, with whom he released an EP High Rise in October 2013.\r\n\r\nOn July 20, 2017, Bennington was found dead at his home in Palos Verdes Estates, California; his death was ruled a suicide by hanging. That same month, Bennington was recognized by various publications as one of the greatest rock vocalists of his generation. At the same time, Hit Parader placed him at number 46 on their \"100 Metal Vocalists of All Time\" list, and Billboard published an article stating that Bennington \"turned the nu metal universe upside down\".",
+      "photo": "photos/2022/09/12/Linkin_Park-Rock_im_Park_2014-_by_2eight_3SC0327.jpg",
+      "time_create": "2022-09-12T19:21:05.128Z",
+      "time_update": "2023-01-07T19:55:17.712Z",
+      "is_published": true,
+      "style": 1,
+      "video": "https://www.youtube.com/watch?v=wsqKH_VIrng",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 7,
+    "fields": {
+      "title": "Bruce Dickinson",
+      "slug": "brjus-dikinson",
+      "content": "Paul Bruce Dickinson (born August 7, 1958, Worksop, UK) is a British rock musician, writer, sportsman (swordsman), civil aviation pilot, television and radio presenter, author and screenwriter, producer, primarily known as a heavy metal frontman. -Iron Maiden bands.\r\n\r\nAfter leaving Iron Maiden in 1993 in the wake of the decline in heavy metal popularity, Dickinson went through a long creative journey, during which he unsuccessfully experimented with new musical styles (in particular, grunge). After the formation of Skunkworks and its commercial failure, he resumed his collaboration with guitarist Roy Z. The result of their collaboration was the successful heavy metal albums Accident of Birth and The Chemical Wedding. As a result, Dickinson's success as a solo vocalist began to grow, while the group he left gradually lost popularity. His return to Iron Maiden in 1999 returned the band to its former glory, but at the same time did not become an obstacle to his solo career and work as a civil aviation pilot.\r\n\r\nDickinson is one of the most famous heavy metal vocalists. His strong high voice and singing style influenced the formation of a new generation of musicians, including Timo Kotipelto (Stratovarius), Andre Matos (Angra) and many others.\r\n\r\nFor his powerful vocal abilities, Dickinson received the nickname Air Raid Siren from his fans.",
+      "photo": "photos/2022/09/12/04afc3eab5b2086ef85a93c657a1f721.jpg",
+      "time_create": "2022-09-12T19:22:45.668Z",
+      "time_update": "2023-01-07T19:55:25.499Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=epYKVcHrVr0",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 8,
+    "fields": {
+      "title": "James Hetfield",
+      "slug": "dzhejms-hjetfild",
+      "content": "James Alan Hetfield (born August 3, 1963 in Downey, California) is an American rock musician; vocalist and rhythm guitarist for the metal band Metallica. Since 2011, he has been ranked 87th in the list of the greatest guitarists of all time according to Rolling Stone magazine.\r\n\r\nJames began to play music at the age of 9 on the piano, then played the drums of his brother Dave, and finally switched to the guitar. His first band was the amateur band \"Obsession\". The band consisted of the Veloz brothers on bass and drums, and Jim Arnold on guitar. Ron McGovney and Dave Marrs sat in the attic of the Veloz garage, fiddling with the lighting controls. The band played famous songs from such bands as Black Sabbath and Led Zeppelin. After Obsession broke up, Marrs, Hetfield and McGovney continued to play together.\r\n\r\nThe most important event in the life of James was a meeting with a native of Denmark, drummer Lars Ulrich. Together they founded the band Metallica. At first, James decided to give up playing the guitar and only sing, but after some time he began to play rhythm guitar parts, as well as solo parts in certain songs.\r\n\r\nDespite similar musical tastes and the founding of the band, Hatfield and Ulrich have always been polar opposites. How they managed to keep a balance over the years, working on one project, is a mystery. James and Lars are the only ones who remain loyal to Metallica for a long time.\r\n\r\nThe musicians have always held on to each other. Together they went through everything: falls, rises, the creation of new LPs and videos, endless tours and the recognition of millions of fans around the planet.\r\n\r\nIn one of his interviews, James said that he considers himself the heart and soul of the team, but Ulrich is the core that solves all organizational issues.\r\n\r\nAfter the presentation of the compositions Nothing Else Matters and The Unforgiven, Hatfield showed in practice that there are no boundaries. Heavy music can also include lyrical shades of a suffering soul.\r\n\r\nOver the entire existence of the cult band, the musicians have sold more than 100 million LPs. Several times they had to hold the prestigious Grammy award in their hands. Over the years, James completely changed his life orientation. Alcohol has almost faded into the background. True, it was not possible to completely get rid of the addiction. He changed his image, and now he does not look like a typical metalhead with long hair, but like a wise, intelligent man.\r\n\r\nThe name of the lead singer of Metallica has been steadily occupying leading positions in all music ratings for three decades. The group suddenly burst into world music and literally from the first notes won the hearts of millions of listeners. Of course, such a dizzying success could not remain aloof from the assessment of experienced critics and experts. Today, the Metallica collection (since 1990) has about two dozen awards. These are awards for the best metal performances, and marks for successful albums and compositions, and awards for the best metal video.\r\n\r\nSo, for example, in 1996, the musical group was awarded the title of the most beloved in the style of metal / hard rock, and frontman James Hetfield, respectively, was named the best performer. Also in 2009, Metallica was officially inducted into the Rock and Roll Hall of Fame.",
+      "photo": "photos/2022/09/12/cff027d1f8d69ce92162f92ce9f19d6e.jpg",
+      "time_create": "2022-09-12T19:23:44.277Z",
+      "time_update": "2023-01-07T19:55:33.462Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=_W7wqQwa-TU",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 9,
+    "fields": {
+      "title": "Lemmy",
+      "slug": "lemmi",
+      "content": "British bass player and vocalist, founder and permanent member of the rock band Motorhead Lemmy Kilmister (real name Ian Fraser) was born on December 24, 1945 in Stoke-on-Trent, Staffordshire, England.\r\n\r\nLemmy's father, a British Navy chaplain, divorced his mother when the boy was three years old. When Ian was ten years old, his mother remarried. The family moved to a farm in North Wales. It was during this time that Kilmister developed an interest in rock and roll, girls and horses, and at school the nickname \"Lemmy\" stuck to him.\r\n\r\nAfter leaving school and moving with his family to Conwy, Lemmy began working at the local Hotpoint factory, where he played guitar in local bands and attended a riding school.\r\n\r\nIn 1962 Lemmy moved to Stockport where he played in amateur bands. With one of them - The Rockin \"Vickers - released several singles and toured Europe.\r\n\r\nIn 1967, the musician moved to London, worked as a manager at The Jimi Hendrix Experience. In 1968, he joined the band Sam Gopal, with whom he released an album and a single, and then became a member of Opal Butterfly.\r\n\r\nIn 1971, Lemmy became the bassist for the space rock band Hawkwind. With Lemmy Hawkwind recorded their best records. In 1973, the group's single \"Silver Machine\" reached the third line of the British chart. The following Hawkwind releases featuring Lemmy consistently hit the Top 20. In 1975, the band released the single Kings Of Speed, which contained the last song written by Lemmy for the band, Motorhead. That same year, Lemmy Kilmister was arrested for smuggling drugs across the border while on tour in support of the band's latest album. The bassist was released on bail, but was fired from Hawkwind.\r\n\r\nAfter leaving Hawkwind, Lemmy decided to form a new band, which he originally wanted to call Bastard, but under pressure from his manager, Lemmy renamed it Motorhead.\r\n\r\nHaving radically changed the style of music, it was with this group that Lemmy achieved real success and worldwide recognition, becoming one of the \"icons\" of hard rock. The band reached its peak in the early 1980s when Ace of Spades was certified gold at number four on the UK Singles Chart, and No Sleep 'til Hammersmith's live album reached the top of the charts five days after its release. These albums, along with Overkill and Bomber, cemented Motorhead's reputation as the main British hard rock band of their day.\r\n\r\nLemmy has released 22 studio albums with Motorhead, most recently Bad Magic in 2015.\r\n\r\nIn 2005, the band won a Grammy for Best Metal Performance for their cover of Metallica's Whiplash.\r\n\r\nIn March 2010, the documentary film Lemmy was released, which was filmed for three years at the musician's home in Hollywood, as well as on tours around the world.\r\n\r\nOn December 29, 2015, it became known that Lemmy Kilmister died at the age of 71 from cancer.",
+      "photo": "photos/2022/09/12/Motorhead-IMG_6413.jpg",
+      "time_create": "2022-09-12T19:24:47.245Z",
+      "time_update": "2023-01-07T19:55:42.185Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=eBIa0o36pPo",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 10,
+    "fields": {
+      "title": "Matthew Tuck",
+      "slug": "mjettju-tak",
+      "content": "Matthew \"Matt\" Tuck (born 20 January 1980 in Bridgend, Wales) is an English rock musician, vocalist, lead/rhythm guitarist and longtime leader of the British metalcore band Bullet for My Valentine, as well as backing vocalist, guitarist and leader. groove metal supergroup AxeWound.\r\n\r\nMatt was born on January 20, 1980 in Bridgend, Wales. As a child, he was fond of heavy metal of the 80s, because of this he began to play the guitar. In 1996, together with fellow college student Michael Thomas, he founded his first punk rock band Trauma. In 1998, Matt and Mike formed a new alternative metal band called Jeff Killed John. Over time, Matt's current team, Bullet for my Valentine, was formed from it. Tak is the main composer and lyricist for the group's songs. He shares lead guitar with Michael Paget on some of the band's songs on the first three albums.\r\n\r\nMatt has experienced many depressive situations, and therefore many of the lyrics written by Matt are devoted to depression, unhappy love and death. He is the tallest member of the group, his height is 180 cm.\r\n\r\nMatthew took part in the recording of the Apocalyptica album, performing the song Repressed with Max Cavalera.\r\n\r\nDuring a tour of Russia, he was invited to one of the stadiums in Nizhny Novgorod to watch bandy, and since then, says Matt, it has become his favorite sport.",
+      "photo": "photos/2022/09/12/fc81e674ee24dad295a78633170a15cc.jpg",
+      "time_create": "2022-09-12T19:28:20.925Z",
+      "time_update": "2023-01-07T19:55:49.758Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=TqUEfpUdmFM",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 11,
+    "fields": {
+      "title": "Ozzy Osbourne",
+      "slug": "ozzi-osborn",
+      "content": "Ozzy Osbourne (real name - John Michael Osbourne, English John Michael Osbourne; born December 3, 1948, Marston Green, Birmingham) - British rock singer, musician, one of the founders and member of the Black Sabbath group, which had a significant impact on the emergence of such musical styles like hard rock and heavy metal. The success of his career and popularity earned him the unofficial title of \"The Godfather of Heavy Metal\".\r\n\r\nOne of the very first records of the Black Sabbath group - \"Paranoid\" won the first lines in the American and European charts, giving the group worldwide fame.\r\n\r\nAfter leaving Black Sabbath, Ozzy Osbourne began his solo career. In 1980, the British solo disc \"Blizzard of Ozz\" was released, which captivated rock lovers. Ozzy's musical biography has gained a new round of popularity. One of the compositions of this collection - \"Crazy Train\", went down in the history of rock music as a visiting card of the artist.\r\n\r\nAs of December 2010, more than 100 million records with his participation have been sold in the world. As a member of Black Sabbath, Osbourne is inducted into the US Rock and Roll Hall of Fame and is inducted into the British Music Hall of Fame both as a member of the band and as a solo artist. A star bearing Osbourne's name is on the Birmingham Walk of Stars and on the Hollywood Walk of Fame. In 2014, he received the MTV Europe Music Awards in the Global Icon nomination. In the early 2000s, he took part in the reality show The Osbournes about his life on MTV.\r\n\r\nOsbourne's solo albums Blizzard of Ozz and No More Tears have been certified 4x platinum in the US.",
+      "photo": "photos/2022/09/12/ocr.jpg",
+      "time_create": "2022-09-12T19:33:25.031Z",
+      "time_update": "2023-01-07T19:55:58.296Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=lc7zl7UrLXo",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 12,
+    "fields": {
+      "title": "Paul Gilbert",
+      "slug": "pol-gilbert",
+      "content": "The future virtuoso was born on November 6, 1966 in Carbondale, USA. The young man was fond of music since childhood, his dream was not just to learn how to play the guitar, but to do it very well. His creative career began in the mid-80s, when long hair and disco music were in fashion. Paul Gilbert moved to Los Angeles, where he began performing in the band Racer X. This small band consisted of the same dreamers as the guitarist himself, who wanted to become famous. Unfortunately, the group failed to conquer the general public.\r\n\r\nWhen did Paul Gilbert really become famous? The musician's biography includes performances with the band Mr. big. It was in this group that the artist managed to win the love and admiration of the audience. Soon the musician decided to make a solo career. His work is a huge success with the audience. The guitarist has played hundreds of concerts, recorded more than 30 albums, creates new compositions and teaches.\r\n\r\nPaul Gilbert, whose photo is now recognizable in all corners of the world, began learning to play the guitar at the age of six. The teacher studying with him bored the boy. That is why Paul stopped music lessons for three years and picked up his favorite instrument again only at the age of nine. At this age, the future virtuoso could already pick up the chords of his favorite songs by ear. The move to Los Angeles was due to studying at a music college. The guitarist remembers this time as the happiest, because he was doing what he loved around the clock. Paul Gilbert admires Bach, admits that it is this classic that inspires him to perform long and intricate passages.\r\n\r\nThe guitarist is a very versatile person. During his life, he repeatedly led columns in various music publications dedicated to performance techniques, the secrets of the game. The artist has been teaching guitar for over 17 years. He even has his own video school. Guitarists Gilbert looked up to in his younger years: Uli Roth, Ace Frehley, Michael Schenker and other prominent music performers. Paul spent a long time in Japan. He really likes the culture of this country. Now the guitarist lives in Los Angeles, the city that brought him worldwide fame.",
+      "photo": "photos/2022/09/12/PaulGilbert_Injector_1.jpg",
+      "time_create": "2022-09-12T19:34:43.282Z",
+      "time_update": "2023-01-07T19:56:05.092Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=UZ6bFUjloV4",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 13,
+    "fields": {
+      "title": "Serj Tankian",
+      "slug": "serzh-tankyan",
+      "content": "Serj Tankian (born August 21, 1967, Beirut, Lebanon) is an American musician of Armenian origin, songwriter, vocalist, keyboardist, and occasional rhythm guitarist for the band System of a Down, founder of the solo project Serj Tankian.\r\n\r\nAt the age of 8, together with his parents and younger brother Sevak, he moved to Los Angeles, where he began to study music at the Rose & Alex Philibosi Armenian School, while studying marketing.\r\n\r\nIn Los Angeles, he joined the large Armenian community. He has his own label, Serjical Strike Records, and has also published his book of poetry, Cool Gardens. Serge paid for the first editions of the book through his small software company, Ultimate Solutions.\r\n\r\nIn 1993, Tankian met Daron Malakian, together they organized the System of a Down group, which also included drummer Andy (Andranik) Khachaturian, who later left the group due to disagreements. Subsequently, Tankian and Malakian met Shavo Odadjian, who at that time worked in a bank and studied at the same music school as Tankian. He temporarily became their manager, but later quit his job and became a bass player. Thus was the creation of the group System of a Down, which also included drummer John Dolmayan.\r\n\r\nSerj Tankian's solo project was his debut album Elect The Dead, released on October 23, 2007 and consisting of both old songs, for one reason or another, not included in the System Of A Down repertoire, and completely new material. For a concert tour in support of his album, Tankian assembled a line-up called Serj Tankian And The F.C.C. The tour in support of the album began on October 12, 2007 in Chicago.\r\n\r\nSerj Tankian was featured on Bill Laswell's Praxis album Profanation, released in 2008.\r\n\r\nOn November 26, 2009, Serzh and his father Khachatur Tankian performed Aleksey Hekimian's song in Armenian on live air on Armenian television.\r\n\r\nIn early 2010, Tankian released his first song with a symphony orchestra. The debut was the song \"Empty Walls\", which is the flagship in his album Elect the Dead. On March 9, 2010, Tankian released an album with a symphony orchestra.\r\n\r\nAt the end of February 2011, Serj Tankian released a musical about Prometheus. On September 21, 2010 his new album Imperfect Harmonies was released. The musician later released the EP Imperfect Remixes (2011), which is a collection of remixes of songs from the album Imperfect Harmonies.\r\n\r\nOn August 12, 2011, Tankian, before his next concert in Yerevan, was awarded the medal of the Prime Minister of Armenia for his contribution to the recognition of the Armenian Genocide and for the promotion of Armenian music.\r\n\r\nOn July 10, 2012, Tankian released the album Harakiri, which he himself described in an interview as \"an ordinary rock album that is very similar to the work of System of a Down\".\r\n\r\nIn early 2013, Tankian announced his collaboration with hip-hop artist Tech N9ne and his intention to take part in the recording of his album Something Else.\r\n\r\nTaylor has released a Serj Tankian Signature Model T5 (STSM-T5) signature guitar featuring the emblem of his mascot, which he found while touring with System of a Down in Europe.\r\n\r\nIn 2017, together with the soloist of the IOWA group Ekaterina Ivanchikova, Serj Tankian starred in the video for the song A Fine Morning To Die, which became the soundtrack of the film The Legend of Kolovrat.\r\n\r\nHe is a member of the Advisory Board of the Center for Creative Technologies \"Tumo\".\r\n\r\nOn February 5, 2021, Serj Tankian released the song Elasticity, a single from the mini-album of the same name, which was released on March 19, 2021.",
+      "photo": "photos/2022/09/12/9ad115f95a49cb0fad313d97862ec795.jpg",
+      "time_create": "2022-09-12T19:35:47.934Z",
+      "time_update": "2023-01-07T19:56:12.169Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=iKVzWSe26cU",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 14,
+    "fields": {
+      "title": "Till Lindemann",
+      "slug": "till-lindemann",
+      "content": "Till Lindemann is a German singer, musician, actor and poet, the permanent vocalist of the Rammstein band since 1994 and the leader of the Lindemann industrial music band since 2015.\r\n\r\nTill Lindemann was born on January 4, 1963 in Leipzig (GDR) in the family of children's poet Werner Lindemann and writer Brigitte Hildegard \"Gitta\" Lindemann. Till has a younger sister named Saskia. As a teenager, Till achieved some success in sports: in 1978 he participated in the European Youth Swimming Championships, which took place in Florence, finishing 11th in the 1500-meter freestyle and 7th in the 400-meter freestyle. . After that, Lindemann was included in the German national team to participate in the 1980 Olympic Games in Moscow, but he failed to perform in the Russian capital. After an injury to the abdominal muscles received during training, Till retired from the sport. Lindemann later said that he did not like to study at a sports school because of the enormous workload.\r\n\r\nIn the mid-80s, Lindemann became interested in music. In 1986, he became the drummer of the punk rock band First Arsch and sometimes performed with the Feeling B band. The musicians staged their concerts outside the city, at abandoned construction sites and empty factories. According to Till, at such events, musicians and listeners had to be constantly wary of the arrival of the police. Young Till Lindemann After some time, Till left music lessons, but not for long.\r\n\r\nIn 1993, guitarist Richard Kruspe, a friend of Till, invited Lindemann to try himself as a vocalist in his new band. After much persuasion, Till moved from the city of Schwerin, where he lived in recent years, to Berlin for a trial recording. Rammstein. The Beginning Although Lindemann had a hard time getting used to the new role, the young band immediately applied for participation in the Berlin Metrobeat competition. To participate in the festival, the guys prepared their demo-recordings, which were created in the apartment. Unexpectedly for young musicians, their group won the competition, and far-reaching prospects opened up before the guys. The official date of birth of the group is 1994. Soon, musicians from Feeling B joined the new group - rhythm guitarist Paul Landers and keyboardist Christian \"Flake\" Lorenz. For some time the band was nameless, but in the end the name \"Rammstein\" was chosen, which means \"ram stone\" in German (later the musicians claimed that they named the band in memory of the tragic collision over the Ramstein airbase in 1988).\r\n\r\nIn 1994, the group signed a contract with Motor Music and released their first album a year later. After the release of the disc \"Rammstein\" went on tour in Europe, still together with other musicians. The soloist's unusual voice, unusual lyrics and crazy performances (the musicians loved to arrange pyrotechnic shows) did not always resonate in the hearts of the audience: for example, in Poland, Rammstein was pelted with bottles.\r\n\r\nAfter David Lynch used two Rammstein songs in his film Lost Highway, the band's fame spread beyond Europe. Soon the musicians went on tour to another continent. During a US tour with Korn in 1998, Till and Flacke were arrested for indecent behavior on stage. The musicians were released the next day after bail was paid.\r\n\r\nReleased in 2001, the album Mutter instantly wrote the band into the history of music. A video was recorded for the lead single of the album of the same name, in which the narration was conducted on behalf of a man conceived in a test tube who killed his mother.\r\n\r\nEvery year the popularity only grew, and the musicians did not get tired of shocking the audience with spectacular performances and gloomy video clips. Lindemann was ready for any tricks to stun the fans. For example, during the filming of the video for the song \"Ich tu dir weh\", Lindemann wished that light came from his mouth and asked to make a cut in his left cheek for a wire and a light bulb.\r\n\r\nIn 2005, five Rammstein albums went platinum and the band received the World SalesAwards for over 10 million copies sold worldwide.\r\n\r\nOver the years of activity, the Rammstein guys have earned a rather scandalous reputation in the eyes of individual religious and social activists. They tried to ban Rammstein songs and videos in many countries, and Russia did not escape this fate. In 2016, parliamentarian Roman Khudyakov appealed to Minister of Culture Vladimir Medinsky with a request to ban the performances of the German group in the country because of the propaganda of sadism, cannibalism and homosexuality. Rammstein proposed to be banned in Russia One of the band's most famous videos, for the song Mein Teil (\"Part of me\"), was based on real events. In 2001, the German Armin Meiwes searched the World Wide Web for a person who would agree to be eaten. Programmer Juergen Brandes responded to the ad. They became lovers; Meiwes subsequently killed Brandeis, kept his meat in a freezer, and gradually ate it. Upon learning of this act of cannibalism,\r\n\r\nTill was inspired to create the song. In some countries, the clip was severely censored, such as the removal of a scene in which an angel orally satisfies Lindemann. The theme of cannibalism was played up at live performances: Til went on stage in a leather apron and with a butcher's knife in his hands, and a huge cauldron with Flake sitting in it was carried out onto the stage.\r\n\r\nEach concert of Rammstein turns into a grandiose show At one time, many parents who decided to join the interests of their children were shocked by the Pussy clip (slang for “pussy”, “female genital organ”). The 4-minute video had a lot of explicit angles, including scenes with naked musicians (although in some scenes they were replaced by doubles). This song has a no less outrageous live performance - during its performance, Till, as a rule, sat down on an assembly resembling a male penis and poured white foam on the audience. Live performance of \"Pussy\" In 2013, Lindemann announced the band's sabbatical. In May 2015, he also announced the start of work on a new Rammstein album. According to the singer, it was supposed to last until 2017. In March 2017, it became known that 35 tracks were ready, but the question of the release date of the disc remained open.\r\n\r\nIn 2000, Swedish musician Peter Tägtren of the death metal band Hypocrisy and the industrial band Pain helped the guys from Ramstein curb bikers who were asking for a fight. A friendship struck up between the musicians, but they were not able to find time to record a record in their busy schedules for a long time.\r\n\r\nOn his 52nd birthday in 2015, Till announced the creation of a side project \"Lindemann\" with Peter Tägtgren. The debut album Skills in Pills was released in June 2015 and took first place in the national music chart. Soon, the friends presented the clip “Praise Abort” (“Bless the abortion”), which is not inferior in outrageousness to the previous clips invented by Lindemann.\r\n\r\nIn 2019, the band Rammstein with Till released their seventh studio album - fans had to wait for it for 10 years since the release of the previous one. In the same year, Till released an independent album F & M.",
+      "photo": "photos/2022/09/12/013f3f3a79beb590159bcbbb2490df54.jpg",
+      "time_create": "2022-09-12T19:36:55.759Z",
+      "time_update": "2023-01-07T20:00:34.598Z",
+      "is_published": true,
+      "style": 2,
+      "video": "https://www.youtube.com/watch?v=UjICUHKFZMY",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 15,
+    "fields": {
+      "title": "Michael Jackson",
+      "slug": "majkl-dzhekson",
+      "content": "Michael Jackson was born on August 29, 1958 in Gary, Indiana. In his biography, Michael Jackson began to conquer the whole world with his talent as a child. His father founded the group \"The Jackson 5\", which included five of the ten children of the Jackson family. Over time, Michael began to stand out from the rest of the participants. And in 1976, the group changed its name, becoming The Jacksons. In addition to this project, Michael pursued a solo career, recording several of his own albums (\"Got To Be There\", \"Ben\", \"Music & Me\", \"Forever, Michael\").\r\n        \r\nIn 1978, the shooting of the musical \"The Wiz\" took place. And the following year, the album \"Off the Wall\" was released, which brought the performer worldwide fame. In 1982, the outstanding album \"Thriller\" was released, which became the best-selling album of all time. Thriller brought eight Grammy awards to Michael (a total of 19 Grammys were received during Jackson's career). During one of his performances in 1983, Michael Jackson first introduced the world to his \"moonwalk\", which in the future became the hallmark of a talented singer and dancer. And in the video for the song \"Smooth Criminal,\" Jackson demonstrated an anti-gravity tilt.\r\nThe next album \"Bad\" was released in 1987, followed by the first large-scale solo tour. Further albums were: \"Dangerous\" (1991), \"HIStory: Past, Present & Future - Book 1\" (1995). The most famous songs of Michael Jackson are \"You Are Not Alone\", \"Earth Song\", \"Black or White\" and many others.\r\n\r\nOver time, Jackson's appearance has changed quite a lot. The skin brightened, the shape of the nose became different. Jackson himself told the world about only three of his plastic surgeries, although the press indicated more. Further events in the biography of Michael Jackson were negative. The singer was accused of corrupting minors, this information was actively covered in the press.\r\nJackson released Invincible in 2001, Number Ones in 2003, and The Ultimate Collection' Box Set in 2004.\r\n\r\nIn 2003, after a search of Jackson's house, he was again charged with child molestation. After a lengthy trial, in 2005 the singer's innocence was confirmed.\r\n\r\nIn 2009, the singer planned to release a new album. Also, Jackson was going to perform a farewell series of concerts. But it was not possible to implement grandiose plans - the biography of Michael Jackson was cut short on June 25. The death of Michael Jackson shocked not only the fans, but the whole world.",
+      "photo": "photos/2022/09/12/-michael-jackson-39411025-1500-2120_1.jpg",
+      "time_create": "2022-09-12T20:09:25.250Z",
+      "time_update": "2023-01-07T20:01:23.197Z",
+      "is_published": true,
+      "style": 3,
+      "video": "https://www.youtube.com/watch?v=_E2r2vOlqvA",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 16,
+    "fields": {
+      "title": "Robbie Williams",
+      "slug": "robbi-uilyams",
+      "content": "Robert Peter (Robbie) Williams (born February 13, 1974, Stoke-on-Trent, England, UK) is a British singer, songwriter and actor, and a former member of Take That.\r\n\r\nFor the characteristic \"velvet\" voice timbre and manner of performance, Elton John called Williams \"Frank Sinatra of the 21st century.\"\r\n\r\nWorldwide album sales exceed 60 million, and more than 18 million singles have already been sold. In the UK alone, about 16.2 million discs have been sold. Robbie has 10 albums and compilations, 10 singles in the UK and many awards. Also, Robbie Williams is considered the best-selling foreign artist in Latin America. As of 2016, Williams' net worth was $200 million.",
+      "photo": "photos/2022/09/12/5d94b86869153855495b8983c7c5ae3d.jpg",
+      "time_create": "2022-09-12T20:10:16.216Z",
+      "time_update": "2023-01-07T20:01:48.525Z",
+      "is_published": true,
+      "style": 3,
+      "video": "https://www.youtube.com/watch?v=cI0Pov_dIgg",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 17,
+    "fields": {
+      "title": "Sting",
+      "slug": "sting",
+      "content": "The singer was born on October 2, 1951. This event took place in a large industrial city in the north-east of England, Newcastle upon Time. The family of Gordon Matthew Thomas Sumner, which was the name of the artist at birth, lived on the modest salary of his father, an installer at a machine-building company. While he was earning a living, his wife was engaged in raising children - after the birth of Gordon, another boy and two girls were born.\r\n\r\nLiving within their means, constant screaming and quarrels of children exhausted their parents - they often spoke in raised tones. Little Gordon even believed that a divorce was inevitable. But his worries were not destined to come true. Subsequently, the father changed jobs and became the manager of a small store. As assistants, he took the eldest son, Gordon. He helped with the delivery of milk and tried to prove that he was the best in this business.\r\n\r\nIn his free time from school and work, the boy liked to chase the ball, like all British boys. It was much more interesting than boring lessons for which he did not feel zeal. As a result, mediocre passing of exams and a narrow circle of educational institutions for further education.\r\n\r\nIn 1971, he became a student at the College of Education, graduating with a degree in English and Music. With this document, he went to an internship in high school, and then to a permanent job in primary. Here he was waiting for two years of work with the lower grades as a teacher.\r\n\r\nWhen will the time for music in Sting's life come? It has already arrived. At breaks, a talented English teacher enthusiastically played the guitar or retired to play the piano. The man didn't stop there. His thirst for music went far beyond the school walls: he joined local Newcastle bands, with whom he performed on weekends.\r\n\r\nThe second half of the 70s in the history of British rock music can be characterized in two words: uncertainty and prostration. The former leaders had nothing new to offer the public, and new idols have yet to emerge. At this moment, the trio \"The Police\" appears on the scene. The formation of the band began with a simple meeting between Stuart Copeland, who played drums, and Gordon Sumner, our hero. A little later, Henry Padovani joined them, which completed the formation of The Police.\r\n\r\nThe group's work began with a not entirely successful work, the track \"Fall Out\". But this did not stop the musicians and in 1978, under the guidance of manager Miles Copeland, they released their first album, Outlandos d'Amou. The most popular song was the song \"Roxanne\".\r\n\r\nThe group's fame grew. Gordon Sumner stood out among its participants. In 1983, the fifth studio album was released - nothing foreshadowed the breakup. However, in 1984 the musicians decided to pursue solo projects. So a new singer appeared on the stage - Sting.\r\n\r\nGordon Sumner's career with a new name began quite successfully. In the summer of 1985 he released his first album, The Dream of the Blue Turtles. The British awarded him the third place in the charts, while the Americans - the second. Although there are notes of \"The Police\" in the compositions, the album stands out with a jazzy sound. Where did jazz come from? The singer was fond of them in his youth, and now he has the opportunity to play him.\r\n\r\nWith the onset of a solo career, little has changed in Sting's life. All the same concerts, performances and tours. But other people already surrounded him, other musicians. They helped him record new hits and albums, for which the Briton received various awards. They also honored him on the Hollywood Walk of Fame in the form of their own star.\r\n\r\nThe performer drew his inspiration from the surrounding reality. So, in 1991 he released the disc \"Soul Cages\". Fans recognize him as the most melancholy. And there is a reason for this - the death of parents. But melancholy is not eternal. This proves the next album of the singer \"Ten Summoner's Tales\", filled with light and joy.\r\n\r\nAnother event that prompted the musician to create the album was the explosion of the Twin Towers on September 11, 2001. He conveyed his mood and impressions through the songs that were included in the Sacred Love collection.\r\n\r\nSting currently resides in New York with his family. Actively performs and releases albums with a frequency of 1-3 years. His tours cover Europe, Russia, Brazil and America. And everywhere they are waiting for him. Despite his age, he is ready to continue to delight the audience with his work.",
+      "photo": "photos/2022/09/12/728x861_1_259629dcbf229e3fd61620e2adeaadec1050x1242_0xd42ee42a_135332_SuPM5Cp.jpeg",
+      "time_create": "2022-09-12T20:11:08.761Z",
+      "time_update": "2023-01-07T20:10:45.585Z",
+      "is_published": true,
+      "style": 3,
+      "video": "https://www.youtube.com/watch?v=JcqhvPNiJzo",
+      "author_id": 2
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 18,
+    "fields": {
+      "title": "Frank Sinatra",
+      "slug": "frjenk-sinatra",
+      "content": "Francis Albert Sinatra (December 12, 1915, Hoboken, New Jersey - May 14, 1998, Los Angeles, California) is an American singer (crooner), film actor, film director, producer, showman, conductor, and political activist. Winner of the Oscar film award. He won the Grammy Award eleven times. He was famous for his high skill in performing songs, for his virtuoso technique of intonational phrasing, for the clear articulation of each word and syllable, and for the \"velvet\" timbre of his voice. Over 60 years of his creative career, Sinatra performed in the studio and at concerts more than two thousand songs by various authors, toured in more than 40 countries around the world and more than 150 million copies of records with his songs have been sold.\r\n\r\nIn the 20th century, Sinatra became a legend not only in the musical world, but in every aspect of American culture. When he passed away, some journalists wrote: “To hell with the calendar. The day Frank Sinatra died is the end of the 20th century.” Sinatra's singing career began in the 1930s, and by the end of his life he was considered the standard of musical style and taste. The songs performed by him entered the classics of pop and styles of jazz, swing and pop music, became the most striking examples of the pop-jazz manner of singing \"crooning\", several generations of Americans were brought up on them. In his younger years, he was nicknamed Frankie (eng. Frankie) and the Voice (eng. The Voice), in later years - Mr. Blue Eyes (eng. Ol' Blue Eyes), and then - Chairman (eng. Chairman). Over sixty years of active creative activity, he recorded about a hundred consistently popular single discs, performed the most famous songs of the largest US composers - George Gershwin, Harold Arlen, Col Porter, Richard Rodgers, Henry Mancini and Irving Berlin, as well as European composers - Bert Kaempfert (Strangers in the Night, The World We Knew), Claude Francois, Michel Legrand and other authors.\r\n\r\nIn addition to his musical triumph, Sinatra was also a successful film actor; The high point of his career was the 1954 Academy Award for Best Supporting Actor in From Here to Eternity. His “piggy bank” contains many film awards: from the Golden Globes to the US Screen Actors Guild Award. During his life, Sinatra starred in more than sixty films, the most famous of which were \"Firing to the City\", \"From Here to Eternity\", \"The Man with the Golden Arm\", \"High Society\", \"Pride and Passion\", \"Eleven Ocean's Friends\" and \"The Manchurian Candidate\".\r\n\r\nFrank Sinatra was awarded the Golden Globe, the US Screen Actors Guild and the National Association for the Advancement of Colored People, and a year before his death he was awarded the highest US award - the Congressional Gold Medal.",
+      "photo": "photos/2022/09/12/28533b308e.jpg",
+      "time_create": "2022-09-12T20:11:44.375Z",
+      "time_update": "2023-01-07T20:08:21.172Z",
+      "is_published": true,
+      "style": 3,
+      "video": "https://www.youtube.com/watch?v=gLbQmzowKpc",
+      "author_id": 3
+    }
+  },
+  {
+    "model": "musicians.musician",
+    "pk": 19,
+    "fields": {
+      "title": "Eminem",
+      "slug": "jeminem",
+      "content": "Marshall Bruce Mathers III is an American rapper, record producer, songwriter, and actor. In addition to his solo career, he was a member of the D12 group and the hip-hop duo Bad Meets Evil. He is one of the best-selling music artists in the world, as well as the best-selling artist of the 2000s. He has been named one of the greatest musicians of all time by many magazines, including Rolling Stone, which placed Eminem at number 83 on their list of the 100 Greatest Artists, as well as at number 91 on their list of the 100 Greatest Songwriters of All Time. The same magazine proclaimed him the King of Hip Hop. If you count the studio work of his bands, then Eminem has 13 albums that reached number one on the Billboard 200. As a solo artist, Eminem has sold over 100 million albums worldwide and over 107 million of his records and 44 million copies of his albums in America alone .\r\n\r\nAfter releasing his independent debut album Infinite in 1996, Eminem achieved huge popularity in 1999 with the release of The Slim Shady LP on a major label. The LP earned Eminem his first Grammy Award for Best Rap Album. His next two records, The Marshall Mathers LP and The Eminem Show, also won a Grammy in the same category, making Eminem the first artist to win the award for best rap album three times in a row. This was followed by Encore in 2004 and a tour with him, after which Eminem took a creative break due to his drug addiction. On May 15, 2009, he released his first album in five years called Relapse. In 2010, the release of the seventh studio album Recovery took place, which was marked by worldwide success and was named the best-selling album of the year, like The Eminem Show in 2002. Eminem received a Grammy for both records - Relapse and Recovery. On November 5, 2013, Eminem released his eighth studio album, The Marshall Mathers LP 2, also awarded a Grammy Award, which, in total, amounted to 15 awards throughout his career. On November 24, 2014, ShadyXV was released - the second compilation album by the American label Shady Records, released on Shady and Interscope. On December 15, 2017, Eminem released the album Revival, and six months later - Kamikaze, which was released without an announcement. In January 2020, Marshall similarly releases Music to Be Murdered By.\r\n\r\nEminem is involved in various activities: he has his own record label, which he runs with his manager Paul Rosenberg, and also has his own radio station Shade 45 on Sirius XM Radio. In 2002, Eminem starred in the semi-autobiographical hip-hop drama 8 Mile. He won the Academy Award for Best Song for a Film, becoming the first rap artist to win the award. He also appeared as a cameo in the films \"Wash\" (2001), \"Funny People\" (2009), \"Interview\" (2014) and the television series \"Handsome\".",
+      "photo": "photos/2022/09/12/5387cebce2889aa0ce2fda0b14a8e4c1.jpg",
+      "time_create": "2022-09-12T20:12:41.023Z",
+      "time_update": "2023-01-07T20:08:05.093Z",
+      "is_published": true,
+      "style": 4,
+      "video": "https://www.youtube.com/watch?v=mP1Hd4JCK90",
+      "author_id": 2
+    }
+  }
+]

@@ -7,7 +7,7 @@ services:
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
       LOG_LEVEL: "${LOG_LEVEL}"
-      DB_NAME: "${DB_NAME}"
+      DB_NAME: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
@@ -17,6 +17,8 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8020:8000"
+    networks:
+      - app-network
 
   musicians-service:
     build: ./musicians
@@ -25,7 +27,7 @@ services:
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
       LOG_LEVEL: "${LOG_LEVEL}"
-      DB_NAME: "${DB_NAME}"
+      DB_NAME: "${DB_NAME_MUSICIANS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
@@ -35,3 +37,9 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
