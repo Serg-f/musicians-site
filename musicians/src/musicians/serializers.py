@@ -10,6 +10,11 @@ class MusicianSerializer(serializers.HyperlinkedModelSerializer):
                   'style', 'video', 'author_id')
         read_only_fields = ('slug', 'time_create', 'time_update', 'author_id')
 
+    def create(self, validated_data):
+        request = self.context.get('request')
+        validated_data['author_id'] = request.user.id
+        return super().create(validated_data)
+
 
 class StyleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

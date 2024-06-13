@@ -34,4 +34,4 @@ class Musician(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-time_update']
+        ordering = ['-time_create']
