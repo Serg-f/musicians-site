@@ -36,4 +36,7 @@ class UserSerializer(serializers.Serializer):
             def is_authenticated(self):
                 return True
 
+            def __str__(self):
+                return self.username
+
         return User(**validated_data)

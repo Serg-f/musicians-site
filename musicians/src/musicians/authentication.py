@@ -1,14 +1,17 @@
+import logging
+
 from rest_framework import authentication, exceptions
 from urllib.request import urlopen, Request as URLRequest
 from urllib.error import HTTPError
 from .serializers import UserSerializer
 import json
 
+logger = logging.getLogger(__name__)
 
 class CustomTokenAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get('Authorization')
-        print(f"Auth Header: {auth_header}")  # Debug print
+        logger.debug(f"Auth Header: {auth_header}")  # Debug log
         if not auth_header:
             return None
 
@@ -17,19 +20,19 @@ class CustomTokenAuthentication(authentication.BaseAuthentication):
                                       headers={'Authorization': auth_header})
             with urlopen(auth_request) as response:
                 data = json.loads(response.read())
-                print(f"Response Data: {data}")  # Debug print
+                logger.debug(f"Response Data: {data}")  # Debug log
                 user_serializer = UserSerializer(data=data)
                 if user_serializer.is_valid():
                     validated_data = user_serializer.validated_data
-                    print(f"Validated Data: {validated_data}")  # Debug print
+                    logger.debug(f"Validated Data: {validated_data}")  # Debug log
                     user = user_serializer.create_user(validated_data)
                     request.user = user
-                    print(f"Authenticated User: {request.user}")  # Debug print
+                    logger.debug(f"Authenticated User: {request.user}")  # Debug log
                     return user, None
                 else:
-                    print(f"User Serializer Errors: {user_serializer.errors}")  # Debug print
+                    logger.warning(f"User Serializer Errors: {user_serializer.errors}")  # Warning log
         except HTTPError as e:
-            print(f"HTTPError: {e}")  # Debug print
+            logger.warning(f"HTTPError: {e}")  # Warning log
             if e.code == 401:
                 raise exceptions.AuthenticationFailed(json.loads(e.read()))
             else:
