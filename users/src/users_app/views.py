@@ -1,9 +1,12 @@
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenVerifyView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
+from .models import CustomUser
 from .serializers import UserSerializer
 
 
@@ -21,3 +24,17 @@ def validate_token(request):
     # Verify the token manually
     verify_view = TokenVerifyView.as_view()
     return verify_view(request)
+
+
+class UsersView(ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+
+
+class ProfileView(RetrieveAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

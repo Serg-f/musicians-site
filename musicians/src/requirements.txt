@@ -1,8 +1,8 @@
 django==5.0.6
 djangorestframework==3.15.1
+django-filter
 django-environ
 psycopg2-binary
 django-autoslug
 django-embed-video
 pillow
-requests
