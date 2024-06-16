@@ -1,8 +1,8 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
-from .filters import MusiciansFilter
+from .filters import MusiciansFilter, AuthorMusiciansFilter
 from .models import Musician, Style
 from .permissions import IsAuthorOrAdmin
 from .serializers import MusicianSerializer, StyleSerializer
@@ -25,9 +25,10 @@ class StylesViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = StyleSerializer
 
 
-class AuthorMusiciansViewSet(viewsets.ModelViewSet):
+class AuthorMusiciansViewSet(FilterMixin, viewsets.ModelViewSet):
     serializer_class = MusicianSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrAdmin]
+    filterset_class = AuthorMusiciansFilter
 
     def get_queryset(self):
         author_queryset = Musician.objects.filter(author_id=self.request.user.id)

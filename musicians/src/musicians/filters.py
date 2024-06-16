@@ -9,3 +9,8 @@ class MusiciansFilter(filters.FilterSet):
     class Meta:
         model = Musician
         fields = ['style', 'author_id']
+
+
+class AuthorMusiciansFilter(MusiciansFilter):
+    class Meta(MusiciansFilter.Meta):
+        fields = MusiciansFilter.Meta.fields + ['is_published']
