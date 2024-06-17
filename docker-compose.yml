@@ -50,6 +50,9 @@ services:
     depends_on:
       - users-service
       - musicians-service
+    volumes:
+      - ./frontend/frontend:/project_dir
+
 
 networks:
   app-network:
