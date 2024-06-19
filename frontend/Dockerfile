@@ -1,4 +1,4 @@
-# Use node:16-alpine as the base image
+# Use node:20-alpine as the base image
 FROM node:20-alpine as build
 
 # Set the working directory

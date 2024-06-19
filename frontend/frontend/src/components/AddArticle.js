@@ -1,7 +1,12 @@
 import React from "react";
+import BaseLayout from "./BaseLayout";
 
-function AddArticle() {
-  return <h2>Add Article</h2>;
+const AddArticle = () => {
+    return (
+        <BaseLayout>
+            <h2>This is the add article page content</h2>
+        </BaseLayout>
+    );
 }
 
 export default AddArticle;

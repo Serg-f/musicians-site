@@ -12,7 +12,7 @@ const BaseLayout = ({ children }) => {
       </main>
       <footer className="text-center text-lg-start bg-dark text-muted">
         <div className="text-center p-4">
-            © 2024 This is the footer | All rights reserved
+            © 2022 Musicians | All rights belong to their respective owners.
         </div>
       </footer>
     </div>

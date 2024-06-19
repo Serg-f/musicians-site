@@ -1,7 +1,12 @@
 import React from "react";
+import BaseLayout from "./BaseLayout";
 
-function Contact() {
-  return <h2>Contact</h2>;
+const Contact = () => {
+    return (
+        <BaseLayout>
+            <h2>This is the contact page content</h2>
+        </BaseLayout>
+    );
 }
 
 export default Contact;
