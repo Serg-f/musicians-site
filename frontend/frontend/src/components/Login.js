@@ -1,23 +1,23 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { verifyAuth } = useContext(AuthContext);  // Get verifyAuth from AuthContext
     const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8020/token/', {
-                username,
-                password
-            });
+            const response = await axios.post('http://localhost:8020/token/', { username, password });
             localStorage.setItem('access_token', response.data.access);
             localStorage.setItem('refresh_token', response.data.refresh);
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+            await verifyAuth();  // Call verifyAuth to update auth state
             navigate('/');
         } catch (error) {
             console.error('Login failed:', error);
