@@ -1,6 +1,7 @@
 // src/App.js
 import React, { useEffect, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import AddArticle from './components/AddArticle';

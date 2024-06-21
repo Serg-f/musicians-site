@@ -1,0 +1,444 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - en
+      tags:
+      - schema
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /v1/author/musicians/:
+    get:
+      operationId: v1_author_musicians_list
+      parameters:
+      - in: query
+        name: author_id
+        schema:
+          type: integer
+      - in: query
+        name: is_published
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: style
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - v1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Musician'
+          description: ''
+    post:
+      operationId: v1_author_musicians_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Musician'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+  /v1/author/musicians/{id}/:
+    get:
+      operationId: v1_author_musicians_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - v1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+    put:
+      operationId: v1_author_musicians_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Musician'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Musician'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+    patch:
+      operationId: v1_author_musicians_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMusician'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMusician'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMusician'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+    delete:
+      operationId: v1_author_musicians_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - v1
+      responses:
+        '204':
+          description: No response body
+  /v1/musicians/:
+    get:
+      operationId: v1_musicians_list
+      parameters:
+      - in: query
+        name: author_id
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: style
+        schema:
+          type: array
+          items:
+            type: integer
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - v1
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Musician'
+          description: ''
+  /v1/musicians/{id}/:
+    get:
+      operationId: v1_musicians_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this musician.
+        required: true
+      tags:
+      - v1
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+          description: ''
+  /v1/styles/:
+    get:
+      operationId: v1_styles_list
+      tags:
+      - v1
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Style'
+          description: ''
+  /v1/styles/{id}/:
+    get:
+      operationId: v1_styles_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this style.
+        required: true
+      tags:
+      - v1
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Style'
+          description: ''
+components:
+  schemas:
+    Musician:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          pattern: ^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29}$
+          maxLength: 200
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          minLength: 80
+          maxLength: 8000
+        photo:
+          type: string
+          format: uri
+        time_create:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created
+        time_update:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated
+        is_published:
+          type: boolean
+          title: Publishing
+        style:
+          type: string
+          format: uri
+        video:
+          type: string
+          format: uri
+          title: Link for video
+          maxLength: 200
+        author_id:
+          type: integer
+          readOnly: true
+      required:
+      - author_id
+      - content
+      - id
+      - slug
+      - style
+      - time_create
+      - time_update
+      - title
+      - url
+    PatchedMusician:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          pattern: ^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29}$
+          maxLength: 200
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+          minLength: 80
+          maxLength: 8000
+        photo:
+          type: string
+          format: uri
+        time_create:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Created
+        time_update:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Updated
+        is_published:
+          type: boolean
+          title: Publishing
+        style:
+          type: string
+          format: uri
+        video:
+          type: string
+          format: uri
+          title: Link for video
+          maxLength: 200
+        author_id:
+          type: integer
+          readOnly: true
+    Style:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Style
+          pattern: ^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29}$
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+      required:
+      - id
+      - name
+      - slug
+      - url

@@ -1,5 +1,5 @@
 // src/components/StylesFilter.js
-import React, {useState} from 'react';
+import React from 'react';
 import {Form, Button, ListGroup} from 'react-bootstrap';
 
 const StylesFilter = ({selectedStyles, onStyleChange}) => {

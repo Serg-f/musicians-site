@@ -14,7 +14,7 @@ const MyNavbar = () => {
         navigate('/');
     };
 
-    console.log('isAuthenticated:', isAuthenticated);
+    // console.log('isAuthenticated:', isAuthenticated);
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -29,9 +29,10 @@ const MyNavbar = () => {
                         <NavLink to="/contact" className="nav-link mx-2">Contact Us</NavLink>
                         <NavLink to="/about" className="nav-link mx-2">About</NavLink>
                     </Nav>
-                    <Nav>
+                    <Nav className="ml-auto">
                         {isAuthenticated ? (
-                            <NavDropdown title={<><i className="fas fa-user-circle"></i> Welcome, {user?.username}</>} id="collasible-nav-dropdown" className="mx-2">
+                            <NavDropdown title={<><i className="fas fa-user-circle"></i> Welcome, <span style={{color: "whitesmoke"}}>{user?.username}</span></>} id="collasible-nav-dropdown"
+                            className="mx-2">
                                 <NavDropdown.Item as={NavLink} to="/profile">My Profile</NavDropdown.Item>
                                 <NavDropdown.Item as={NavLink} to="/articles_author">My Articles</NavDropdown.Item>
                                 <NavDropdown.Divider />
