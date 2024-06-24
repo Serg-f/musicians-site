@@ -1,6 +1,7 @@
 import React from 'react';
+import { Row, Col, Form } from 'react-bootstrap';
 
-const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
+const CustomPagination = ({ currentPage, totalPages, onPageChange, articlesPerPage, onArticlesPerPageChange }) => {
     const renderPageNumbers = () => {
         const pageNumbers = [];
         const maxPageNumbersToShow = 5;
@@ -56,19 +57,40 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
     };
 
     return (
-        <ul className="pagination">
-            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                <button className="page-link" aria-label="Previous" onClick={() => { if (currentPage > 1) onPageChange(currentPage - 1); }}>
-                    <span aria-hidden="true">«</span>
-                </button>
-            </li>
-            {renderPageNumbers()}
-            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                <button className="page-link" aria-label="Next" onClick={() => { if (currentPage < totalPages) onPageChange(currentPage + 1); }}>
-                    <span aria-hidden="true">»</span>
-                </button>
-            </li>
-        </ul>
+        <Row className="mb-3">
+            <Col md="auto">
+                <ul className="pagination">
+                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                        <button className="page-link" aria-label="Previous" onClick={() => { if (currentPage > 1) onPageChange(currentPage - 1); }}>
+                            <span aria-hidden="true">«</span>
+                        </button>
+                    </li>
+                    {renderPageNumbers()}
+                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                        <button className="page-link" aria-label="Next" onClick={() => { if (currentPage < totalPages) onPageChange(currentPage + 1); }}>
+                            <span aria-hidden="true">»</span>
+                        </button>
+                    </li>
+                </ul>
+            </Col>
+            <Col md="auto" className="ml-md-auto">
+                <Form.Group as={Row} className="flex-nowrap">
+                    <Form.Label column sm="auto">Articles per page</Form.Label>
+                    <Col sm="auto">
+                        <Form.Control
+                            as="select"
+                            value={articlesPerPage}
+                            onChange={onArticlesPerPageChange}
+                        >
+                            <option value={3}>3</option>
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                        </Form.Control>
+                    </Col>
+                </Form.Group>
+            </Col>
+        </Row>
     );
 };
 
