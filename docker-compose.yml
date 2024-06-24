@@ -40,18 +40,18 @@ services:
     networks:
       - app-network
 
-  frontend-service:
-    build: ./frontend
-    container_name: frontend-container
-    ports:
-      - "3000:3000"
-    networks:
-      - app-network
-    depends_on:
-      - users-service
-      - musicians-service
-    volumes:
-      - ./frontend/frontend:/project_dir
+#  frontend-service:
+#    build: ./frontend
+#    container_name: frontend-container
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - app-network
+#    depends_on:
+#      - users-service
+#      - musicians-service
+#    volumes:
+#      - ./frontend/frontend:/project_dir
 
 
 networks:

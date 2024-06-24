@@ -3,11 +3,14 @@ import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import StylesFilter from "./StylesFilter";
+import CustomPagination from './Pagination'; // Import the custom pagination component
 import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
     const [articles, setArticles] = useState([]);
     const [selectedStyles, setSelectedStyles] = useState([]);
+    const [page, setPage] = useState(1);
+    const [pageCount, setPageCount] = useState(0);
     const { user, isAuthenticated, verifyAuth } = useContext(AuthContext);
 
     useEffect(() => {
@@ -15,24 +18,42 @@ const Home = () => {
 
         const fetchArticles = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/v1/musicians/');
-                const articlesWithDetails = await Promise.all(response.data.map(async (article) => {
+                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}`);
+                const { results, count, next } = response.data;
+
+                const articlesWithDetails = await Promise.all(results.map(async (article) => {
                     const styleResponse = await axios.get(article.style);
-                    const authorResponse = await axios.get(`http://localhost:8020/users/${article.author_id}/`);
+                    let authorName = 'Unknown';
+                    try {
+                        const authorResponse = await axios.get(`http://localhost:8020/users/${article.author_id}/`);
+                        authorName = authorResponse.data.username;
+                    } catch (error) {
+                        console.error('Error fetching author details:', error);
+                    }
                     return {
                         ...article,
                         styleName: styleResponse.data.name,
-                        authorName: authorResponse.data.username
+                        authorName
                     };
                 }));
                 setArticles(articlesWithDetails);
+
+                // Determine the total number of pages
+                const pageSize = results.length;
+                const totalPages = next ? Math.ceil(count / pageSize) : page;
+                setPageCount(totalPages);
+
             } catch (error) {
                 console.error('There was an error fetching the articles!', error);
             }
         };
 
         fetchArticles();
-    }, [verifyAuth]);
+    }, [page, verifyAuth]);
+
+    const handlePageChange = (newPage) => {
+        setPage(newPage);
+    };
 
     return (
         <BaseLayout>
@@ -82,6 +103,11 @@ const Home = () => {
                             </Col>
                         )}
                     </Row>
+                    <CustomPagination
+                        currentPage={page}
+                        totalPages={pageCount}
+                        onPageChange={handlePageChange}
+                    />
                 </Col>
             </Row>
         </BaseLayout>

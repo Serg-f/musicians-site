@@ -67,6 +67,12 @@ paths:
         description: Which field to use when ordering the results.
         schema:
           type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
       - name: search
         required: false
         in: query
@@ -89,9 +95,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Musician'
+                $ref: '#/components/schemas/PaginatedMusicianList'
           description: ''
     post:
       operationId: v1_author_musicians_create
@@ -222,6 +226,12 @@ paths:
         description: Which field to use when ordering the results.
         schema:
           type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
       - name: search
         required: false
         in: query
@@ -246,9 +256,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Musician'
+                $ref: '#/components/schemas/PaginatedMusicianList'
           description: ''
   /v1/musicians/{id}/:
     get:
@@ -274,6 +282,13 @@ paths:
   /v1/styles/:
     get:
       operationId: v1_styles_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
       tags:
       - v1
       security:
@@ -283,9 +298,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Style'
+                $ref: '#/components/schemas/PaginatedStyleList'
           description: ''
   /v1/styles/{id}/:
     get:
@@ -369,6 +382,52 @@ components:
       - time_update
       - title
       - url
+    PaginatedMusicianList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Musician'
+    PaginatedStyleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Style'
     PatchedMusician:
       type: object
       properties:
