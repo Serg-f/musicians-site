@@ -15,14 +15,14 @@ const Home = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page') || '1');
-    const articlesPerPage = parseInt(searchParams.get('articlesPerPage') || '3');
+    const pageSize = parseInt(searchParams.get('page-size') || '3');
 
     useEffect(() => {
         verifyAuth();
 
         const fetchArticles = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}&page_size=${articlesPerPage}`);
+                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}&page_size=${pageSize}`);
                 const { results, count, next } = response.data;
 
                 const articlesWithDetails = await Promise.all(results.map(async (article) => {
@@ -42,7 +42,7 @@ const Home = () => {
                 }));
                 setArticles(articlesWithDetails);
 
-                const totalPages = next ? Math.ceil(count / articlesPerPage) : page;
+                const totalPages = next ? Math.ceil(count / pageSize) : page;
                 setPageCount(totalPages);
 
             } catch (error) {
@@ -51,21 +51,21 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, [page, articlesPerPage, verifyAuth]);
+    }, [page, pageSize, verifyAuth]);
 
     const handlePageChange = (newPage) => {
         const params = { page: newPage };
-        if (articlesPerPage !== 3) {
-            params.articlesPerPage = articlesPerPage;
+        if (pageSize !== 3) {
+            params['page-size'] = pageSize;
         }
         setSearchParams(params);
     };
 
-    const handleArticlesPerPageChange = (e) => {
-        const newArticlesPerPage = parseInt(e.target.value);
+    const handlePageSizeChange = (e) => {
+        const newPageSize = parseInt(e.target.value);
         const params = { page: 1 };
-        if (newArticlesPerPage !== 3) {
-            params.articlesPerPage = newArticlesPerPage;
+        if (newPageSize !== 3) {
+            params['page-size'] = newPageSize;
         }
         setSearchParams(params);
     };
@@ -125,8 +125,8 @@ const Home = () => {
                         currentPage={page}
                         totalPages={pageCount}
                         onPageChange={handlePageChange}
-                        articlesPerPage={articlesPerPage}
-                        onArticlesPerPageChange={handleArticlesPerPageChange}
+                        pageSize={pageSize}
+                        onPageSizeChange={handlePageSizeChange}
                     />
                 </Col>
             </Row>

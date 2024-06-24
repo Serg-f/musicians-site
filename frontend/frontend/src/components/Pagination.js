@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Form } from 'react-bootstrap';
 
-const CustomPagination = ({ currentPage, totalPages, onPageChange, articlesPerPage, onArticlesPerPageChange }) => {
+const CustomPagination = ({ currentPage, totalPages, onPageChange, pageSize, onPageSizeChange }) => {
     const renderPageNumbers = () => {
         const pageNumbers = [];
         const maxPageNumbersToShow = 5;
@@ -79,8 +79,8 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange, articlesPerPa
                     <Col sm="auto">
                         <Form.Control
                             as="select"
-                            value={articlesPerPage}
-                            onChange={onArticlesPerPageChange}
+                            value={pageSize}
+                            onChange={onPageSizeChange}
                         >
                             <option value={3}>3</option>
                             <option value={5}>5</option>
