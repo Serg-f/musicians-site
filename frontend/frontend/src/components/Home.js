@@ -54,11 +54,20 @@ const Home = () => {
     }, [page, articlesPerPage, verifyAuth]);
 
     const handlePageChange = (newPage) => {
-        setSearchParams({ page: newPage, articlesPerPage });
+        const params = { page: newPage };
+        if (articlesPerPage !== 3) {
+            params.articlesPerPage = articlesPerPage;
+        }
+        setSearchParams(params);
     };
 
     const handleArticlesPerPageChange = (e) => {
-        setSearchParams({ page: 1, articlesPerPage: e.target.value });
+        const newArticlesPerPage = parseInt(e.target.value);
+        const params = { page: 1 };
+        if (newArticlesPerPage !== 3) {
+            params.articlesPerPage = newArticlesPerPage;
+        }
+        setSearchParams(params);
     };
 
     return (
