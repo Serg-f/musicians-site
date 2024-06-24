@@ -18,6 +18,7 @@ class FilterMixin:
 class MusiciansViewSet(FilterMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Musician.objects.filter(is_published=True)
     serializer_class = MusicianSerializer
+    page_size_query_param = 'page_size'
 
 
 class StylesViewSet(viewsets.ReadOnlyModelViewSet):
