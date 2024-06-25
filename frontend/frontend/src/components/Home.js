@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
@@ -34,20 +34,20 @@ const Home = () => {
 
     useEffect(() => {
         const fetchStyles = async () => {
-            try {
-                const cachedStyles = localStorage.getItem(CACHE_KEY);
-                const cacheExpiration = localStorage.getItem(CACHE_EXPIRATION_KEY);
+            const cachedStyles = localStorage.getItem(CACHE_KEY);
+            const cacheExpiration = localStorage.getItem(CACHE_EXPIRATION_KEY);
 
-                if (cachedStyles && cacheExpiration && new Date().getTime() < parseInt(cacheExpiration)) {
-                    setStyles(JSON.parse(cachedStyles));
-                } else {
+            if (cachedStyles && cacheExpiration && new Date().getTime() < parseInt(cacheExpiration)) {
+                setStyles(JSON.parse(cachedStyles));
+            } else {
+                try {
                     const response = await axios.get('http://localhost:8000/v1/styles/');
                     setStyles(response.data);
                     localStorage.setItem(CACHE_KEY, JSON.stringify(response.data));
                     localStorage.setItem(CACHE_EXPIRATION_KEY, (new Date().getTime() + CACHE_DURATION).toString());
+                } catch (error) {
+                    console.error('Error fetching styles:', error);
                 }
-            } catch (error) {
-                console.error('Error fetching styles:', error);
             }
         };
 
@@ -56,20 +56,20 @@ const Home = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            try {
-                const cachedUsers = localStorage.getItem(USERS_CACHE_KEY);
-                const usersCacheExpiration = localStorage.getItem(USERS_CACHE_EXPIRATION_KEY);
+            const cachedUsers = localStorage.getItem(USERS_CACHE_KEY);
+            const usersCacheExpiration = localStorage.getItem(USERS_CACHE_EXPIRATION_KEY);
 
-                if (cachedUsers && usersCacheExpiration && new Date().getTime() < parseInt(usersCacheExpiration)) {
-                    setUsers(JSON.parse(cachedUsers));
-                } else {
+            if (cachedUsers && usersCacheExpiration && new Date().getTime() < parseInt(usersCacheExpiration)) {
+                setUsers(JSON.parse(cachedUsers));
+            } else {
+                try {
                     const response = await axios.get('http://localhost:8020/users/');
                     setUsers(response.data);
                     localStorage.setItem(USERS_CACHE_KEY, JSON.stringify(response.data));
                     localStorage.setItem(USERS_CACHE_EXPIRATION_KEY, (new Date().getTime() + USERS_CACHE_DURATION).toString());
+                } catch (error) {
+                    console.error('Error fetching users:', error);
                 }
-            } catch (error) {
-                console.error('Error fetching users:', error);
             }
         };
 
@@ -85,23 +85,17 @@ const Home = () => {
                 const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}${authorQuery}`);
                 const { results, count, next } = response.data;
 
-                const articlesWithDetails = await Promise.all(results.map(async (article) => {
-                    const styleResponse = await axios.get(article.style);
-                    let authorName = 'Unknown';
-                    try {
-                        const authorResponse = await axios.get(`http://localhost:8020/users/${article.author_id}/`);
-                        authorName = authorResponse.data.username;
-                    } catch (error) {
-                        console.error('Error fetching author details:', error);
-                    }
+                const articlesWithDetails = results.map(article => {
+                    const style = styles.find(s => s.id === article.style) || { name: 'Unknown' };
+                    const author = users.find(u => u.id === article.author_id) || { username: 'Unknown' };
                     return {
                         ...article,
-                        styleName: styleResponse.data.name,
-                        authorName
+                        styleName: style.name,
+                        authorName: author.username,
                     };
-                }));
-                setArticles(articlesWithDetails);
+                });
 
+                setArticles(articlesWithDetails);
                 const totalPages = next ? Math.ceil(count / pageSize) : page;
                 setPageCount(totalPages);
 
@@ -111,7 +105,7 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, [page, pageSize, selectedStyles, selectedAuthor, users]);
+    }, [page, pageSize, selectedStyles, selectedAuthor, users, styles]);
 
     const handlePageChange = (newPage) => {
         const params = { page: newPage };
