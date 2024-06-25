@@ -2,9 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
-import StylesFilter from "./Filter";
-import AuthorFilter from './AuthorFilter';
-import CustomPagination from './Pagination'; // Import the custom pagination component
+import BaseFilter from './filters/BaseFilter';
+import CustomPagination from './Pagination';
 import { AuthContext } from '../context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
 
@@ -28,50 +27,56 @@ const Home = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('page-size') || '3');
-    const author = searchParams.get('author') || 'all';
 
     useEffect(() => {
         verifyAuth();
+    }, [verifyAuth]);
 
+    useEffect(() => {
         const fetchStyles = async () => {
-            const cachedStyles = localStorage.getItem(CACHE_KEY);
-            const cacheExpiration = localStorage.getItem(CACHE_EXPIRATION_KEY);
+            try {
+                const cachedStyles = localStorage.getItem(CACHE_KEY);
+                const cacheExpiration = localStorage.getItem(CACHE_EXPIRATION_KEY);
 
-            if (cachedStyles && cacheExpiration && new Date().getTime() < parseInt(cacheExpiration)) {
-                setStyles(JSON.parse(cachedStyles));
-            } else {
-                try {
+                if (cachedStyles && cacheExpiration && new Date().getTime() < parseInt(cacheExpiration)) {
+                    setStyles(JSON.parse(cachedStyles));
+                } else {
                     const response = await axios.get('http://localhost:8000/v1/styles/');
                     setStyles(response.data);
                     localStorage.setItem(CACHE_KEY, JSON.stringify(response.data));
                     localStorage.setItem(CACHE_EXPIRATION_KEY, (new Date().getTime() + CACHE_DURATION).toString());
-                } catch (error) {
-                    console.error('Error fetching styles:', error);
                 }
-            }
-        };
-
-        const fetchUsers = async () => {
-            const cachedUsers = localStorage.getItem(USERS_CACHE_KEY);
-            const usersCacheExpiration = localStorage.getItem(USERS_CACHE_EXPIRATION_KEY);
-
-            if (cachedUsers && usersCacheExpiration && new Date().getTime() < parseInt(usersCacheExpiration)) {
-                setUsers(JSON.parse(cachedUsers));
-            } else {
-                try {
-                    const response = await axios.get('http://localhost:8020/users/');
-                    setUsers(response.data);
-                    localStorage.setItem(USERS_CACHE_KEY, JSON.stringify(response.data));
-                    localStorage.setItem(USERS_CACHE_EXPIRATION_KEY, (new Date().getTime() + USERS_CACHE_DURATION).toString());
-                } catch (error) {
-                    console.error('Error fetching users:', error);
-                }
+            } catch (error) {
+                console.error('Error fetching styles:', error);
             }
         };
 
         fetchStyles();
-        fetchUsers();
+    }, []);
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const cachedUsers = localStorage.getItem(USERS_CACHE_KEY);
+                const usersCacheExpiration = localStorage.getItem(USERS_CACHE_EXPIRATION_KEY);
+
+                if (cachedUsers && usersCacheExpiration && new Date().getTime() < parseInt(usersCacheExpiration)) {
+                    setUsers(JSON.parse(cachedUsers));
+                } else {
+                    const response = await axios.get('http://localhost:8020/users/');
+                    setUsers(response.data);
+                    localStorage.setItem(USERS_CACHE_KEY, JSON.stringify(response.data));
+                    localStorage.setItem(USERS_CACHE_EXPIRATION_KEY, (new Date().getTime() + USERS_CACHE_DURATION).toString());
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    useEffect(() => {
         const fetchArticles = async () => {
             try {
                 const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
@@ -106,7 +111,7 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, [page, pageSize, selectedStyles, selectedAuthor, verifyAuth]);
+    }, [page, pageSize, selectedStyles, selectedAuthor, users]);
 
     const handlePageChange = (newPage) => {
         const params = { page: newPage };
@@ -183,12 +188,10 @@ const Home = () => {
         <BaseLayout>
             <Row>
                 <Col lg={3}>
-                    <StylesFilter
+                    <BaseFilter
                         selectedStyles={selectedStyles}
                         onStyleChange={handleStyleChange}
                         styles={styles}
-                    />
-                    <AuthorFilter
                         selectedAuthor={selectedAuthor}
                         onAuthorChange={handleAuthorChange}
                         users={users}
