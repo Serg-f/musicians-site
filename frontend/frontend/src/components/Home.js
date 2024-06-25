@@ -1,3 +1,4 @@
+// frontend/src/components/Home.js
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
@@ -22,7 +23,8 @@ const Home = () => {
 
         const fetchArticles = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}&page_size=${pageSize}`);
+                const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
+                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}&page_size=${pageSize}${stylesQuery}`);
                 const { results, count, next } = response.data;
 
                 const articlesWithDetails = await Promise.all(results.map(async (article) => {
@@ -51,7 +53,7 @@ const Home = () => {
         };
 
         fetchArticles();
-    }, [page, pageSize, verifyAuth]);
+    }, [page, pageSize, selectedStyles, verifyAuth]);
 
     const handlePageChange = (newPage) => {
         const params = { page: newPage };
@@ -70,13 +72,18 @@ const Home = () => {
         setSearchParams(params);
     };
 
+    const handleStyleChange = (newSelectedStyles) => {
+        setSelectedStyles(newSelectedStyles);
+        setSearchParams({ 'page-size': pageSize }); // Reset page to 1 and keep the page size
+    };
+
     return (
         <BaseLayout>
             <Row>
                 <Col lg={3}>
                     <StylesFilter
                         selectedStyles={selectedStyles}
-                        onStyleChange={setSelectedStyles}
+                        onStyleChange={handleStyleChange}
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">

@@ -249,6 +249,7 @@ paths:
       - validate-token
       security:
       - jwtAuth: []
+      - {}
       responses:
         '200':
           description: No response body

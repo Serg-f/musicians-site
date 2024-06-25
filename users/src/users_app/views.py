@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenVerifyView
@@ -30,12 +30,12 @@ def validate_token(request):
 class UsersViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CustomUser.objects.filter(is_staff=False)
     serializer_class = UserPublicSerializer
-    permission_classes = [AllowAny]
 
 
 class ProfileView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user

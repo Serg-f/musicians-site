@@ -24,6 +24,7 @@ class MusiciansViewSet(FilterMixin, viewsets.ReadOnlyModelViewSet):
 class StylesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Style.objects.all()
     serializer_class = StyleSerializer
+    pagination_class = None
 
 
 class AuthorMusiciansViewSet(FilterMixin, viewsets.ModelViewSet):
