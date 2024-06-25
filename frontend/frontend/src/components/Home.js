@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
-import StylesFilter from "./StylesFilter";
+import StylesFilter from "./Filter";
 import CustomPagination from './Pagination'; // Import the custom pagination component
 import { AuthContext } from '../context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
@@ -12,6 +12,7 @@ const Home = () => {
     const [articles, setArticles] = useState([]);
     const [selectedStyles, setSelectedStyles] = useState([]);
     const [pageCount, setPageCount] = useState(0);
+    const [styles, setStyles] = useState([]);
     const { user, isAuthenticated, verifyAuth } = useContext(AuthContext);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -21,10 +22,22 @@ const Home = () => {
     useEffect(() => {
         verifyAuth();
 
+        const fetchStyles = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/v1/styles/');
+                setStyles(response.data);
+            } catch (error) {
+                console.error('Error fetching styles:', error);
+            }
+        };
+
+        fetchStyles();
+
         const fetchArticles = async () => {
             try {
                 const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
-                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}&page_size=${pageSize}${stylesQuery}`);
+                const pageSizeQuery = pageSize !== 3 ? `&page_size=${pageSize}` : '';
+                const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}`);
                 const { results, count, next } = response.data;
 
                 const articlesWithDetails = await Promise.all(results.map(async (article) => {
@@ -60,6 +73,12 @@ const Home = () => {
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
+        if (selectedStyles.length > 0) {
+            params['style'] = selectedStyles.map(styleId => {
+                const style = styles.find(s => s.id === styleId);
+                return style ? style.slug : '';
+            }).join(',');
+        }
         setSearchParams(params);
     };
 
@@ -69,12 +88,28 @@ const Home = () => {
         if (newPageSize !== 3) {
             params['page-size'] = newPageSize;
         }
+        if (selectedStyles.length > 0) {
+            params['style'] = selectedStyles.map(styleId => {
+                const style = styles.find(s => s.id === styleId);
+                return style ? style.slug : '';
+            }).join(',');
+        }
         setSearchParams(params);
     };
 
     const handleStyleChange = (newSelectedStyles) => {
         setSelectedStyles(newSelectedStyles);
-        setSearchParams({ 'page-size': pageSize }); // Reset page to 1 and keep the page size
+        const params = { page: 1 };
+        if (pageSize !== 3) {
+            params['page-size'] = pageSize;
+        }
+        if (newSelectedStyles.length > 0) {
+            params['style'] = newSelectedStyles.map(styleId => {
+                const style = styles.find(s => s.id === styleId);
+                return style ? style.slug : '';
+            }).join(',');
+        }
+        setSearchParams(params);
     };
 
     return (
@@ -84,6 +119,7 @@ const Home = () => {
                     <StylesFilter
                         selectedStyles={selectedStyles}
                         onStyleChange={handleStyleChange}
+                        styles={styles}
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">

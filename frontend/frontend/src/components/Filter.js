@@ -1,23 +1,8 @@
 // src/components/StylesFilter.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Form, ListGroup } from 'react-bootstrap';
-import axios from 'axios';
 
-const StylesFilter = ({ selectedStyles, onStyleChange }) => {
-    const [styles, setStyles] = useState([]);
-
-    useEffect(() => {
-        const fetchStyles = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/v1/styles/');
-                setStyles(response.data);
-            } catch (error) {
-                console.error('Error fetching styles:', error);
-            }
-        };
-        fetchStyles();
-    }, []);
-
+const StylesFilter = ({ selectedStyles, onStyleChange, styles }) => {
     const handleStyleChange = (event) => {
         const value = parseInt(event.target.value); // Ensure the value is an integer
         let newSelectedStyles;
