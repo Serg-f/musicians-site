@@ -1,4 +1,3 @@
-// frontend/src/components/Home.js
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
@@ -7,6 +6,10 @@ import StylesFilter from "./Filter";
 import CustomPagination from './Pagination'; // Import the custom pagination component
 import { AuthContext } from '../context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
+
+const CACHE_KEY = 'stylesCache';
+const CACHE_EXPIRATION_KEY = 'stylesCacheExpiration';
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
 
 const Home = () => {
     const [articles, setArticles] = useState([]);
@@ -23,11 +26,20 @@ const Home = () => {
         verifyAuth();
 
         const fetchStyles = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/v1/styles/');
-                setStyles(response.data);
-            } catch (error) {
-                console.error('Error fetching styles:', error);
+            const cachedStyles = localStorage.getItem(CACHE_KEY);
+            const cacheExpiration = localStorage.getItem(CACHE_EXPIRATION_KEY);
+
+            if (cachedStyles && cacheExpiration && new Date().getTime() < parseInt(cacheExpiration)) {
+                setStyles(JSON.parse(cachedStyles));
+            } else {
+                try {
+                    const response = await axios.get('http://localhost:8000/v1/styles/');
+                    setStyles(response.data);
+                    localStorage.setItem(CACHE_KEY, JSON.stringify(response.data));
+                    localStorage.setItem(CACHE_EXPIRATION_KEY, (new Date().getTime() + CACHE_DURATION).toString());
+                } catch (error) {
+                    console.error('Error fetching styles:', error);
+                }
             }
         };
 
