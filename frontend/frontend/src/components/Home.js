@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useMemo } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
@@ -78,15 +78,17 @@ const Home = () => {
 
     useEffect(() => {
         const fetchArticles = async () => {
+            const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
+            const pageSizeQuery = pageSize !== 3 ? `&page_size=${pageSize}` : '';
+            const authorQuery = selectedAuthor !== 'all' ? `&author_id=${users.find(user => user.username === selectedAuthor)?.id}` : '';
+
             try {
-                const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
-                const pageSizeQuery = pageSize !== 3 ? `&page_size=${pageSize}` : '';
-                const authorQuery = selectedAuthor !== 'all' ? `&author_id=${users.find(user => user.username === selectedAuthor)?.id}` : '';
                 const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}${authorQuery}`);
                 const { results, count, next } = response.data;
 
                 const articlesWithDetails = results.map(article => {
-                    const style = styles.find(s => s.id === article.style) || { name: 'Unknown' };
+                    const styleId = parseInt(article.style.split('/').slice(-2, -1)[0]);
+                    const style = styles.find(s => s.id === styleId) || { name: 'Unknown' };
                     const author = users.find(u => u.id === article.author_id) || { username: 'Unknown' };
                     return {
                         ...article,
@@ -104,7 +106,9 @@ const Home = () => {
             }
         };
 
-        fetchArticles();
+        if (users.length > 0 && styles.length > 0) {
+            fetchArticles();
+        }
     }, [page, pageSize, selectedStyles, selectedAuthor, users, styles]);
 
     const handlePageChange = (newPage) => {
