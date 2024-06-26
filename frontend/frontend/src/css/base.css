@@ -16,3 +16,9 @@ footer {
     color: #ccc;
     font-size: 0.9em;
 }
+
+.btn:focus, .btn:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid red;
+}
