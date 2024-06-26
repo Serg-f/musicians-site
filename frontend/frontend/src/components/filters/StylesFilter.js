@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, ListGroup } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 const StylesFilter = ({ selectedStyles, onStyleChange, styles }) => {
     const handleStyleChange = (event) => {
@@ -14,21 +14,19 @@ const StylesFilter = ({ selectedStyles, onStyleChange, styles }) => {
     };
 
     return (
-        <div className="sticky-menu">
-            <ListGroup>
-                {styles.map(style => (
-                    <ListGroup.Item key={style.id}>
-                        <Form.Check
-                            type="checkbox"
-                            label={style.name}
-                            value={style.id}
-                            checked={selectedStyles.includes(style.id)}
-                            onChange={handleStyleChange}
-                        />
-                    </ListGroup.Item>
-                ))}
-            </ListGroup>
-        </div>
+        <Form>
+            {styles.map(style => (
+                <Form.Check
+                    type="checkbox"
+                    id={`style-${style.id}`}
+                    label={style.name}
+                    value={style.id}
+                    checked={selectedStyles.includes(style.id)}
+                    onChange={handleStyleChange}
+                    key={style.id}
+                />
+            ))}
+        </Form>
     );
 };
 

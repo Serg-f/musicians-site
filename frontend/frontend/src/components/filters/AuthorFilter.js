@@ -3,27 +3,27 @@ import { Form } from 'react-bootstrap';
 
 const AuthorFilter = ({ selectedAuthor, onAuthorChange, users }) => {
     return (
-        <div className="sticky-menu">
-            <Form>
+        <Form>
+            <Form.Check
+                type="radio"
+                id="author-all"
+                label="All"
+                value="all"
+                checked={selectedAuthor === 'all'}
+                onChange={() => onAuthorChange('all')}
+            />
+            {users.map(user => (
                 <Form.Check
                     type="radio"
-                    label="All"
-                    value="all"
-                    checked={selectedAuthor === 'all'}
-                    onChange={() => onAuthorChange('all')}
+                    id={`author-${user.id}`}
+                    label={user.username}
+                    value={user.username}
+                    checked={selectedAuthor === user.username}
+                    onChange={() => onAuthorChange(user.username)}
+                    key={user.id}
                 />
-                {users.map(user => (
-                    <Form.Check
-                        type="radio"
-                        label={user.username}
-                        value={user.username}
-                        checked={selectedAuthor === user.username}
-                        onChange={() => onAuthorChange(user.username)}
-                        key={user.id}
-                    />
-                ))}
-            </Form>
-        </div>
+            ))}
+        </Form>
     );
 };
 

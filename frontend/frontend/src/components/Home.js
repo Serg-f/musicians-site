@@ -179,6 +179,12 @@ const Home = () => {
         setSearchParams(params);
     };
 
+    const clearFilters = () => {
+        setSelectedStyles([]);
+        setSelectedAuthor('all');
+        setSearchParams({ page: 1, 'page-size': pageSize });
+    };
+
     return (
         <BaseLayout>
             <Row>
@@ -190,6 +196,7 @@ const Home = () => {
                         selectedAuthor={selectedAuthor}
                         onAuthorChange={handleAuthorChange}
                         users={users}
+                        clearFilters={clearFilters}
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">
