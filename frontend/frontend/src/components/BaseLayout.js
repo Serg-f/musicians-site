@@ -10,7 +10,7 @@ const BaseLayout = ({children}) => {
         <div className="d-flex flex-column" style={{minHeight: "100vh"}}>
             <MyNavbar/>
 
-            <Container fluid className="container flex-grow-1 mt-2 mt-md-5">
+            <Container fluid className="container flex-grow-1 mt-2 mt-md-4">
                 {children}
 
             </Container>

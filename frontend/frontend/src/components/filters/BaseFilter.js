@@ -27,7 +27,7 @@ const BaseFilter = ({ selectedStyles, onStyleChange, styles, selectedAuthor, onA
                     />
                 </Card.Body>
             </Card>
-            <Button variant="secondary" onClick={clearFilters} className="mt-3">Clear Filters</Button>
+            <Button variant="secondary" onClick={clearFilters} className="mb-3">Clear Filters</Button>
         </div>
     );
 };

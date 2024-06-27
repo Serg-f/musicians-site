@@ -6,6 +6,7 @@ import BaseFilter from './filters/BaseFilter';
 import CustomPagination from './Pagination';
 import {AuthContext} from '../context/AuthContext';
 import {useSearchParams} from 'react-router-dom';
+import Search from './Search'; // Import Search component
 
 const CACHE_KEY = 'stylesCache';
 const CACHE_EXPIRATION_KEY = 'stylesCacheExpiration';
@@ -27,6 +28,7 @@ const Home = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('page-size') || '3');
+    const searchTerm = searchParams.get('search') || '';
 
     const fetchStyles = useCallback(async () => {
         const cachedStyles = localStorage.getItem(CACHE_KEY);
@@ -68,9 +70,10 @@ const Home = () => {
         const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
         const pageSizeQuery = pageSize !== 3 ? `&page_size=${pageSize}` : '';
         const authorQuery = selectedAuthor !== 'all' ? `&author_id=${users.find(user => user.username === selectedAuthor)?.id}` : '';
+        const searchQuery = searchTerm ? `&search=${searchTerm}` : '';
 
         try {
-            const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}${authorQuery}`);
+            const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}${authorQuery}${searchQuery}`);
             const {results, count, next} = response.data;
 
             const articlesWithDetails = results.map(article => {
@@ -91,7 +94,7 @@ const Home = () => {
         } catch (error) {
             console.error('There was an error fetching the articles!', error);
         }
-    }, [page, pageSize, selectedStyles, selectedAuthor, users, styles]);
+    }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, searchTerm]);
 
     useEffect(() => {
         verifyAuth();
@@ -122,6 +125,9 @@ const Home = () => {
         if (selectedAuthor !== 'all') {
             params['author'] = selectedAuthor;
         }
+        if (searchTerm) {
+            params['search'] = searchTerm;
+        }
         setSearchParams(params);
     };
 
@@ -139,6 +145,9 @@ const Home = () => {
         }
         if (selectedAuthor !== 'all') {
             params['author'] = selectedAuthor;
+        }
+        if (searchTerm) {
+            params['search'] = searchTerm;
         }
         setSearchParams(params);
     };
@@ -158,6 +167,9 @@ const Home = () => {
         if (selectedAuthor !== 'all') {
             params['author'] = selectedAuthor;
         }
+        if (searchTerm) {
+            params['search'] = searchTerm;
+        }
         setSearchParams(params);
     };
 
@@ -175,6 +187,9 @@ const Home = () => {
         }
         if (newAuthor !== 'all') {
             params['author'] = newAuthor;
+        }
+        if (searchTerm) {
+            params['search'] = searchTerm;
         }
         setSearchParams(params);
     };
@@ -213,6 +228,7 @@ const Home = () => {
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">
+                    <Search /> {/* Add the Search component */}
                     <Row>
                         {articles.length > 0 ? articles.map(article => (
                             <Col key={article.id} lg={12} className="mb-4">
