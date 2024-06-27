@@ -254,8 +254,8 @@ const Home = () => {
                                         <h5 className="mt-2">{article.title}</h5>
                                         <p>{article.content.substring(0, 300)}...</p>
                                         <div className="d-flex">
-                                            <Button variant="primary" href={`/articles/${article.id}`}>Read
-                                                article</Button>
+                                            <Button variant="primary" href={`/articles/${article.id}`}>Read article</Button>
+
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
                                                     <Button variant="secondary"

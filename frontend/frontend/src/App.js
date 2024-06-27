@@ -8,6 +8,7 @@ import AddArticle from './components/AddArticle';
 import Contact from './components/Contact';
 import About from './components/About';
 import Login from './components/Login';
+import ArticleDetail from './components/ArticleDetail';  // Import ArticleDetail
 import { AuthContext, AuthProvider } from './context/AuthContext';
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/articles/:id" element={<ArticleDetail />} />  {/* Add the route */}
             </Routes>
         </Router>
     );
