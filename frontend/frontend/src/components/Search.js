@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Form, FormControl, Button, Row, Col} from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
+import {useSearchParams} from 'react-router-dom';
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -12,7 +12,7 @@ const Search = () => {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        const params = { page: 1, 'page-size': searchParams.get('page-size') || 3 };
+        const params = {page: 1, 'page-size': searchParams.get('page-size') || 3};
         if (searchTerm) {
             params['search'] = searchTerm;
         }
@@ -20,7 +20,7 @@ const Search = () => {
     };
 
     return (
-        <Form onSubmit={handleSearchSubmit} inline>
+        <Form onSubmit={handleSearchSubmit}>
             <Row>
                 <Col>
                     <FormControl
