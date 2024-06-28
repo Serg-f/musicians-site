@@ -1,4 +1,3 @@
-// src/components/AddArticle.js
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -20,12 +19,17 @@ const AddArticle = () => {
     const [fieldErrors, setFieldErrors] = useState({});
 
     useEffect(() => {
-        const fetchStyles = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/v1/styles/');
-                setStyles(response.data);
-            } catch (err) {
-                console.error('Error fetching styles:', err);
+        const fetchStyles = () => {
+            const stylesCache = localStorage.getItem('stylesCache');
+            if (stylesCache) {
+                try {
+                    const parsedStyles = JSON.parse(stylesCache);
+                    setStyles(parsedStyles);
+                } catch (err) {
+                    console.error('Error parsing styles from local storage:', err);
+                }
+            } else {
+                console.error('No styles found in local storage.');
             }
         };
 
