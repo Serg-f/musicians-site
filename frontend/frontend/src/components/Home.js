@@ -1,11 +1,11 @@
-import React, {useEffect, useState, useContext, useCallback} from 'react';
+import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import axios from 'axios';
-import {Row, Col, Button} from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import BaseFilter from './filters/BaseFilter';
 import CustomPagination from './Pagination';
-import {AuthContext} from '../context/AuthContext';
-import {useSearchParams} from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { useSearchParams } from 'react-router-dom';
 import Search from './Search'; // Import Search component
 
 const CACHE_KEY = 'stylesCache';
@@ -23,12 +23,15 @@ const Home = () => {
     const [styles, setStyles] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedAuthor, setSelectedAuthor] = useState('all');
-    const {user, isAuthenticated, verifyAuth} = useContext(AuthContext);
+    const { user, isAuthenticated, verifyAuth } = useContext(AuthContext);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('page-size') || '3');
     const searchTerm = searchParams.get('search') || '';
+
+    const styleParams = useMemo(() => searchParams.get('style') ? searchParams.get('style').split(',') : [], [searchParams]);
+    const authorParam = useMemo(() => searchParams.get('author') || 'all', [searchParams]);
 
     const fetchStyles = useCallback(async () => {
         const cachedStyles = localStorage.getItem(CACHE_KEY);
@@ -67,19 +70,19 @@ const Home = () => {
     }, []);
 
     const fetchArticles = useCallback(async () => {
-        const stylesQuery = selectedStyles.length > 0 ? `&style=${selectedStyles.join(',')}` : '';
+        const stylesQuery = selectedStyles.length > 0 ? `&style=${encodeURIComponent(selectedStyles.join(','))}` : '';
         const pageSizeQuery = pageSize !== 3 ? `&page_size=${pageSize}` : '';
         const authorQuery = selectedAuthor !== 'all' ? `&author_id=${users.find(user => user.username === selectedAuthor)?.id}` : '';
-        const searchQuery = searchTerm ? `&search=${searchTerm}` : '';
+        const searchQuery = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
 
         try {
             const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}${authorQuery}${searchQuery}`);
-            const {results, count, next} = response.data;
+            const { results, count, next } = response.data;
 
             const articlesWithDetails = results.map(article => {
                 const styleId = parseInt(article.style.split('/').slice(-2, -1)[0]);
-                const style = styles.find(s => s.id === styleId) || {name: 'Unknown'};
-                const author = users.find(u => u.id === article.author_id) || {username: 'Unknown'};
+                const style = styles.find(s => s.id === styleId) || { name: 'Unknown' };
+                const author = users.find(u => u.id === article.author_id) || { username: 'Unknown' };
                 return {
                     ...article,
                     styleName: style.name,
@@ -111,8 +114,16 @@ const Home = () => {
         }
     }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, fetchArticles]);
 
+    useEffect(() => {
+        // Set filters based on URL query parameters
+        if (styles.length > 0) {
+            setSelectedStyles(styles.filter(style => styleParams.includes(style.slug)).map(style => style.id));
+        }
+        setSelectedAuthor(authorParam);
+    }, [styles, users, styleParams, authorParam]);
+
     const handlePageChange = (newPage) => {
-        const params = {page: newPage};
+        const params = { page: newPage };
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -133,7 +144,7 @@ const Home = () => {
 
     const handlePageSizeChange = (e) => {
         const newPageSize = parseInt(e.target.value);
-        const params = {page: 1};
+        const params = { page: 1 };
         if (newPageSize !== 3) {
             params['page-size'] = newPageSize;
         }
@@ -154,7 +165,7 @@ const Home = () => {
 
     const handleStyleChange = (newSelectedStyles) => {
         setSelectedStyles(newSelectedStyles);
-        const params = {page: 1};
+        const params = { page: 1 };
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -175,7 +186,7 @@ const Home = () => {
 
     const handleAuthorChange = (newAuthor) => {
         setSelectedAuthor(newAuthor);
-        const params = {page: 1};
+        const params = { page: 1 };
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -197,7 +208,7 @@ const Home = () => {
     const clearFilters = () => {
         setSelectedStyles([]);
         setSelectedAuthor('all');
-        setSearchParams({page: 1, 'page-size': pageSize});
+        setSearchParams({ page: 1, 'page-size': pageSize });
     };
 
     const handleStyleClick = (styleName) => {
@@ -236,19 +247,19 @@ const Home = () => {
                                     {article.photo && (
                                         <Col md="auto" className="mb-3 mb-md-0">
                                             <img src={article.photo} alt={article.title} className="img-fluid"
-                                                 style={{maxWidth: '300px', width: '100%', height: 'auto'}}/>
+                                                style={{ maxWidth: '300px', width: '100%', height: 'auto' }} />
                                         </Col>
                                     )}
                                     <Col>
                                         <p className="text-muted">
                                             Style: <button
-                                            className="btn btn-link text-decoration-underline text-primary p-0"
-                                            onClick={() => handleStyleClick(article.styleName)}>{article.styleName}</button>
+                                                className="btn btn-link text-decoration-underline text-primary p-0"
+                                                onClick={() => handleStyleClick(article.styleName)}>{article.styleName}</button>
                                         </p>
                                         <p className="text-muted">
                                             Author: <button
-                                            className="btn btn-link text-decoration-underline text-primary p-0"
-                                            onClick={() => handleAuthorClick(article.authorName)}>{article.authorName}</button>
+                                                className="btn btn-link text-decoration-underline text-primary p-0"
+                                                onClick={() => handleAuthorClick(article.authorName)}>{article.authorName}</button>
                                         </p>
                                         <p className="text-muted">Created: {new Date(article.time_create).toLocaleString()}</p>
                                         <h5 className="mt-2">{article.title}</h5>
@@ -259,10 +270,10 @@ const Home = () => {
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
                                                     <Button variant="secondary"
-                                                            href={`/articles/edit/${article.id}`}
-                                                            style={{margin: '0 5px'}}>Edit</Button>
+                                                        href={`/articles/edit/${article.id}`}
+                                                        style={{ margin: '0 5px' }}>Edit</Button>
                                                     <Button variant="danger"
-                                                            href={`/articles/delete/${article.id}`}>Delete</Button>
+                                                        href={`/articles/delete/${article.id}`}>Delete</Button>
                                                 </>
                                             )}
                                         </div>
