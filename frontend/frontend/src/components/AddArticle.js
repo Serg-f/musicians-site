@@ -1,3 +1,4 @@
+// src/components/AddArticle.js
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,6 +14,7 @@ const AddArticle = () => {
     const [style, setStyle] = useState('');
     const [styles, setStyles] = useState([]);
     const [photo, setPhoto] = useState(null);
+    const [photoURL, setPhotoURL] = useState('');
     const [video, setVideo] = useState('');
     const [isPublished, setIsPublished] = useState(false);
     const [error, setError] = useState(null);
@@ -62,6 +64,11 @@ const AddArticle = () => {
                 setError('Error creating article. Please try again.');
             }
         }
+    };
+
+    const handlePhotoChange = (e) => {
+        setPhoto(e.target.files[0]);
+        setPhotoURL(URL.createObjectURL(e.target.files[0])); // Update the photo URL
     };
 
     return (
@@ -129,8 +136,13 @@ const AddArticle = () => {
                                 <Form.Label>Photo</Form.Label>
                                 <Form.Control
                                     type="file"
-                                    onChange={(e) => setPhoto(e.target.files[0])}
+                                    onChange={handlePhotoChange}
                                 />
+                                {photoURL && (
+                                    <div>
+                                        <img src={photoURL} alt="Selected" style={{ maxHeight: '200px', marginTop: '10px' }} />
+                                    </div>
+                                )}
                                 {fieldErrors.photo && (
                                     <Alert variant="danger">
                                         {fieldErrors.photo.join(' ')}
