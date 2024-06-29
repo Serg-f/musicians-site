@@ -1,5 +1,5 @@
 // src/context/AuthContext.js
-import React, { createContext, useState, useCallback } from 'react';
+import React, { createContext, useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const setAuthorizationHeader = (token) => {
         if (token) {
@@ -43,9 +44,12 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const verifyAuth = useCallback(async () => {
+        setLoading(true);  // Set loading state to true
         const token = localStorage.getItem('access_token');
         if (!token) {
             setIsAuthenticated(false);
+            console.log("verifyAuth: No token found"); // Debug log
+            setLoading(false);  // Set loading state to false
             return;
         }
 
@@ -57,6 +61,7 @@ export const AuthProvider = ({ children }) => {
                 const profile = await getUserProfile();
                 setUser(profile);
                 setIsAuthenticated(true);
+                console.log("verifyAuth: User is authenticated"); // Debug log
             }
         } catch (error) {
             console.error('Token verification failed:', error);
@@ -65,11 +70,19 @@ export const AuthProvider = ({ children }) => {
                 const profile = await getUserProfile();
                 setUser(profile);
                 setIsAuthenticated(true);
+                console.log("verifyAuth: Token refreshed, user is authenticated"); // Debug log
             } else {
                 setIsAuthenticated(false);
+                console.log("verifyAuth: Token verification and refresh failed"); // Debug log
             }
+        } finally {
+            setLoading(false);  // Set loading state to false
         }
     }, [refreshToken]);
+
+    useEffect(() => {
+        verifyAuth();
+    }, [verifyAuth]);
 
     const logout = () => {
         localStorage.removeItem('access_token');
@@ -80,7 +93,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, verifyAuth, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, verifyAuth, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

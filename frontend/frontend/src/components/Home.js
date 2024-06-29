@@ -270,7 +270,7 @@ const Home = () => {
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
                                                     <Button variant="secondary"
-                                                        href={`/articles/edit/${article.id}`}
+                                                        href={`/article/edit/${article.id}`}
                                                         style={{ margin: '0 5px' }}>Edit</Button>
                                                     <Button variant="danger"
                                                         href={`/articles/delete/${article.id}`}>Delete</Button>
