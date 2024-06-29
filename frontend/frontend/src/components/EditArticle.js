@@ -13,18 +13,25 @@ const EditArticle = () => {
     const [style, setStyle] = useState('');
     const [styles, setStyles] = useState([]);
     const [photo, setPhoto] = useState(null);
+    const [photoURL, setPhotoURL] = useState('');
+    const [photoName, setPhotoName] = useState('');
     const [video, setVideo] = useState('');
     const [isPublished, setIsPublished] = useState(false);
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({});
 
     useEffect(() => {
-        const fetchStyles = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/v1/styles/');
-                setStyles(response.data);
-            } catch (err) {
-                console.error('Error fetching styles:', err);
+        const fetchStyles = () => {
+            const stylesCache = localStorage.getItem('stylesCache');
+            if (stylesCache) {
+                try {
+                    const parsedStyles = JSON.parse(stylesCache);
+                    setStyles(parsedStyles);
+                } catch (err) {
+                    console.error('Error parsing styles from local storage:', err);
+                }
+            } else {
+                console.error('No styles found in local storage.');
             }
         };
 
@@ -35,7 +42,8 @@ const EditArticle = () => {
                 setTitle(article.title);
                 setContent(article.content);
                 setStyle(article.style);
-                setPhoto(article.photo);
+                setPhotoURL(article.photo);
+                setPhotoName(article.photo.split('/').pop()); // Extract the photo name
                 setVideo(article.video);
                 setIsPublished(article.is_published);
             } catch (err) {
@@ -64,7 +72,7 @@ const EditArticle = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            navigate(`/articles/${id}`);
+            navigate(`/`);
         } catch (err) {
             if (err.response && err.response.data) {
                 setFieldErrors(err.response.data);
@@ -74,9 +82,15 @@ const EditArticle = () => {
         }
     };
 
+    const handlePhotoChange = (e) => {
+        setPhoto(e.target.files[0]);
+        setPhotoName(e.target.files[0].name); // Update the photo name when a new file is selected
+        setPhotoURL(URL.createObjectURL(e.target.files[0])); // Update the photo URL
+    };
+
     return (
         <BaseLayout>
-            <Container className="mt-4">
+            <Container className="mt-4 mb-4">
                 <Row>
                     <Col>
                         <h1>Edit Article</h1>
@@ -139,8 +153,18 @@ const EditArticle = () => {
                                 <Form.Label>Photo</Form.Label>
                                 <Form.Control
                                     type="file"
-                                    onChange={(e) => setPhoto(e.target.files[0])}
+                                    onChange={handlePhotoChange}
                                 />
+                                {photoName && (
+                                    <div>
+                                        <strong>Current Photo:</strong> {photoName}
+                                    </div>
+                                )}
+                                {photoURL && (
+                                    <div>
+                                        <img src={photoURL} alt="Selected" style={{ maxHeight: '200px', marginTop: '10px' }} />
+                                    </div>
+                                )}
                                 {fieldErrors.photo && (
                                     <Alert variant="danger">
                                         {fieldErrors.photo.join(' ')}
