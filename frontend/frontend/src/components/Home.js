@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import axios from 'axios';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import BaseFilter from './filters/BaseFilter';
 import CustomPagination from './Pagination';
 import { AuthContext } from '../context/AuthContext';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Search from './Search'; // Import Search component
 
 const CACHE_KEY = 'stylesCache';
@@ -24,8 +24,11 @@ const Home = () => {
     const [users, setUsers] = useState([]);
     const [selectedAuthor, setSelectedAuthor] = useState('all');
     const { user, isAuthenticated, verifyAuth } = useContext(AuthContext);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [articleToDelete, setArticleToDelete] = useState(null); // State to hold the article to be deleted
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate(); // Define navigate
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('page-size') || '3');
     const searchTerm = searchParams.get('search') || '';
@@ -76,7 +79,7 @@ const Home = () => {
         const searchQuery = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
 
         try {
-            const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${pageSizeQuery}${stylesQuery}${authorQuery}${searchQuery}`);
+            const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}`);
             const { results, count, next } = response.data;
 
             const articlesWithDetails = results.map(article => {
@@ -224,6 +227,16 @@ const Home = () => {
         handleAuthorChange(authorName);
     };
 
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:8000/v1/author/musicians/${articleToDelete}/`);
+            setShowConfirm(false); // Close the confirmation modal
+            fetchArticles(); // Fetch articles again to update the list
+        } catch (error) {
+            console.error('Error deleting article:', error);
+        }
+    };
+
     return (
         <BaseLayout>
             <Row>
@@ -269,11 +282,22 @@ const Home = () => {
 
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
-                                                    <Button variant="secondary"
-                                                        href={`/article/edit/${article.id}`}
-                                                        style={{ margin: '0 5px' }}>Edit</Button>
-                                                    <Button variant="danger"
-                                                        href={`/articles/delete/${article.id}`}>Delete</Button>
+                                                    <Button
+                                                        variant="secondary"
+                                                        onClick={() => navigate(`/article/edit/${article.id}`)}
+                                                        className="mr-2 ml-2"
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                    <Button
+                                                        variant="danger"
+                                                        onClick={() => {
+                                                            setShowConfirm(true);
+                                                            setArticleToDelete(article.id); // Set the article id to be deleted
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </Button>
                                                 </>
                                             )}
                                         </div>
@@ -298,6 +322,25 @@ const Home = () => {
                     />
                 </Col>
             </Row>
+
+            <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
+                <Modal.Header>
+                    <Modal.Title>Confirm Delete</Modal.Title>
+                    <CloseButton onClick={() => setShowConfirm(false)} />
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete this article?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowConfirm(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </BaseLayout>
     );
 }

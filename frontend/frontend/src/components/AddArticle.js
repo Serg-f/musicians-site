@@ -73,7 +73,7 @@ const AddArticle = () => {
 
     return (
         <BaseLayout>
-            <Container className="mt-4">
+            <Container className="mt-4 mb-4">
                 <Row>
                     <Col>
                         <h1>Create New Article</h1>

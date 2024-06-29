@@ -1,9 +1,8 @@
-// src/components/ArticleDetail.js
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import ReactPlayer from 'react-player';
 
@@ -14,6 +13,7 @@ const ArticleDetail = () => {
     const navigate = useNavigate();
     const CACHE_KEY = 'stylesCache';
     const USERS_CACHE_KEY = 'usersCache';
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const fetchArticle = useCallback(async () => {
         try {
@@ -53,9 +53,18 @@ const ArticleDetail = () => {
     const styleName = getStyleName(article.style);
     const authorName = getAuthorName(article.author_id);
 
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:8000/v1/author/musicians/${id}/`);
+            navigate('/');
+        } catch (error) {
+            console.error('Error deleting article:', error);
+        }
+    };
+
     return (
         <BaseLayout>
-            <Container className="mt-4">
+            <Container className="mt-4 mb-4">
                 <h1>{article.title}</h1>
                 <Row>
                     <Col lg={8}>
@@ -101,14 +110,14 @@ const ArticleDetail = () => {
                             <>
                                 <Button
                                     variant="secondary"
-                                    onClick={() => navigate(`/articles/edit/${article.id}`)}
-                                    className="me-2"
+                                    onClick={() => navigate(`/article/edit/${article.id}`)}
+                                    className="mr-2"
                                 >
                                     Edit
                                 </Button>
                                 <Button
                                     variant="danger"
-                                    onClick={() => navigate(`/articles/delete/${article.id}`)}
+                                    onClick={() => setShowConfirm(true)}
                                 >
                                     Delete
                                 </Button>
@@ -117,6 +126,24 @@ const ArticleDetail = () => {
                     </Col>
                 </Row>
             </Container>
+
+            <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
+                <Modal.Header>
+                    <Modal.Title>Confirm Delete</Modal.Title>
+                    <CloseButton onClick={() => setShowConfirm(false)} />
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete this article?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowConfirm(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </BaseLayout>
     );
 };
