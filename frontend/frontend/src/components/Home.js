@@ -1,20 +1,13 @@
+// src/components/Home.js
 import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
-import axios from 'axios';
+import { axiosInstanceNoAuth, axiosInstance } from '../context/axiosInstances';
 import { Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import BaseFilter from './filters/BaseFilter';
 import CustomPagination from './Pagination';
 import { AuthContext } from '../context/AuthContext';
-import { useSearchParams, useNavigate } from 'react-router-dom'; // Import useNavigate
-import Search from './Search'; // Import Search component
-
-const CACHE_KEY = 'stylesCache';
-const CACHE_EXPIRATION_KEY = 'stylesCacheExpiration';
-const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
-
-const USERS_CACHE_KEY = 'usersCache';
-const USERS_CACHE_EXPIRATION_KEY = 'usersCacheExpiration';
-const USERS_CACHE_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import Search from './Search';
 
 const Home = () => {
     const [articles, setArticles] = useState([]);
@@ -23,12 +16,12 @@ const Home = () => {
     const [styles, setStyles] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedAuthor, setSelectedAuthor] = useState('all');
-    const { user, isAuthenticated, verifyAuth } = useContext(AuthContext);
+    const { user, isAuthenticated } = useContext(AuthContext);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [articleToDelete, setArticleToDelete] = useState(null); // State to hold the article to be deleted
+    const [articleToDelete, setArticleToDelete] = useState(null);
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate(); // Define navigate
+    const navigate = useNavigate();
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('page-size') || '3');
     const searchTerm = searchParams.get('search') || '';
@@ -37,38 +30,20 @@ const Home = () => {
     const authorParam = useMemo(() => searchParams.get('author') || 'all', [searchParams]);
 
     const fetchStyles = useCallback(async () => {
-        const cachedStyles = localStorage.getItem(CACHE_KEY);
-        const cacheExpiration = localStorage.getItem(CACHE_EXPIRATION_KEY);
-
-        if (cachedStyles && cacheExpiration && new Date().getTime() < parseInt(cacheExpiration)) {
-            setStyles(JSON.parse(cachedStyles));
-        } else {
-            try {
-                const response = await axios.get('http://localhost:8000/v1/styles/');
-                setStyles(response.data);
-                localStorage.setItem(CACHE_KEY, JSON.stringify(response.data));
-                localStorage.setItem(CACHE_EXPIRATION_KEY, (new Date().getTime() + CACHE_DURATION).toString());
-            } catch (error) {
-                console.error('Error fetching styles:', error);
-            }
+        try {
+            const response = await axiosInstanceNoAuth.get('http://localhost:8000/v1/styles/');
+            setStyles(response.data);
+        } catch (error) {
+            console.error('Error fetching styles:', error);
         }
     }, []);
 
     const fetchUsers = useCallback(async () => {
-        const cachedUsers = localStorage.getItem(USERS_CACHE_KEY);
-        const usersCacheExpiration = localStorage.getItem(USERS_CACHE_EXPIRATION_KEY);
-
-        if (cachedUsers && usersCacheExpiration && new Date().getTime() < parseInt(usersCacheExpiration)) {
-            setUsers(JSON.parse(cachedUsers));
-        } else {
-            try {
-                const response = await axios.get('http://localhost:8020/users/');
-                setUsers(response.data);
-                localStorage.setItem(USERS_CACHE_KEY, JSON.stringify(response.data));
-                localStorage.setItem(USERS_CACHE_EXPIRATION_KEY, (new Date().getTime() + USERS_CACHE_DURATION).toString());
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
+        try {
+            const response = await axiosInstanceNoAuth.get('http://localhost:8020/users/');
+            setUsers(response.data);
+        } catch (error) {
+            console.error('Error fetching users:', error);
         }
     }, []);
 
@@ -79,7 +54,7 @@ const Home = () => {
         const searchQuery = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
 
         try {
-            const response = await axios.get(`http://localhost:8000/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}`);
+            const response = await axiosInstanceNoAuth.get(`http://localhost:8000/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}`);
             const { results, count, next } = response.data;
 
             const articlesWithDetails = results.map(article => {
@@ -103,10 +78,6 @@ const Home = () => {
     }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, searchTerm]);
 
     useEffect(() => {
-        verifyAuth();
-    }, [verifyAuth]);
-
-    useEffect(() => {
         fetchStyles();
         fetchUsers();
     }, [fetchStyles, fetchUsers]);
@@ -118,7 +89,6 @@ const Home = () => {
     }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, fetchArticles]);
 
     useEffect(() => {
-        // Set filters based on URL query parameters
         if (styles.length > 0) {
             setSelectedStyles(styles.filter(style => styleParams.includes(style.slug)).map(style => style.id));
         }
@@ -229,9 +199,9 @@ const Home = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8000/v1/author/musicians/${articleToDelete}/`);
-            setShowConfirm(false); // Close the confirmation modal
-            fetchArticles(); // Fetch articles again to update the list
+            await axiosInstance.delete(`http://localhost:8000/v1/author/musicians/${articleToDelete}/`);
+            setShowConfirm(false);
+            fetchArticles();
         } catch (error) {
             console.error('Error deleting article:', error);
         }
@@ -252,7 +222,7 @@ const Home = () => {
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">
-                    <Search /> {/* Add the Search component */}
+                    <Search />
                     <Row>
                         {articles.length > 0 ? articles.map(article => (
                             <Col key={article.id} lg={12} className="mb-4">
@@ -293,7 +263,7 @@ const Home = () => {
                                                         variant="danger"
                                                         onClick={() => {
                                                             setShowConfirm(true);
-                                                            setArticleToDelete(article.id); // Set the article id to be deleted
+                                                            setArticleToDelete(article.id);
                                                         }}
                                                     >
                                                         Delete
@@ -340,7 +310,6 @@ const Home = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
         </BaseLayout>
     );
 }

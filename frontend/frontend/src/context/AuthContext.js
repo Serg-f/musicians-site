@@ -1,6 +1,6 @@
 // src/context/AuthContext.js
 import React, { createContext, useState, useCallback, useEffect } from 'react';
-import axios from 'axios';
+import { axiosInstance, setAuthorizationHeader } from './axiosInstances';
 
 export const AuthContext = createContext();
 
@@ -9,17 +9,9 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const setAuthorizationHeader = (token) => {
-        if (token) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        } else {
-            delete axios.defaults.headers.common['Authorization'];
-        }
-    };
-
     const getUserProfile = async () => {
         try {
-            const response = await axios.get('http://localhost:8020/profile/');
+            const response = await axiosInstance.get('profile/');
             return response.data;
         } catch (error) {
             console.error('Failed to fetch user profile:', error);
@@ -32,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         if (!refresh_token) return false;
 
         try {
-            const response = await axios.post('http://localhost:8020/token/refresh/', { refresh: refresh_token });
+            const response = await axiosInstance.post('token/refresh/', { refresh: refresh_token });
             const newToken = response.data.access;
             localStorage.setItem('access_token', newToken);
             setAuthorizationHeader(newToken);
@@ -44,24 +36,24 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const verifyAuth = useCallback(async () => {
-        setLoading(true);  // Set loading state to true
+        setLoading(true);
         const token = localStorage.getItem('access_token');
         if (!token) {
             setIsAuthenticated(false);
-            console.log("verifyAuth: No token found"); // Debug log
-            setLoading(false);  // Set loading state to false
+            console.log("verifyAuth: No token found");
+            setLoading(false);
             return;
         }
 
         setAuthorizationHeader(token);
 
         try {
-            const response = await axios.post('http://localhost:8020/token/verify/', { token });
+            const response = await axiosInstance.post('token/verify/', { token });
             if (response.status === 200) {
                 const profile = await getUserProfile();
                 setUser(profile);
                 setIsAuthenticated(true);
-                console.log("verifyAuth: User is authenticated"); // Debug log
+                console.log("verifyAuth: User is authenticated");
             }
         } catch (error) {
             console.error('Token verification failed:', error);
@@ -70,13 +62,13 @@ export const AuthProvider = ({ children }) => {
                 const profile = await getUserProfile();
                 setUser(profile);
                 setIsAuthenticated(true);
-                console.log("verifyAuth: Token refreshed, user is authenticated"); // Debug log
+                console.log("verifyAuth: Token refreshed, user is authenticated");
             } else {
                 setIsAuthenticated(false);
-                console.log("verifyAuth: Token verification and refresh failed"); // Debug log
+                console.log("verifyAuth: Token verification and refresh failed");
             }
         } finally {
-            setLoading(false);  // Set loading state to false
+            setLoading(false);
         }
     }, [refreshToken]);
 
