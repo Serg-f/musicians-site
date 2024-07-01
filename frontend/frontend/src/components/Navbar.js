@@ -34,7 +34,7 @@ const MyNavbar = () => {
                             <NavDropdown title={<><i className="fas fa-user-circle"></i> Welcome, <span style={{color: "whitesmoke"}}>{user?.username}</span></>} id="collasible-nav-dropdown"
                             className="mx-2">
                                 <NavDropdown.Item as={NavLink} to="/profile">My Profile</NavDropdown.Item>
-                                <NavDropdown.Item as={NavLink} to="/articles_author">My Articles</NavDropdown.Item>
+                                <NavDropdown.Item as={NavLink} to="/user-articles">My Articles</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={handleLogout}>Sign out</NavDropdown.Item>
                             </NavDropdown>
