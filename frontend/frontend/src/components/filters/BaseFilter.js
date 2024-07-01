@@ -1,9 +1,11 @@
+// src/components/filters/BaseFilter.js
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import StylesFilter from './StylesFilter';
 import AuthorFilter from './AuthorFilter';
+import Ordering from './Ordering';
 
-const BaseFilter = ({ selectedStyles, onStyleChange, styles, selectedAuthor, onAuthorChange, users, clearFilters }) => {
+const BaseFilter = ({ selectedStyles, onStyleChange, styles, selectedAuthor, onAuthorChange, users, clearFilters, selectedOrder, onOrderChange }) => {
     return (
         <div>
             <h3>Filters</h3>
@@ -24,6 +26,15 @@ const BaseFilter = ({ selectedStyles, onStyleChange, styles, selectedAuthor, onA
                         selectedAuthor={selectedAuthor}
                         onAuthorChange={onAuthorChange}
                         users={users}
+                    />
+                </Card.Body>
+            </Card>
+            <Card className="mb-3">
+                <Card.Header>Ordering</Card.Header>
+                <Card.Body>
+                    <Ordering
+                        selectedOrder={selectedOrder}
+                        onOrderChange={onOrderChange}
                     />
                 </Card.Body>
             </Card>

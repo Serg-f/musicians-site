@@ -1,4 +1,3 @@
-// src/components/Home.js
 import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
 import { axiosInstanceNoAuth, axiosInstance } from '../context/axiosInstances';
 import { Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
@@ -19,12 +18,14 @@ const Home = () => {
     const { user, isAuthenticated } = useContext(AuthContext);
     const [showConfirm, setShowConfirm] = useState(false);
     const [articleToDelete, setArticleToDelete] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState('time-create-desc');
 
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const page = parseInt(searchParams.get('page') || '1');
     const pageSize = parseInt(searchParams.get('page-size') || '3');
     const searchTerm = searchParams.get('search') || '';
+    const orderParam = searchParams.get('order') || '';
 
     const styleParams = useMemo(() => searchParams.get('style') ? searchParams.get('style').split(',') : [], [searchParams]);
     const authorParam = useMemo(() => searchParams.get('author') || 'all', [searchParams]);
@@ -53,8 +54,16 @@ const Home = () => {
         const authorQuery = selectedAuthor !== 'all' ? `&author_id=${users.find(user => user.username === selectedAuthor)?.id}` : '';
         const searchQuery = searchTerm ? `&search=${encodeURIComponent(searchTerm)}` : '';
 
+        let orderingQuery = '';
+        if (orderParam !== 'time-create-desc' && orderParam !== '') {
+            const parts = orderParam.split('-');
+            const direction = parts.pop();
+            const field = parts.join('-');
+            orderingQuery = `&ordering=${direction === 'asc' ? '' : '-'}${field.replace('style-name', 'style__name').replace('time-create', 'time_create')}`;
+        }
+
         try {
-            const response = await axiosInstanceNoAuth.get(`http://localhost:8000/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}`);
+            const response = await axiosInstanceNoAuth.get(`http://localhost:8000/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}${orderingQuery}`);
             const { results, count, next } = response.data;
 
             const articlesWithDetails = results.map(article => {
@@ -75,7 +84,7 @@ const Home = () => {
         } catch (error) {
             console.error('There was an error fetching the articles!', error);
         }
-    }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, searchTerm]);
+    }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, searchTerm, orderParam]);
 
     useEffect(() => {
         fetchStyles();
@@ -93,7 +102,8 @@ const Home = () => {
             setSelectedStyles(styles.filter(style => styleParams.includes(style.slug)).map(style => style.id));
         }
         setSelectedAuthor(authorParam);
-    }, [styles, users, styleParams, authorParam]);
+        setSelectedOrder(orderParam || 'time-create-desc');
+    }, [styles, users, styleParams, authorParam, orderParam]);
 
     const handlePageChange = (newPage) => {
         const params = { page: newPage };
@@ -111,6 +121,9 @@ const Home = () => {
         }
         if (searchTerm) {
             params['search'] = searchTerm;
+        }
+        if (selectedOrder !== 'time-create-desc') {
+            params['order'] = selectedOrder;
         }
         setSearchParams(params);
     };
@@ -133,6 +146,9 @@ const Home = () => {
         if (searchTerm) {
             params['search'] = searchTerm;
         }
+        if (selectedOrder !== 'time-create-desc') {
+            params['order'] = selectedOrder;
+        }
         setSearchParams(params);
     };
 
@@ -153,6 +169,9 @@ const Home = () => {
         }
         if (searchTerm) {
             params['search'] = searchTerm;
+        }
+        if (selectedOrder !== 'time-create-desc') {
+            params['order'] = selectedOrder;
         }
         setSearchParams(params);
     };
@@ -175,12 +194,40 @@ const Home = () => {
         if (searchTerm) {
             params['search'] = searchTerm;
         }
+        if (selectedOrder !== 'time-create-desc') {
+            params['order'] = selectedOrder;
+        }
+        setSearchParams(params);
+    };
+
+    const handleOrderChange = (newOrder) => {
+        setSelectedOrder(newOrder);
+        const params = { page: 1 };
+        if (pageSize !== 3) {
+            params['page-size'] = pageSize;
+        }
+        if (selectedStyles.length > 0) {
+            params['style'] = selectedStyles.map(styleId => {
+                const style = styles.find(s => s.id === styleId);
+                return style ? style.slug : '';
+            }).join(',');
+        }
+        if (selectedAuthor !== 'all') {
+            params['author'] = selectedAuthor;
+        }
+        if (searchTerm) {
+            params['search'] = searchTerm;
+        }
+        if (newOrder !== 'time-create-desc') {
+            params['order'] = newOrder;
+        }
         setSearchParams(params);
     };
 
     const clearFilters = () => {
         setSelectedStyles([]);
         setSelectedAuthor('all');
+        setSelectedOrder('time-create-desc');
         setSearchParams({ page: 1, 'page-size': pageSize });
     };
 
@@ -219,6 +266,8 @@ const Home = () => {
                         onAuthorChange={handleAuthorChange}
                         users={users}
                         clearFilters={clearFilters}
+                        selectedOrder={selectedOrder}
+                        onOrderChange={handleOrderChange}
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">
