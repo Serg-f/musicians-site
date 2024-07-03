@@ -15,66 +15,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserProfile'
           description: ''
-    put:
-      operationId: profile_update
-      tags:
-      - profile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/User'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-    patch:
-      operationId: profile_partial_update
-      tags:
-      - profile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
-    delete:
-      operationId: profile_destroy
-      tags:
-      - profile
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
   /schema/:
     get:
       operationId: schema_retrieve
@@ -203,6 +145,105 @@ paths:
               schema:
                 $ref: '#/components/schemas/TokenVerify'
           description: ''
+  /user-stats/:
+    get:
+      operationId: user_stats_list
+      tags:
+      - user-stats
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserStats'
+          description: ''
+  /user-stats/{id}/:
+    get:
+      operationId: user_stats_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user-stats
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStats'
+          description: ''
+    put:
+      operationId: user_stats_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user-stats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserStats'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserStats'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserStats'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStats'
+          description: ''
+    patch:
+      operationId: user_stats_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - user-stats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserStats'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserStats'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserStats'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStats'
+          description: ''
   /users/:
     get:
       operationId: users_list
@@ -255,36 +296,20 @@ paths:
           description: No response body
 components:
   schemas:
-    PatchedUser:
+    PatchedUserStats:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        username:
-          type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
-            only.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        email:
-          type: string
-          format: email
-          maxLength: 254
-        first_name:
-          type: string
-          maxLength: 150
-        last_name:
-          type: string
-          maxLength: 150
-        is_staff:
-          type: boolean
-          title: Staff status
-          description: Designates whether the user can log into this admin site.
-        last_login:
-          type: string
-          format: date-time
-          nullable: true
+        articles_published:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        articles_total:
+          type: integer
+          maximum: 32767
+          minimum: 0
     TokenObtainPair:
       type: object
       properties:
@@ -325,7 +350,7 @@ components:
           writeOnly: true
       required:
       - token
-    User:
+    UserProfile:
       type: object
       properties:
         id:
@@ -355,6 +380,17 @@ components:
           type: string
           format: date-time
           nullable: true
+        date_joined:
+          type: string
+          format: date-time
+        articles_published:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        articles_total:
+          type: integer
+          maximum: 32767
+          minimum: 0
       required:
       - email
       - id
@@ -374,6 +410,22 @@ components:
       required:
       - id
       - username
+    UserStats:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        articles_published:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        articles_total:
+          type: integer
+          maximum: 32767
+          minimum: 0
+      required:
+      - id
   securitySchemes:
     jwtAuth:
       type: http
