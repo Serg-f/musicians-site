@@ -8,3 +8,4 @@ django-embed-video
 pillow
 django-cors-headers
 drf-spectacular
+celery[rabbitmq]

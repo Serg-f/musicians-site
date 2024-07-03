@@ -54,6 +54,58 @@ services:
 #      - ./frontend/frontend:/project_dir
 
 
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+  celery-worker:
+    build: ./musicians
+    container_name: celery-worker
+    command: celery -A mus_proj worker --loglevel=info
+    environment:
+      DEBUG: "${DEBUG}"
+      SECRET_KEY: "${SECRET_KEY}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      DB_NAME: "${DB_NAME_MUSICIANS}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+    volumes:
+      - ./musicians/src:/project_dir
+    depends_on:
+      - musicians-service
+      - rabbitmq
+    networks:
+      - app-network
+
+  celery-beat:
+    build: ./musicians
+    container_name: celery-beat
+    command: celery -A mus_proj beat --loglevel=info
+    environment:
+      DEBUG: "${DEBUG}"
+      SECRET_KEY: "${SECRET_KEY}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      DB_NAME: "${DB_NAME_MUSICIANS}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: "${DB_HOST}"
+      DB_PORT: "${DB_PORT}"
+    volumes:
+      - ./musicians/src:/project_dir
+    depends_on:
+      - musicians-service
+      - rabbitmq
+    networks:
+      - app-network
+
+
 networks:
   app-network:
     driver: bridge
