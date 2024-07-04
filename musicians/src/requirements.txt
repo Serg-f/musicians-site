@@ -9,3 +9,4 @@ pillow
 django-cors-headers
 drf-spectacular
 celery[rabbitmq]
+requests

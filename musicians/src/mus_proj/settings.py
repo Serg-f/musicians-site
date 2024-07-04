@@ -166,7 +166,7 @@ CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_BEAT_SCHEDULE = {
     'update-user-stats': {
-        'task': 'musicians.tasks.update_user_stats',
-        'schedule': crontab(hour=20, minute=0),
+        'task': 'musicians.tasks.update_all_users_stats',
+        'schedule': crontab(hour=0, minute=0),
     },
 }

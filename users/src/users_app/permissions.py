@@ -1,12 +1,22 @@
 from rest_framework.permissions import BasePermission
+import ipaddress
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class IsFromMusiciansService(BasePermission):
     """
     Allows access only to requests from musicians-service.
     """
+
     def has_permission(self, request, view):
-        allowed_ips = ['musicians-service', '172.18.0.1']  # Add localhost for internal testing
+        allowed_subnet = ipaddress.ip_network('172.0.0.0/8')
         ip = request.META.get('REMOTE_ADDR')
-        print(f"Request IP: {ip}")
-        return ip in allowed_ips
+        logger.debug(f"Request IP: {ip}")
+
+        # Check if the request IP is in the allowed subnet
+        if ipaddress.ip_address(ip) in allowed_subnet:
+            return True
+
+        return False

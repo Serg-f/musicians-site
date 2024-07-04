@@ -45,3 +45,9 @@ class UserSerializer(serializers.Serializer):
                 return self.username
 
         return User(**validated_data)
+
+
+class UserStatsSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    articles_published = serializers.IntegerField()
+    articles_total = serializers.IntegerField()

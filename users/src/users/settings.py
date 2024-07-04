@@ -13,6 +13,7 @@ from datetime import timedelta
 
 import environ
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,6 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 env = environ.Env()
+
+# Logging
+log_level = env.str('LOG_LEVEL').upper()
+logging.basicConfig(level=log_level)
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
 
