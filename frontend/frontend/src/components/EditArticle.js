@@ -1,13 +1,15 @@
 // src/components/EditArticle.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
+import { AuthContext } from '../context/AuthContext';
+import { axiosInstance } from '../context/axiosInstances'; // Use the authenticated axios instance
 
 const EditArticle = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const { isAuthenticated, loading } = useContext(AuthContext);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [style, setStyle] = useState('');
@@ -37,13 +39,13 @@ const EditArticle = () => {
 
         const fetchArticle = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/v1/author/musicians/${id}/`);
+                const response = await axiosInstance.get(`http://localhost:8000/v1/author/musicians/${id}/`);
                 const article = response.data;
                 setTitle(article.title);
                 setContent(article.content);
                 setStyle(article.style);
                 setPhotoURL(article.photo);
-                setPhotoName(article.photo.split('/').pop()); // Extract the photo name
+                setPhotoName(article.photo ? article.photo.split('/').pop() : ''); // Extract the photo name if photo exists
                 setVideo(article.video);
                 setIsPublished(article.is_published);
             } catch (err) {
@@ -51,9 +53,11 @@ const EditArticle = () => {
             }
         };
 
-        fetchStyles();
-        fetchArticle();
-    }, [id]);
+        if (isAuthenticated && !loading) {
+            fetchStyles();
+            fetchArticle();
+        }
+    }, [id, isAuthenticated, loading]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,7 +71,7 @@ const EditArticle = () => {
         formData.append('is_published', isPublished);
 
         try {
-            await axios.put(`http://localhost:8000/v1/author/musicians/${id}/`, formData, {
+            await axiosInstance.put(`http://localhost:8000/v1/author/musicians/${id}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

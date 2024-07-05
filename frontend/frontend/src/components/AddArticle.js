@@ -1,10 +1,10 @@
 // src/components/AddArticle.js
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import { AuthContext } from '../context/AuthContext';
+import { axiosInstance } from '../context/axiosInstances'; // Use the authenticated axios instance
 
 const AddArticle = () => {
     const { user } = useContext(AuthContext);
@@ -51,7 +51,7 @@ const AddArticle = () => {
         formData.append('author_id', user.id);
 
         try {
-            await axios.post('http://localhost:8000/v1/author/musicians/', formData, {
+            await axiosInstance.post('http://localhost:8000/v1/author/musicians/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -1,4 +1,5 @@
 // src/components/UserArticles.js
+
 import React, {useEffect, useState, useContext, useCallback, useMemo} from 'react';
 import {axiosInstance} from '../context/axiosInstances';
 import {Row, Col, Button, Modal, CloseButton} from 'react-bootstrap';
@@ -280,9 +281,8 @@ const UserArticles = () => {
                                         <h5 className="mt-2">{article.title}</h5>
                                         <p>{article.content.substring(0, 300)}...</p>
                                         <div className="d-flex">
-                                            <Button variant="primary" href={`/articles/${article.id}`}>Read
-                                                article</Button>
-
+                                            <Button as={Link} to={`/articles/${article.id}`}
+                                                    state={{fromUserArticles: true}}>Read article</Button>
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
                                                     <Button

@@ -1,12 +1,10 @@
 // src/components/Profile.js
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React, { useEffect, useState } from 'react';
 import { axiosInstance } from '../context/axiosInstances';
 import BaseLayout from './BaseLayout';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 
 const Profile = () => {
-    const { user } = useContext(AuthContext);
     const [profile, setProfile] = useState(null);
 
     useEffect(() => {

@@ -1,32 +1,46 @@
+// src/components/ArticleDetail.js
+
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Container, Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import ReactPlayer from 'react-player';
+import { axiosInstance, axiosInstanceNoAuth } from '../context/axiosInstances'; // Import axios instances
 
 const ArticleDetail = () => {
     const { id } = useParams();
+    const location = useLocation();
     const [article, setArticle] = useState(null);
-    const { user, isAuthenticated } = useContext(AuthContext);
+    const { user, isAuthenticated, loading } = useContext(AuthContext);
     const navigate = useNavigate();
     const CACHE_KEY = 'stylesCache';
     const USERS_CACHE_KEY = 'usersCache';
     const [showConfirm, setShowConfirm] = useState(false);
 
     const fetchArticle = useCallback(async () => {
+        if (loading) return;
+
         try {
-            const response = await axios.get(`http://localhost:8000/v1/musicians/${id}/`);
+            const fromUserArticles = location.state?.fromUserArticles;
+            const url = fromUserArticles
+                ? `http://localhost:8000/v1/author/musicians/${id}/`
+                : `http://localhost:8000/v1/musicians/${id}/`;
+
+            const axiosClient = fromUserArticles ? axiosInstance : axiosInstanceNoAuth;
+
+            const response = await axiosClient.get(url);
             setArticle(response.data);
         } catch (error) {
             console.error('Error fetching article:', error);
         }
-    }, [id]);
+    }, [id, location.state, loading]);
 
     useEffect(() => {
-        fetchArticle();
-    }, [fetchArticle]);
+        if (!loading) {
+            fetchArticle();
+        }
+    }, [fetchArticle, loading]);
 
     const getCachedData = (key) => {
         const cachedData = localStorage.getItem(key);
@@ -46,7 +60,7 @@ const ArticleDetail = () => {
         return author ? author.username : 'Unknown';
     };
 
-    if (!article) {
+    if (loading || !article) {
         return <div>Loading...</div>;
     }
 
@@ -55,7 +69,7 @@ const ArticleDetail = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8000/v1/author/musicians/${id}/`);
+            await axiosInstance.delete(`http://localhost:8000/v1/author/musicians/${id}/`);
             navigate('/');
         } catch (error) {
             console.error('Error deleting article:', error);
@@ -69,7 +83,7 @@ const ArticleDetail = () => {
                 <Row>
                     <Col lg={8}>
                         {article.photo && (
-                            <img src={article.photo} className="img-fluid mb-3" alt={article.title}/>
+                            <img src={article.photo} className="img-fluid mb-3" alt={article.title} />
                         )}
                     </Col>
                     <Col lg={4}>
