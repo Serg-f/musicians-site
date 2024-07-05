@@ -13,6 +13,7 @@ import Register from "./components/Register";
 import ArticleDetail from './components/ArticleDetail';
 import UserArticles from './components/UserArticles'; // Import UserArticles
 import { AuthContext, AuthProvider } from './context/AuthContext';
+import Profile from "./components/Profile";
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/articles/:id" element={<ArticleDetail />} />
                 <Route path="/user-articles" element={<PrivateRoute><UserArticles /></PrivateRoute>} />
+                <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             </Routes>
         </Router>
     );
