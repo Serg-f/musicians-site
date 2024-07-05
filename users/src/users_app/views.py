@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import api_view
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -9,7 +9,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 from .models import CustomUser
 from .permissions import IsFromMusiciansService
-from .serializers import UserProfileSerializer, UserPublicSerializer, UserStatsSerializer
+from .serializers import UserProfileSerializer, UserPublicSerializer, UserStatsSerializer, RegisterSerializer
 
 
 @api_view(['GET'])
@@ -29,7 +29,7 @@ def validate_token(request):
 
 
 class UsersViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CustomUser.objects.filter(is_staff=False)
+    queryset = CustomUser.objects.filter(articles_published__gt=0)
     serializer_class = UserPublicSerializer
 
 
@@ -49,3 +49,7 @@ class UserStatsViewSet(mixins.RetrieveModelMixin,
     queryset = CustomUser.objects.all()
     serializer_class = UserStatsSerializer
     permission_classes = [IsFromMusiciansService]
+
+
+class RegisterView(CreateAPIView):
+    serializer_class = RegisterSerializer

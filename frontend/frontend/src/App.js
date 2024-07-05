@@ -9,6 +9,7 @@ import EditArticle from './components/EditArticle';
 import Contact from './components/Contact';
 import About from './components/About';
 import Login from './components/Login';
+import Register from "./components/Register";
 import ArticleDetail from './components/ArticleDetail';
 import UserArticles from './components/UserArticles'; // Import UserArticles
 import { AuthContext, AuthProvider } from './context/AuthContext';
@@ -23,8 +24,9 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/articles/:id" element={<ArticleDetail />} />
-                <Route path="/user-articles" element={<PrivateRoute><UserArticles /></PrivateRoute>} /> {/* Add the route */}
+                <Route path="/user-articles" element={<PrivateRoute><UserArticles /></PrivateRoute>} />
             </Routes>
         </Router>
     );

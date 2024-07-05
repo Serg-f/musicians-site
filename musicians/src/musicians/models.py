@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator, MinLengthValidator
 from django.db import models
 from autoslug import AutoSlugField
 from embed_video.fields import EmbedVideoField
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 TitleValidator = RegexValidator(regex=r'^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29}$',
@@ -40,5 +40,11 @@ class Musician(models.Model):
 
 @receiver(post_save, sender=Musician)
 def post_save_musician(sender, instance, **kwargs):
+    from .tasks import update_user_stats
+    update_user_stats.delay(instance.author_id)
+
+
+@receiver(post_delete, sender=Musician)
+def post_delete_musician(sender, instance, **kwargs):
     from .tasks import update_user_stats
     update_user_stats.delay(instance.author_id)

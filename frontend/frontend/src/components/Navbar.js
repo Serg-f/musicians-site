@@ -41,7 +41,7 @@ const MyNavbar = () => {
                         ) : (
                             <>
                                 <Nav.Link as={NavLink} to="/login" className="sign-in-link mx-2"><i className="fas fa-sign-in-alt"></i> Sign In</Nav.Link>
-                                <Button as={NavLink} to="/signup" className="btn-sign-up mx-2">Sign Up</Button>
+                                <Button as={NavLink} to="/register" className="btn-sign-up mx-2">Sign Up</Button>
                             </>
                         )}
                     </Nav>
