@@ -248,6 +248,7 @@ const Home = () => {
         try {
             await axiosInstance.delete(`http://localhost:8000/v1/author/musicians/${articleToDelete}/`);
             setShowConfirm(false);
+            fetchUsers()
             fetchArticles();
         } catch (error) {
             console.error('Error deleting article:', error);

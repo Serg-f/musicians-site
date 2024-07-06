@@ -1,15 +1,17 @@
 // src/components/EditArticle.js
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import React, {useState, useEffect, useContext} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Form, Button, Container, Row, Col, Alert} from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
-import { AuthContext } from '../context/AuthContext';
-import { axiosInstance } from '../context/axiosInstances'; // Use the authenticated axios instance
+import {AuthContext} from '../context/AuthContext';
+import {axiosInstance} from '../context/axiosInstances'; // Use the authenticated axios instance
+import {fetchUsers} from '../utils/userUtils'; // Import the fetchUsers function
+
 
 const EditArticle = () => {
     const navigate = useNavigate();
-    const { id } = useParams();
-    const { isAuthenticated, loading } = useContext(AuthContext);
+    const {id} = useParams();
+    const {isAuthenticated, loading} = useContext(AuthContext);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [style, setStyle] = useState('');
@@ -76,6 +78,7 @@ const EditArticle = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            await fetchUsers(); // Update the users cache
             navigate(`/`);
         } catch (err) {
             if (err.response && err.response.data) {
@@ -166,7 +169,8 @@ const EditArticle = () => {
                                 )}
                                 {photoURL && (
                                     <div>
-                                        <img src={photoURL} alt="Selected" style={{ maxHeight: '200px', marginTop: '10px' }} />
+                                        <img src={photoURL} alt="Selected"
+                                             style={{maxHeight: '200px', marginTop: '10px'}}/>
                                     </div>
                                 )}
                                 {fieldErrors.photo && (

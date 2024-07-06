@@ -31,7 +31,7 @@ def validate_token(request):
 
 
 class UsersViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CustomUser.objects.filter(articles_published__gt=0)
+    queryset = CustomUser.objects.filter(is_staff=False)
     serializer_class = UserPublicSerializer
 
 

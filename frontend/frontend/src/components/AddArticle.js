@@ -1,13 +1,14 @@
 // src/components/AddArticle.js
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import React, {useState, useEffect, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {Form, Button, Container, Row, Col, Alert} from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
-import { AuthContext } from '../context/AuthContext';
-import { axiosInstance } from '../context/axiosInstances'; // Use the authenticated axios instance
+import {AuthContext} from '../context/AuthContext';
+import {axiosInstance} from '../context/axiosInstances';
+import {fetchUsers} from '../utils/userUtils';
 
 const AddArticle = () => {
-    const { user } = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -56,6 +57,7 @@ const AddArticle = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            await fetchUsers(); // Update the users cache
             navigate('/');
         } catch (err) {
             if (err.response && err.response.data) {
@@ -140,7 +142,8 @@ const AddArticle = () => {
                                 />
                                 {photoURL && (
                                     <div>
-                                        <img src={photoURL} alt="Selected" style={{ maxHeight: '200px', marginTop: '10px' }} />
+                                        <img src={photoURL} alt="Selected"
+                                             style={{maxHeight: '200px', marginTop: '10px'}}/>
                                     </div>
                                 )}
                                 {fieldErrors.photo && (
