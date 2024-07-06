@@ -1,5 +1,6 @@
+from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from users_app.models import CustomUser
 
 
@@ -36,3 +37,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # Update last_login field
+        update_last_login(None, self.user)
+
+        return data

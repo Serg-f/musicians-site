@@ -6,10 +6,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenVerifyView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import CustomUser
 from .permissions import IsFromMusiciansService
-from .serializers import UserProfileSerializer, UserPublicSerializer, UserStatsSerializer, RegisterSerializer
+from .serializers import UserProfileSerializer, UserPublicSerializer, UserStatsSerializer, RegisterSerializer, \
+    CustomTokenObtainPairSerializer
 
 
 @api_view(['GET'])
@@ -53,3 +55,6 @@ class UserStatsViewSet(mixins.RetrieveModelMixin,
 
 class RegisterView(CreateAPIView):
     serializer_class = RegisterSerializer
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
