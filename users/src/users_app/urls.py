@@ -11,5 +11,5 @@ urlpatterns = [
     path('validate-token/', validate_token),
     path('', include(router.urls)),
     path('profile/', ProfileView.as_view()),
-    path('register/', RegisterView.as_view()),
+    path('register/', RegisterView.as_view(), name='register'),
 ]
