@@ -6,3 +6,4 @@ __pycache__/
 .env
 db.sqlite3
 /users/src/fixtures/users.json
+**/celerybeat-schedule
