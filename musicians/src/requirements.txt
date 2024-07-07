@@ -10,3 +10,4 @@ django-cors-headers
 drf-spectacular
 celery[rabbitmq]
 requests
+django-redis

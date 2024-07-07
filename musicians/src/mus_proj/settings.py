@@ -86,6 +86,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mus_proj.wsgi.application'
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'KEY_PREFIX': 'musicians_service',
+    }
+}
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -170,3 +182,4 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=0, minute=0),
     },
 }
+
