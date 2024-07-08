@@ -7,6 +7,7 @@ import CustomPagination from './Pagination';
 import { AuthContext } from '../context/AuthContext';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import Search from './Search';
+import { usersServiceURL, musiciansServiceURL } from '../context/serviceUrls';
 
 const Home = () => {
     const [articles, setArticles] = useState([]);
@@ -32,7 +33,7 @@ const Home = () => {
 
     const fetchStyles = useCallback(async () => {
         try {
-            const response = await axiosInstanceNoAuth.get('http://localhost:8000/v1/styles/');
+            const response = await axiosInstanceNoAuth.get(`${musiciansServiceURL}/v1/styles/`);
             setStyles(response.data);
         } catch (error) {
             console.error('Error fetching styles:', error);
@@ -41,7 +42,7 @@ const Home = () => {
 
     const fetchUsers = useCallback(async () => {
         try {
-            const response = await axiosInstanceNoAuth.get('http://localhost:8020/users/');
+            const response = await axiosInstanceNoAuth.get(`${usersServiceURL}/users/`);
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -63,7 +64,7 @@ const Home = () => {
         }
 
         try {
-            const response = await axiosInstanceNoAuth.get(`http://localhost:8000/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}${orderingQuery}`);
+            const response = await axiosInstanceNoAuth.get(`${musiciansServiceURL}/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}${orderingQuery}`);
             const { results, count, next } = response.data;
 
             const articlesWithDetails = results.map(article => {
@@ -246,9 +247,9 @@ const Home = () => {
 
     const handleDelete = async () => {
         try {
-            await axiosInstance.delete(`http://localhost:8000/v1/author/musicians/${articleToDelete}/`);
+            await axiosInstance.delete(`${musiciansServiceURL}/v1/author/musicians/${articleToDelete}/`);
             setShowConfirm(false);
-            fetchUsers()
+            fetchUsers();
             fetchArticles();
         } catch (error) {
             console.error('Error deleting article:', error);

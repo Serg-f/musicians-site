@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { usersServiceURL} from '../context/serviceUrls';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -13,7 +14,7 @@ const Login = () => {
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8020/token/', { username, password });
+            const response = await axios.post(`${usersServiceURL}/token/`, { username, password });
             localStorage.setItem('access_token', response.data.access);
             localStorage.setItem('refresh_token', response.data.refresh);
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;

@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useState, useCallback, useEffect } from 'react';
 import { axiosInstance, setAuthorizationHeader } from './axiosInstances';
 

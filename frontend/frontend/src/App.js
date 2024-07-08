@@ -11,7 +11,7 @@ import About from './components/About';
 import Login from './components/Login';
 import Register from "./components/Register";
 import ArticleDetail from './components/ArticleDetail';
-import UserArticles from './components/UserArticles'; // Import UserArticles
+import UserArticles from './components/UserArticles';
 import { AuthContext, AuthProvider } from './context/AuthContext';
 import Profile from "./components/Profile";
 

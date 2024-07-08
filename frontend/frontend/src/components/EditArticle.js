@@ -1,4 +1,3 @@
-// src/components/EditArticle.js
 import React, {useState, useEffect, useContext} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Form, Button, Container, Row, Col, Alert} from 'react-bootstrap';
@@ -6,7 +5,7 @@ import BaseLayout from './BaseLayout';
 import {AuthContext} from '../context/AuthContext';
 import {axiosInstance} from '../context/axiosInstances'; // Use the authenticated axios instance
 import {fetchUsers} from '../utils/userUtils'; // Import the fetchUsers function
-
+import { musiciansServiceURL } from '../context/serviceUrls';
 
 const EditArticle = () => {
     const navigate = useNavigate();
@@ -41,7 +40,7 @@ const EditArticle = () => {
 
         const fetchArticle = async () => {
             try {
-                const response = await axiosInstance.get(`http://localhost:8000/v1/author/musicians/${id}/`);
+                const response = await axiosInstance.get(`${musiciansServiceURL}/v1/author/musicians/${id}/`);
                 const article = response.data;
                 setTitle(article.title);
                 setContent(article.content);
@@ -73,7 +72,7 @@ const EditArticle = () => {
         formData.append('is_published', isPublished);
 
         try {
-            await axiosInstance.put(`http://localhost:8000/v1/author/musicians/${id}/`, formData, {
+            await axiosInstance.put(`${musiciansServiceURL}/v1/author/musicians/${id}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

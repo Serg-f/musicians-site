@@ -1,5 +1,3 @@
-// src/components/ArticleDetail.js
-
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -7,6 +5,7 @@ import { Container, Row, Col, Button, Modal, CloseButton } from 'react-bootstrap
 import BaseLayout from './BaseLayout';
 import ReactPlayer from 'react-player';
 import { axiosInstance, axiosInstanceNoAuth } from '../context/axiosInstances'; // Import axios instances
+import { musiciansServiceURL } from '../context/serviceUrls';
 
 const ArticleDetail = () => {
     const { id } = useParams();
@@ -24,8 +23,8 @@ const ArticleDetail = () => {
         try {
             const fromUserArticles = location.state?.fromUserArticles;
             const url = fromUserArticles
-                ? `http://localhost:8000/v1/author/musicians/${id}/`
-                : `http://localhost:8000/v1/musicians/${id}/`;
+                ? `${musiciansServiceURL}/v1/author/musicians/${id}/`
+                : `${musiciansServiceURL}/v1/musicians/${id}/`;
 
             const axiosClient = fromUserArticles ? axiosInstance : axiosInstanceNoAuth;
 
@@ -69,7 +68,7 @@ const ArticleDetail = () => {
 
     const handleDelete = async () => {
         try {
-            await axiosInstance.delete(`http://localhost:8000/v1/author/musicians/${id}/`);
+            await axiosInstance.delete(`${musiciansServiceURL}/v1/author/musicians/${id}/`);
             navigate('/');
         } catch (error) {
             console.error('Error deleting article:', error);

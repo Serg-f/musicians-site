@@ -1,12 +1,12 @@
-// src/axiosInstances.js
 import axios from 'axios';
+import { usersServiceURL } from './serviceUrls';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8020/',
+    baseURL: `${usersServiceURL}/`,
 });
 
 const axiosInstanceNoAuth = axios.create({
-    baseURL: 'http://localhost:8020/',
+    baseURL: `${usersServiceURL}/`,
 });
 
 const setAuthorizationHeader = (token) => {
