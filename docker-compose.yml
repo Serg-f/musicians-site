@@ -34,6 +34,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
+      USERS_SERVICE_URL: "${USERS_SERVICE_URL}"
     volumes:
       - ./musicians/src:/project_dir
     command: python manage.py runserver 0.0.0.0:8000
@@ -89,11 +90,13 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
+      USERS_SERVICE_URL: "${USERS_SERVICE_URL}"
     volumes:
       - ./musicians/src:/project_dir
     depends_on:
       - musicians-service
       - rabbitmq
+      - redis
     networks:
       - app-network
 
@@ -110,11 +113,13 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
+      USERS_SERVICE_URL: "${USERS_SERVICE_URL}"
     volumes:
       - ./musicians/src:/project_dir
     depends_on:
       - musicians-service
       - rabbitmq
+      - redis
     networks:
       - app-network
 

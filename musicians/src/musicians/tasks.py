@@ -2,6 +2,7 @@ import requests
 import logging
 from celery import shared_task
 
+from mus_proj.settings import USERS_SERVICE_URL
 from .models import Musician
 from .serializers import UserStatsSerializer
 
@@ -18,7 +19,7 @@ def handle_user_stats(user):
         user['articles_total'] = article_total_computed
         user['articles_published'] = article_published_computed
         try:
-            response = requests.patch(f'http://users-service:8000/user-stats/{user["id"]}/', json=user)
+            response = requests.patch(f'{USERS_SERVICE_URL}/user-stats/{user["id"]}/', json=user)
             response.raise_for_status()
         except requests.RequestException as e:
             logger.error(f"Request error: {e}")
@@ -28,7 +29,7 @@ def handle_user_stats(user):
 def update_all_users_stats():
     data = []
     try:
-        response = requests.get('http://users-service:8000/user-stats/')
+        response = requests.get(f'{USERS_SERVICE_URL}/user-stats/')
         response.raise_for_status()
         data = response.json()
     except requests.RequestException as e:
@@ -45,7 +46,7 @@ def update_all_users_stats():
 @shared_task
 def update_user_stats(user_id):
     try:
-        response = requests.get(f'http://users-service:8000/user-stats/{user_id}/')
+        response = requests.get(f'{USERS_SERVICE_URL}user-stats/{user_id}/')
         response.raise_for_status()
         user = response.json()
     except requests.RequestException as e:

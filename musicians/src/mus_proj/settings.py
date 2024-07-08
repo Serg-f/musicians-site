@@ -27,7 +27,7 @@ env = environ.Env()
 # Logging
 log_level = env.str('LOG_LEVEL').upper()
 logging.basicConfig(level=log_level)
-
+logger = logging.getLogger(__name__)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
 
@@ -36,6 +36,7 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = []
 
+USERS_SERVICE_URL = env.str('USERS_SERVICE_URL')
 # Application definition
 
 INSTALLED_APPS = [

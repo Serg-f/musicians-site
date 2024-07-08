@@ -3,6 +3,8 @@ import logging
 from rest_framework import authentication, exceptions
 from urllib.request import urlopen, Request as URLRequest
 from urllib.error import HTTPError
+
+from mus_proj.settings import USERS_SERVICE_URL
 from .serializers import UserSerializer
 import json
 
@@ -17,7 +19,7 @@ class CustomTokenAuthentication(authentication.BaseAuthentication):
             return None
 
         try:
-            auth_request = URLRequest('http://users-service:8000/validate-token/',
+            auth_request = URLRequest(f'{USERS_SERVICE_URL}/validate-token/',
                                       headers={'Authorization': auth_header})
             with urlopen(auth_request) as response:
                 data = json.loads(response.read())
