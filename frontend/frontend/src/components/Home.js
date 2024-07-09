@@ -8,6 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import Search from './Search';
 import { usersServiceURL, musiciansServiceURL } from '../context/serviceUrls';
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const [articles, setArticles] = useState([]);
@@ -249,6 +250,7 @@ const Home = () => {
         try {
             await axiosInstance.delete(`${musiciansServiceURL}/v1/author/musicians/${articleToDelete}/`);
             setShowConfirm(false);
+            toast.success('Article deleted successfully!');
             fetchUsers();
             fetchArticles();
         } catch (error) {
