@@ -47,18 +47,23 @@ services:
         aliases:
           - musicians-service
 
-  #  frontend-service:
-  #    build: ./frontend
-  #    container_name: frontend-container
-  #    ports:
-  #      - "3000:3000"
-  #    networks:
-  #      - app-network
-  #    depends_on:
-  #      - users-service
-  #      - musicians-service
-  #    volumes:
-  #      - ./frontend/frontend:/project_dir
+  frontend-service:
+    build: ./frontend
+    container_name: frontend-container
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - users-service
+      - musicians-service
+    volumes:
+      - ./frontend/frontend:/project_dir
+    environment:
+      REACT_APP_USERS_SERVICE_URL: "http://localhost:8020"
+      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost:8000"
+#      REACT_APP_USERS_SERVICE_URL: "http://users-service:8000"
+#      REACT_APP_MUSICIANS_SERVICE_URL: "http://musicians-service:8000"
 
   redis:
     image: redis:latest
@@ -122,7 +127,6 @@ services:
       - redis
     networks:
       - app-network
-
 
 networks:
   app-network:
