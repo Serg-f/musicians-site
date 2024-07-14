@@ -34,7 +34,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'musicians-service-ng',]
 
 USERS_SERVICE_URL = env.str('USERS_SERVICE_URL')
 # Application definition
@@ -64,7 +64,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'mus_proj.middleware.DebugMiddleware',
 ]
 
 ROOT_URLCONF = 'mus_proj.urls'
@@ -86,7 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mus_proj.wsgi.application'
-
 
 CACHES = {
     'default': {
@@ -183,4 +181,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=0, minute=0),
     },
 }
-

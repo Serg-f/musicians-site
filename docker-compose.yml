@@ -34,9 +34,10 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      USERS_SERVICE_URL: "${USERS_SERVICE_URL}"
+      USERS_SERVICE_URL: "http://localhost/api/users"
     volumes:
       - ./musicians/src:/project_dir
+      - ./musicians/src/mus_proj/media:/project_dir/media
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
@@ -60,8 +61,11 @@ services:
     volumes:
       - ./frontend/frontend:/project_dir
     environment:
-      REACT_APP_USERS_SERVICE_URL: "http://localhost:8020"
-      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost:8000"
+#      REACT_APP_USERS_SERVICE_URL: "http://localhost:8020"
+#      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost:8000"
+      REACT_APP_USERS_SERVICE_URL: "http://localhost/api/users"
+      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost/api/musicians"
+
 
   redis:
     image: redis:latest
@@ -93,7 +97,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      USERS_SERVICE_URL: "${USERS_SERVICE_URL}"
+      USERS_SERVICE_URL: "http://localhost/api/users"
     volumes:
       - ./musicians/src:/project_dir
     depends_on:
@@ -116,13 +120,27 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      USERS_SERVICE_URL: "${USERS_SERVICE_URL}"
+      USERS_SERVICE_URL: "http://localhost/api/users"
     volumes:
       - ./musicians/src:/project_dir
     depends_on:
       - musicians-service
       - rabbitmq
       - redis
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - users-service
+      - musicians-service
+      - frontend-service
     networks:
       - app-network
 
