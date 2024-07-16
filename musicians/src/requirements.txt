@@ -11,3 +11,5 @@ drf-spectacular
 celery[rabbitmq]
 requests
 django-redis
+gunicorn
+whitenoise

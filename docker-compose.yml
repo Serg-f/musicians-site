@@ -14,7 +14,8 @@ services:
       DB_PORT: "${DB_PORT}"
     volumes:
       - ./users/src:/project_dir
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn users.wsgi:application --bind 0.0.0.0:8000
+#    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8020:8000"
     networks:
@@ -34,11 +35,11 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      USERS_SERVICE_URL: "http://localhost/api/users"
+      USERS_SERVICE_URL: "http://localhost:8020"
     volumes:
       - ./musicians/src:/project_dir
-      - ./musicians/src/mus_proj/media:/project_dir/media
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn mus_proj.wsgi:application --bind 0.0.0.0:8000
+#    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     depends_on:
@@ -61,10 +62,10 @@ services:
     volumes:
       - ./frontend/frontend:/project_dir
     environment:
-#      REACT_APP_USERS_SERVICE_URL: "http://localhost:8020"
-#      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost:8000"
-      REACT_APP_USERS_SERVICE_URL: "http://localhost/api/users"
-      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost/api/musicians"
+      REACT_APP_USERS_SERVICE_URL: "http://localhost:8020"
+      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost:8000"
+#      REACT_APP_USERS_SERVICE_URL: "http://localhost/api/users"
+#      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost/api/musicians"
 
 
   redis:
@@ -97,7 +98,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      USERS_SERVICE_URL: "http://localhost/api/users"
+      USERS_SERVICE_URL: "http://localhost:8020"
     volumes:
       - ./musicians/src:/project_dir
     depends_on:
@@ -120,7 +121,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      USERS_SERVICE_URL: "http://localhost/api/users"
+      USERS_SERVICE_URL: "http://localhost:8020"
     volumes:
       - ./musicians/src:/project_dir
     depends_on:
@@ -130,19 +131,19 @@ services:
     networks:
       - app-network
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - users-service
-      - musicians-service
-      - frontend-service
-    networks:
-      - app-network
+#  nginx:
+#    image: nginx:latest
+#    container_name: nginx
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#    depends_on:
+#      - users-service
+#      - musicians-service
+#      - frontend-service
+#    networks:
+#      - app-network
 
 networks:
   app-network:
