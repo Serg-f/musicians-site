@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
 from datetime import timedelta
+from io import StringIO
 
 import environ
 from pathlib import Path
@@ -21,7 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+
+# Initialize environ
 env = environ.Env()
+
+# Get the .env content from the environment variable
+env_file_contents = os.getenv('ENV_FILE_CONTENTS')
+
+# Load the .env content if it exists
+if env_file_contents:
+    env_file = StringIO(env_file_contents)
+    env.read_env(env_file)
 
 # Logging
 log_level = env.str('LOG_LEVEL').upper()
