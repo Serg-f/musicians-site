@@ -21,6 +21,8 @@ class CustomTokenAuthentication(authentication.BaseAuthentication):
         try:
             auth_request = URLRequest(f'{USERS_SERVICE_URL}/validate-token/',
                                       headers={'Authorization': auth_header})
+            logger.debug(f"Auth Request: {auth_request.headers}")  # Debug log
+            logger.debug(f"Auth Request URL: {auth_request.full_url}")  # Debug log
             with urlopen(auth_request) as response:
                 data = json.loads(response.read())
                 logger.debug(f"Response Data: {data}")  # Debug log
