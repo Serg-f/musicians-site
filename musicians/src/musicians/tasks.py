@@ -46,7 +46,7 @@ def update_all_users_stats():
 @shared_task
 def update_user_stats(user_id):
     try:
-        response = requests.get(f'{USERS_SERVICE_URL}user-stats/{user_id}/')
+        response = requests.get(f'{USERS_SERVICE_URL}/user-stats/{user_id}/')
         response.raise_for_status()
         user = response.json()
     except requests.RequestException as e:
