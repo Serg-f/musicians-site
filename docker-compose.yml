@@ -32,8 +32,8 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "${CELERY_BROKER_URL}"
-      CELERY_RESULT_BACKEND: "${CELERY_RESULT_BACKEND}"
+      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
+      CELERY_RESULT_BACKEND: "rpc://"
       USERS_SERVICE_URL: "http://users-service:8000"
     volumes:
       - ./musicians/src:/project_dir
