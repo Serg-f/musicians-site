@@ -34,7 +34,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'musicians-service-ng',]
+ALLOWED_HOSTS = ['*']
 
 USERS_SERVICE_URL = env.str('USERS_SERVICE_URL')
 # Application definition
@@ -105,7 +105,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'USER': env.str('DB_USER'),
-        'NAME': env.str('DB_NAME'),
+        'NAME': env.str('DB_NAME_MUSICIANS'),
         'PASSWORD': env.str('DB_PASSWORD'),
         'HOST': env.str('DB_HOST'),
         'PORT': env.int('DB_PORT'),

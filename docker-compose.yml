@@ -27,7 +27,7 @@ services:
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
       LOG_LEVEL: "${LOG_LEVEL}"
-      DB_NAME: "${DB_NAME_MUSICIANS}"
+      DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
