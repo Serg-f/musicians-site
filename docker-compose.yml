@@ -7,15 +7,14 @@ services:
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
       LOG_LEVEL: "${LOG_LEVEL}"
-      DB_NAME: "${DB_NAME_USERS}"
+      DB_NAME_USERS: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
     volumes:
       - ./users/src:/project_dir
-#    command: python manage.py runserver 0.0.0.0:8000
-    command: gunicorn users.wsgi:application --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8020:8000"
     networks:
