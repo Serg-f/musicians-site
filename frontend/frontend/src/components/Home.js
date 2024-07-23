@@ -36,6 +36,7 @@ const Home = () => {
         try {
             const response = await axiosInstanceNoAuth.get(`${musiciansServiceURL}/v1/styles/`);
             setStyles(response.data);
+            localStorage.setItem('stylesCache', JSON.stringify(response.data)); // Save to local storage
         } catch (error) {
             console.error('Error fetching styles:', error);
         }
@@ -45,6 +46,7 @@ const Home = () => {
         try {
             const response = await axiosInstanceNoAuth.get(`${usersServiceURL}/users/`);
             setUsers(response.data);
+            localStorage.setItem('usersCache', JSON.stringify(response.data)); // Save to local storage
         } catch (error) {
             console.error('Error fetching users:', error);
         }
@@ -89,8 +91,20 @@ const Home = () => {
     }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, searchTerm, orderParam]);
 
     useEffect(() => {
-        fetchStyles();
-        fetchUsers();
+        const storedStyles = localStorage.getItem('stylesCache');
+        const storedUsers = localStorage.getItem('usersCache');
+
+        if (storedStyles) {
+            setStyles(JSON.parse(storedStyles));
+        } else {
+            fetchStyles();
+        }
+
+        if (storedUsers) {
+            setUsers(JSON.parse(storedUsers));
+        } else {
+            fetchUsers();
+        }
     }, [fetchStyles, fetchUsers]);
 
     useEffect(() => {
