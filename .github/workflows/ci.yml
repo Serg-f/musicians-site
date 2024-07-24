@@ -1,3 +1,5 @@
+# .github/workflows/ci.yml
+
 name: CI
 
 on:
@@ -45,15 +47,30 @@ jobs:
     - name: Wait for services to be ready
       run: |
         # Wait for users service
-        until curl -s http://localhost:8020/; do
+        for i in {1..60}; do
+          if curl -s http://localhost:8020/; then
+            break
+          fi
           echo "Waiting for users service to be ready..."
           sleep 5
         done
+
         # Wait for musicians service
-        until curl -s http://localhost:8000/; do
+        for i in {1..30}; do
+          if curl -s http://localhost:8000/; then
+            break
+          fi
           echo "Waiting for musicians service to be ready..."
           sleep 5
         done
+
+    - name: Check users service logs
+      if: failure()
+      run: docker logs users-container
+
+    - name: Check musicians service logs
+      if: failure()
+      run: docker logs musicians-container
 
     - name: Run unit tests for musicians service
       run: docker exec musicians-container python manage.py test musicians.tests
