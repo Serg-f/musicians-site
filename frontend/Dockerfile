@@ -1,23 +1,32 @@
-# Use node:20-alpine as the base image
+# Stage 1: Build the React app
 FROM node:20-alpine as build
 
 # Set the working directory
-WORKDIR /project_dir
+WORKDIR /app
 
-# Copy package.json and package-lock.json files
+# Copy the package.json and package-lock.json
 COPY ./frontend/package.json ./frontend/package-lock.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy all the frontend code
-COPY ./frontend .
+# Copy the rest of the code
+COPY ./frontend ./
 
-# Install nodemon for hot reloading
+# Build the React app
 RUN npm run build
 
-# Expose the port
-EXPOSE 3000
+# Stage 2: Serve the app with nginx
+FROM nginx:alpine
 
-# Start the application
-CMD ["npm", "start"]
+# Copy the build output to the nginx html directory
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy custom nginx config (optional)
+COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 8080
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
