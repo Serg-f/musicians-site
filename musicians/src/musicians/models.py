@@ -38,13 +38,17 @@ class Musician(models.Model):
         ordering = ['-time_create']
 
 
+def update_user_statistic(instance):
+    from .tasks import update_user_stats, update_user_stats_unshared
+    # update_user_stats.delay(instance.author_id)
+    update_user_stats_unshared(instance.author_id)
+
+
 @receiver(post_save, sender=Musician)
 def post_save_musician(sender, instance, **kwargs):
-    from .tasks import update_user_stats
-    update_user_stats.delay(instance.author_id)
+    update_user_statistic(instance)
 
 
 @receiver(post_delete, sender=Musician)
 def post_delete_musician(sender, instance, **kwargs):
-    from .tasks import update_user_stats
-    update_user_stats.delay(instance.author_id)
+    update_user_statistic(instance)
