@@ -13,8 +13,12 @@ RUN npm install
 # Copy the rest of the code
 COPY ./frontend ./
 
+# Pass environment variables at build time
+ARG REACT_APP_USERS_SERVICE_URL
+ARG REACT_APP_MUSICIANS_SERVICE_URL
+
 # Build the React app
-RUN npm run build
+RUN REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL REACT_APP_MUSICIANS_SERVICE_URL=$REACT_APP_MUSICIANS_SERVICE_URL npm run build
 
 # Stage 2: Serve the app with nginx
 FROM nginx:alpine
