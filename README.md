@@ -95,7 +95,7 @@ This project is licensed under the MIT License.
 
 ## Live Application
 
-Check out the live application here: [Musicians App](https://frontend-service-2d4imkwuza-ey.a.run.app/)
+Check out the live application here: [Musicians App](https://frontend-service-build-2d4imkwuza-ey.a.run.app/)
 
 The old monolith version of this project is available [here](https://musicians-app.me/).
 
