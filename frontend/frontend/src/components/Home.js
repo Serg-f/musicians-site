@@ -10,6 +10,12 @@ import Search from './Search';
 import { usersServiceURL, musiciansServiceURL } from '../context/serviceUrls';
 import { toast } from 'react-toastify';
 
+const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+const STYLES_CACHE_KEY = 'stylesCache';
+const STYLES_CACHE_TIME_KEY = 'stylesCacheTime';
+const USERS_CACHE_KEY = 'usersCache';
+const USERS_CACHE_TIME_KEY = 'usersCacheTime';
+
 const Home = () => {
     const [articles, setArticles] = useState([]);
     const [selectedStyles, setSelectedStyles] = useState([]);
@@ -32,11 +38,17 @@ const Home = () => {
     const styleParams = useMemo(() => searchParams.get('style') ? searchParams.get('style').split(',') : [], [searchParams]);
     const authorParam = useMemo(() => searchParams.get('author') || 'all', [searchParams]);
 
+    const isCacheExpired = (cacheTimeKey) => {
+        const cacheTime = localStorage.getItem(cacheTimeKey);
+        return !cacheTime || (Date.now() - parseInt(cacheTime, 10)) > CACHE_EXPIRATION_MS;
+    };
+
     const fetchStyles = useCallback(async () => {
         try {
             const response = await axiosInstanceNoAuth.get(`${musiciansServiceURL}/v1/styles/`);
             setStyles(response.data);
-            localStorage.setItem('stylesCache', JSON.stringify(response.data)); // Save to local storage
+            localStorage.setItem(STYLES_CACHE_KEY, JSON.stringify(response.data));
+            localStorage.setItem(STYLES_CACHE_TIME_KEY, Date.now().toString());
         } catch (error) {
             console.error('Error fetching styles:', error);
         }
@@ -46,7 +58,8 @@ const Home = () => {
         try {
             const response = await axiosInstanceNoAuth.get(`${usersServiceURL}/users/`);
             setUsers(response.data);
-            localStorage.setItem('usersCache', JSON.stringify(response.data)); // Save to local storage
+            localStorage.setItem(USERS_CACHE_KEY, JSON.stringify(response.data));
+            localStorage.setItem(USERS_CACHE_TIME_KEY, Date.now().toString());
         } catch (error) {
             console.error('Error fetching users:', error);
         }
@@ -91,16 +104,16 @@ const Home = () => {
     }, [page, pageSize, selectedStyles, selectedAuthor, users, styles, searchTerm, orderParam]);
 
     useEffect(() => {
-        const storedStyles = localStorage.getItem('stylesCache');
-        const storedUsers = localStorage.getItem('usersCache');
+        const storedStyles = localStorage.getItem(STYLES_CACHE_KEY);
+        const storedUsers = localStorage.getItem(USERS_CACHE_KEY);
 
-        if (storedStyles) {
+        if (storedStyles && !isCacheExpired(STYLES_CACHE_TIME_KEY)) {
             setStyles(JSON.parse(storedStyles));
         } else {
             fetchStyles();
         }
 
-        if (storedUsers) {
+        if (storedUsers && !isCacheExpired(USERS_CACHE_TIME_KEY)) {
             setUsers(JSON.parse(storedUsers));
         } else {
             fetchUsers();
