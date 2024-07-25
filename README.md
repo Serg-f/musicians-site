@@ -100,3 +100,6 @@ Check out the live application here: [Musicians App](https://frontend-service-2d
 The old monolith version of this project is available [here](https://musicians-app.me/).
 
 [![CI/CD](https://github.com/Serg-f/musicians-site/actions/workflows/ci.yml/badge.svg)](https://github.com/Serg-f/musicians-site/actions/workflows/ci.yml)
+
+![musicians-service on GCP](musicians-service.png)
+![live-app](live-app.png)
