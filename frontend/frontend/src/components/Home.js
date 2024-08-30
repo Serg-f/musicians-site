@@ -309,7 +309,7 @@ const Home = () => {
                                 <Row className="p-3 border-bottom">
                                     {article.photo && (
                                         <Col md="auto" className="mb-3 mb-md-0">
-                                            <img src={article.photo} alt={article.title} className="img-fluid"
+                                            <img src={`${musiciansServiceURL}${article.photo}`} alt={article.title} className="img-fluid"
                                                 style={{ maxWidth: '300px', width: '100%', height: 'auto' }} />
                                         </Col>
                                     )}
