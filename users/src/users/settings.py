@@ -162,7 +162,7 @@ SIMPLE_JWT = {
     "SIGNING_KEY": SECRET_KEY,
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
-    "ISSUER": None,
+    "ISSUER": "jwt-consumer",
     "JSON_ENCODER": None,
     "JWK_URL": None,
     "LEEWAY": 0,

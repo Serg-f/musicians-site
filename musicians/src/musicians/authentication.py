@@ -15,6 +15,7 @@ class CustomTokenAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get('Authorization')
         logger.debug(f"Auth Header: {auth_header}")  # Debug log
+        logger.warning(f"Header: {request.headers}")
         if not auth_header:
             return None
 
