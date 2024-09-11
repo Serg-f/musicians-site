@@ -5,7 +5,7 @@ services:
     build: ./gateway
     container_name: kong-container
     environment:
-      KONG_LOG_LEVEL: "debug"
+      KONG_LOG_LEVEL: "${KONG_LOG_LEVEL}"
       KONG_DATABASE: "postgres"
       KONG_PG_HOST: "${DB_HOST}"
       KONG_PG_PORT: "${DB_PORT}"
@@ -30,9 +30,9 @@ services:
     build: ./users
     container_name: users-container
     environment:
+      LOG_LEVEL: "${USERS_LOG_LEVEL}"
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
       DB_NAME_USERS: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
@@ -50,9 +50,9 @@ services:
     build: ./musicians
     container_name: musicians-container
     environment:
+      LOG_LEVEL: "${MUSICIANS_LOG_LEVEL}"
       DEBUG: "WARNING"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
       DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
@@ -107,11 +107,11 @@ services:
   celery-worker:
     build: ./musicians
     container_name: celery-worker
-    command: celery -A mus_proj worker --loglevel=info
+    command: celery -A mus_proj worker --loglevel=${CELERY_WORKER_LOG_LEVEL}
     environment:
+      LOG_LEVEL: "${CELERY_WORKER_LOG_LEVEL}"
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
       DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
@@ -133,11 +133,11 @@ services:
   celery-beat:
     build: ./musicians
     container_name: celery-beat
-    command: celery -A mus_proj beat --loglevel=info
+    command: celery -A mus_proj beat --loglevel=${CELERY_BEAT_LOG_LEVEL}
     environment:
+      LOG_LEVEL: "${CELERY_BEAT_LOG_LEVEL}"
       DEBUG: "${DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
       DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
