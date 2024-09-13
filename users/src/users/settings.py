@@ -158,9 +158,9 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
 
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": "",
+    "ALGORITHM": "RS256",
+    "SIGNING_KEY": env.str('JWT_PRIVATE_KEY').replace('\\n', '\n'),
+    "VERIFYING_KEY": env.str('JWT_PUBLIC_KEY').replace('\\n', '\n'),
     "AUDIENCE": None,
     "ISSUER": "jwt-consumer",
     "JSON_ENCODER": None,
