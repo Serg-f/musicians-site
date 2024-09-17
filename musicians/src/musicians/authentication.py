@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class CustomTokenAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get('Authorization')
-        logger.debug(f"Auth Header: {auth_header}")  # Debug log
+        logger.debug(f"Headers: {request.headers}")
         if not auth_header:
             return None
 
