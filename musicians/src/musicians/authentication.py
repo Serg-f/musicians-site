@@ -1,46 +1,26 @@
 import logging
-
-from rest_framework import authentication, exceptions
-from urllib.request import urlopen, Request as URLRequest
-from urllib.error import HTTPError
-
-from mus_proj.settings import USERS_SERVICE_URL
+from rest_framework import authentication
 from .serializers import UserSerializer
-import json
 
 logger = logging.getLogger(__name__)
 
 
 class CustomTokenAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        auth_header = request.headers.get('Authorization')
-        logger.debug(f"Headers: {request.headers}")
-        if not auth_header:
+        logger.debug('Starting authentication process.')
+
+        user_id = request.headers.get('X-User-ID')
+        if not user_id:
+            logger.debug('No User ID found in request headers.')
             return None
 
-        try:
-            auth_request = URLRequest(f'{USERS_SERVICE_URL}/validate-token/',
-                                      headers={'Authorization': auth_header})
-            logger.debug(f"Auth Request: {auth_request.headers}")  # Debug log
-            logger.debug(f"Auth Request URL: {auth_request.full_url}")  # Debug log
-            with urlopen(auth_request) as response:
-                data = json.loads(response.read())
-                logger.debug(f"Response Data: {data}")  # Debug log
-                user_serializer = UserSerializer(data=data)
-                if user_serializer.is_valid():
-                    validated_data = user_serializer.validated_data
-                    logger.debug(f"Validated Data: {validated_data}")  # Debug log
-                    user = user_serializer.create_user(validated_data)
-                    request.user = user
-                    logger.debug(f"Authenticated User: {request.user}")  # Debug log
-                    return user, None
-                else:
-                    logger.warning(f"User Serializer Errors: {user_serializer.errors}")  # Warning log
-        except HTTPError as e:
-            logger.warning(f"HTTPError: {e}")  # Warning log
-            if e.code == 401:
-                raise exceptions.AuthenticationFailed(json.loads(e.read()))
-            else:
-                raise exceptions.AuthenticationFailed('Unexpected error occurred during authentication')
+        logger.debug(f'User ID found: {user_id}')
 
-        return None
+        user_serializer = UserSerializer(data={'id': user_id})
+
+        if user_serializer.is_valid():
+            logger.debug('User serializer is valid. Creating user.')
+            return user_serializer.create_user(user_serializer.validated_data), None
+        else:
+            logger.debug(f'User serializer is invalid. Errors: {user_serializer.errors}')
+            return None
