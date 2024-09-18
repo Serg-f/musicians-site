@@ -32,12 +32,6 @@ class StyleSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    username = serializers.CharField(required=False)
-    email = serializers.EmailField(required=False)
-    first_name = serializers.CharField(required=False)
-    last_name = serializers.CharField(required=False)
-    is_staff = serializers.BooleanField(required=False)
-    last_login = serializers.DateTimeField(required=False)
 
     def create_user(self, validated_data):
         class User:
