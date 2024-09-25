@@ -17,11 +17,6 @@ class UserPublicSerializer(serializers.ModelSerializer):
         fields = ('id', 'username',)
 
 
-class UserStatsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'articles_published', 'articles_total')
-
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

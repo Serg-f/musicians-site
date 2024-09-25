@@ -2,6 +2,7 @@ django==5.0.6
 djangorestframework==3.15.1
 djangorestframework-simplejwt==5.3.1
 pyjwt
+pika
 cryptography
 django-environ
 psycopg2-binary

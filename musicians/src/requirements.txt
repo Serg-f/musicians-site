@@ -8,7 +8,7 @@ django-embed-video
 pillow
 django-cors-headers
 drf-spectacular
-celery[rabbitmq]
+pika
 requests
 django-redis
 gunicorn

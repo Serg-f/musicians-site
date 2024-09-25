@@ -1,3 +1,5 @@
+import pika
+import json
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.db import models
 from autoslug import AutoSlugField
@@ -38,16 +40,31 @@ class Musician(models.Model):
         ordering = ['-time_create']
 
 
-def update_user_statistic(instance):
-    from .tasks import update_user_stats
-    update_user_stats.delay(instance.author_id)
+def send_user_stat_update(user_id):
+    connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
+    channel = connection.channel()
+    channel.queue_declare(queue='user_statistics')
+
+
+    user_articles = Musician.objects.filter(author_id=user_id)
+    article_total = user_articles.count()
+    article_published = user_articles.filter(is_published=True).count()
+
+    message = json.dumps({
+        'user_id': user_id,
+        'articles_published': article_published,
+        'articles_total': article_total
+    })
+
+    channel.basic_publish(exchange='', routing_key='user_statistics', body=message)
+    connection.close()
 
 
 @receiver(post_save, sender=Musician)
 def post_save_musician(sender, instance, **kwargs):
-    update_user_statistic(instance)
+    send_user_stat_update(instance.author_id)
 
 
 @receiver(post_delete, sender=Musician)
 def post_delete_musician(sender, instance, **kwargs):
-    update_user_statistic(instance)
+    send_user_stat_update(instance.author_id)

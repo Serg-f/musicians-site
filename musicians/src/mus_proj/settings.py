@@ -10,9 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import logging
-from datetime import timedelta
 from pathlib import Path
-from celery.schedules import crontab
 
 import environ
 
@@ -172,14 +170,3 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
-
-
-# Celery
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = env.str('CELERY_RESULT_BACKEND')
-CELERY_BEAT_SCHEDULE = {
-    'update-user-stats': {
-        'task': 'musicians.tasks.update_all_users_stats',
-        'schedule': crontab(hour=0, minute=0),
-    },
-}

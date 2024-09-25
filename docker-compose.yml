@@ -56,8 +56,6 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
-      CELERY_RESULT_BACKEND: "rpc://"
       REDIS_URL: "redis://redis:6379/1"
       USERS_SERVICE_URL: "http://users-service:8000"
     volumes:
@@ -102,57 +100,25 @@ services:
     networks:
       - app-network
 
-  celery-worker:
-    build: ./musicians
-    container_name: celery-worker
-    command: celery -A mus_proj worker --loglevel=${CELERY_WORKER_LOG_LEVEL}
+  user-stats-consumer:
+    build: ./users
+    container_name: user-stats-consumer
+    command: python manage.py consume_user_stats
     environment:
-      LOG_LEVEL: "${CELERY_WORKER_LOG_LEVEL}"
-      DEBUG: "${CELERY_WORKER_DEBUG}"
+      LOG_LEVEL: "${USERS_LOG_LEVEL}"
+      DEBUG: "${USERS_DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
+      DB_NAME_USERS: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
-      CELERY_RESULT_BACKEND: "rpc://"
-      REDIS_URL: "redis://redis:6379/1"
-      USERS_SERVICE_URL: "http://users-service:8000"
-    volumes:
-      - ./musicians/src:/project_dir
     depends_on:
-      - musicians-service
       - rabbitmq
-      - redis
+      - users-service
     networks:
       - app-network
 
-  celery-beat:
-    build: ./musicians
-    container_name: celery-beat
-    command: celery -A mus_proj beat --loglevel=${CELERY_BEAT_LOG_LEVEL}
-    environment:
-      LOG_LEVEL: "${CELERY_BEAT_LOG_LEVEL}"
-      DEBUG: "${CELERY_BEAT_DEBUG}"
-      SECRET_KEY: "${SECRET_KEY}"
-      DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_HOST: "${DB_HOST}"
-      DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
-      CELERY_RESULT_BACKEND: "rpc://"
-      REDIS_URL: "redis://redis:6379/1"
-      USERS_SERVICE_URL: "http://users-service:8000"
-    volumes:
-      - ./musicians/src:/project_dir
-    depends_on:
-      - musicians-service
-      - rabbitmq
-      - redis
-    networks:
-      - app-network
 
 networks:
   app-network:
