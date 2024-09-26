@@ -99,11 +99,6 @@ services:
       - "15672:15672"
     networks:
         - app-network
-    healthcheck:
-      test: ["CMD", "rabbitmqctl", "status"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   user-stats-consumer:
     build: ./users
