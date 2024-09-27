@@ -39,8 +39,6 @@ services:
     volumes:
       - ./users/src:/project_dir
     command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8020:8000"
     networks:
       - app-network
 
@@ -57,12 +55,9 @@ services:
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
       REDIS_URL: "redis://redis:6379/1"
-      USERS_SERVICE_URL: "http://users-service:8000"
     volumes:
       - ./musicians/src:/project_dir
     command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8010:8000"
     depends_on:
       - redis
     networks:
@@ -105,8 +100,8 @@ services:
     container_name: user-stats-consumer
     command: python manage.py consume_user_stats
     environment:
-      LOG_LEVEL: "${USERS_LOG_LEVEL}"
-      DEBUG: "${USERS_DEBUG}"
+      LOG_LEVEL: "${USER_STATS_CONSUMER_LOG_LEVEL}"
+      DEBUG: "${USER_STATS_CONSUMER_DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
       DB_NAME_USERS: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"

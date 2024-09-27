@@ -32,10 +32,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['*']
-
-USERS_SERVICE_URL = env.str('USERS_SERVICE_URL')
-# Application definition
+ALLOWED_HOSTS = ['localhost', 'musicians-service']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
