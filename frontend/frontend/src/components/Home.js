@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
-import { axiosInstanceNoAuth, axiosInstance } from '../context/axiosInstances';
-import { Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
+import React, {useEffect, useState, useContext, useCallback, useMemo} from 'react';
+import {axiosInstanceNoAuth, axiosInstance} from '../context/axiosInstances';
+import {Row, Col, Button, Modal, CloseButton} from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import BaseFilter from './filters/BaseFilter';
 import CustomPagination from './Pagination';
-import { AuthContext } from '../context/AuthContext';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import {AuthContext} from '../context/AuthContext';
+import {useSearchParams, useNavigate} from 'react-router-dom';
 import Search from './Search';
-import { usersServiceURL, musiciansServiceURL } from '../context/serviceUrls';
-import { toast } from 'react-toastify';
+import {usersServiceURL, musiciansServiceURL} from '../context/serviceUrls';
+import {toast} from 'react-toastify';
 
 const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day in milliseconds
 const STYLES_CACHE_KEY = 'stylesCache';
@@ -23,7 +23,7 @@ const Home = () => {
     const [styles, setStyles] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedAuthor, setSelectedAuthor] = useState('all');
-    const { user, isAuthenticated } = useContext(AuthContext);
+    const {user, isAuthenticated} = useContext(AuthContext);
     const [showConfirm, setShowConfirm] = useState(false);
     const [articleToDelete, setArticleToDelete] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState('time-create-desc');
@@ -81,12 +81,12 @@ const Home = () => {
 
         try {
             const response = await axiosInstanceNoAuth.get(`${musiciansServiceURL}/v1/musicians/?page=${page}${stylesQuery}${authorQuery}${searchQuery}${pageSizeQuery}${orderingQuery}`);
-            const { results, count, next } = response.data;
+            const {results, count, next} = response.data;
 
             const articlesWithDetails = results.map(article => {
                 const styleId = parseInt(article.style.split('/').slice(-2, -1)[0]);
-                const style = styles.find(s => s.id === styleId) || { name: 'Unknown' };
-                const author = users.find(u => u.id === article.author_id) || { username: 'Unknown' };
+                const style = styles.find(s => s.id === styleId) || {name: 'Unknown'};
+                const author = users.find(u => u.id === article.author_id) || {username: 'Unknown'};
                 return {
                     ...article,
                     styleName: style.name,
@@ -135,7 +135,7 @@ const Home = () => {
     }, [styles, users, styleParams, authorParam, orderParam]);
 
     const handlePageChange = (newPage) => {
-        const params = { page: newPage };
+        const params = {page: newPage};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -159,7 +159,7 @@ const Home = () => {
 
     const handlePageSizeChange = (e) => {
         const newPageSize = parseInt(e.target.value);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (newPageSize !== 3) {
             params['page-size'] = newPageSize;
         }
@@ -183,7 +183,7 @@ const Home = () => {
 
     const handleStyleChange = (newSelectedStyles) => {
         setSelectedStyles(newSelectedStyles);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -207,7 +207,7 @@ const Home = () => {
 
     const handleAuthorChange = (newAuthor) => {
         setSelectedAuthor(newAuthor);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -231,7 +231,7 @@ const Home = () => {
 
     const handleOrderChange = (newOrder) => {
         setSelectedOrder(newOrder);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -257,7 +257,7 @@ const Home = () => {
         setSelectedStyles([]);
         setSelectedAuthor('all');
         setSelectedOrder('time-create-desc');
-        setSearchParams({ page: 1, 'page-size': pageSize });
+        setSearchParams({page: 1, 'page-size': pageSize});
     };
 
     const handleStyleClick = (styleName) => {
@@ -302,33 +302,37 @@ const Home = () => {
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">
-                    <Search />
+                    <Search/>
                     <Row>
                         {articles.length > 0 ? articles.map(article => (
                             <Col key={article.id} lg={12} className="mb-4">
                                 <Row className="p-3 border-bottom">
                                     {article.photo && (
                                         <Col md="auto" className="mb-3 mb-md-0">
-                                            <img src={`${musiciansServiceURL}${article.photo}`} alt={article.title} className="img-fluid"
-                                                style={{ maxWidth: '300px', width: '100%', height: 'auto' }} />
+                                            <img
+                                                src={article.photo.startsWith('http') ? article.photo : `${musiciansServiceURL}${article.photo}`}
+                                                alt={article.title} className="img-fluid"
+                                                style={{maxWidth: '300px', width: '100%', height: 'auto'}}
+                                            />
                                         </Col>
                                     )}
                                     <Col>
                                         <p className="text-muted">
                                             Style: <button
-                                                className="btn btn-link text-decoration-underline text-primary p-0"
-                                                onClick={() => handleStyleClick(article.styleName)}>{article.styleName}</button>
+                                            className="btn btn-link text-decoration-underline text-primary p-0"
+                                            onClick={() => handleStyleClick(article.styleName)}>{article.styleName}</button>
                                         </p>
                                         <p className="text-muted">
                                             Author: <button
-                                                className="btn btn-link text-decoration-underline text-primary p-0"
-                                                onClick={() => handleAuthorClick(article.authorName)}>{article.authorName}</button>
+                                            className="btn btn-link text-decoration-underline text-primary p-0"
+                                            onClick={() => handleAuthorClick(article.authorName)}>{article.authorName}</button>
                                         </p>
                                         <p className="text-muted">Created: {new Date(article.time_create).toLocaleString()}</p>
                                         <h5 className="mt-2">{article.title}</h5>
                                         <p>{article.content.substring(0, 300)}...</p>
                                         <div className="d-flex">
-                                            <Button variant="primary" href={`/articles/${article.id}`}>Read article</Button>
+                                            <Button variant="primary" href={`/articles/${article.id}`}>Read
+                                                article</Button>
 
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
@@ -376,7 +380,7 @@ const Home = () => {
             <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
                 <Modal.Header>
                     <Modal.Title>Confirm Delete</Modal.Title>
-                    <CloseButton onClick={() => setShowConfirm(false)} />
+                    <CloseButton onClick={() => setShowConfirm(false)}/>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure you want to delete this article?

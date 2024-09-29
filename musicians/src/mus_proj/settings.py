@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import logging
 from pathlib import Path
-
+from google.oauth2 import service_account
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
     'corsheaders',
+    'storages',
 
     'musicians',
 ]
@@ -141,9 +142,22 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Storage configuration
+USE_GCP_STORAGE = env.bool('USE_GCP_STORAGE')
+
+if USE_GCP_STORAGE:
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = env.str('GS_BUCKET_NAME')
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        env.str('GOOGLE_APPLICATION_CREDENTIALS')
+    )
+
+    GS_CUSTOM_ENDPOINT = f"https://storage.googleapis.com/{GS_BUCKET_NAME}"
+    MEDIA_URL = f"{GS_CUSTOM_ENDPOINT}/"
+    MEDIA_ROOT = '/'
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

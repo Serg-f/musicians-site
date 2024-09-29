@@ -9,7 +9,8 @@ pillow
 django-cors-headers
 drf-spectacular
 pika
-requests
+django-storages
+google-cloud-storage
 django-redis
 gunicorn
 whitenoise

@@ -46,6 +46,9 @@ services:
     build: ./musicians
     container_name: musicians-container
     environment:
+      USE_GCP_STORAGE: "${USE_GCP_STORAGE}"
+      GS_BUCKET_NAME: "${GS_BUCKET_NAME}"
+      GOOGLE_APPLICATION_CREDENTIALS: "${GOOGLE_APPLICATION_CREDENTIALS}"
       LOG_LEVEL: "${MUSICIANS_LOG_LEVEL}"
       DEBUG: "${MUSICIANS_DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"

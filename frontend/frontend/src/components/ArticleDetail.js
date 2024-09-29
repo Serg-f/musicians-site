@@ -83,7 +83,7 @@ const ArticleDetail = () => {
                     <Col lg={8}>
                         {article.photo && (
                             <img
-                                src={`${musiciansServiceURL}${article.photo}`}
+                                src={article.photo.startsWith('http') ? article.photo : `${musiciansServiceURL}${article.photo}`}
                                 className="img-fluid mb-3"
                                 alt={article.title}
                             />
