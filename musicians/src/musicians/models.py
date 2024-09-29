@@ -60,9 +60,9 @@ def send_user_stat_update(user_id):
     connection.close()
 
 
-# @receiver(post_save, sender=Musician)
-# def post_save_musician(sender, instance, **kwargs):
-#     send_user_stat_update(instance.author_id)
+@receiver(post_save, sender=Musician)
+def post_save_musician(sender, instance, **kwargs):
+    send_user_stat_update(instance.author_id)
 
 
 @receiver(post_delete, sender=Musician)
