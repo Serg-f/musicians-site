@@ -1,6 +1,5 @@
 from django.conf import settings
 from rest_framework import serializers
-from urllib3 import request
 
 from .models import Musician, Style
 

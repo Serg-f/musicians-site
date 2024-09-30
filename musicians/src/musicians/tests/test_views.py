@@ -1,9 +1,12 @@
-from unittest.mock import patch, Mock
+from unittest.mock import patch
+
 from django.urls import reverse
-from rest_framework.test import APITestCase
 from rest_framework import status
+from rest_framework.test import APITestCase
+
 from musicians.models import Musician, Style
 from musicians.serializers import UserSerializer
+
 
 class MusicianViewSetTest(APITestCase):
 

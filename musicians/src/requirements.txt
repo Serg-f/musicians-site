@@ -14,3 +14,5 @@ google-cloud-storage
 django-redis
 gunicorn
 whitenoise
+isort
+flake8

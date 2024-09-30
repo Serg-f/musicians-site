@@ -1,12 +1,11 @@
 from rest_framework import viewsets
-from rest_framework.generics import RetrieveAPIView, CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import CustomUser
-from .serializers import UserProfileSerializer, UserPublicSerializer, RegisterSerializer, \
-    CustomTokenObtainPairSerializer
-
+from .serializers import (CustomTokenObtainPairSerializer, RegisterSerializer,
+                          UserProfileSerializer, UserPublicSerializer)
 
 
 class UsersViewSet(viewsets.ReadOnlyModelViewSet):
@@ -22,9 +21,10 @@ class ProfileView(RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
+
 class RegisterView(CreateAPIView):
     serializer_class = RegisterSerializer
 
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-

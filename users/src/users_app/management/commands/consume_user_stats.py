@@ -1,8 +1,11 @@
-import time
-import pika
 import json
+import time
+
+import pika
 from django.core.management.base import BaseCommand
+
 from users_app.models import CustomUser
+
 
 class Command(BaseCommand):
     help = 'Consume messages from the user_statistics queue'

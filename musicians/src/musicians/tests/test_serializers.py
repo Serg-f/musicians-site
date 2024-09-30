@@ -1,10 +1,11 @@
-from django.test import TestCase, RequestFactory
 from django.contrib.auth import get_user_model
-from unittest.mock import Mock
+from django.test import RequestFactory, TestCase
+
+from musicians.models import Style
 from musicians.serializers import MusicianSerializer, StyleSerializer
-from musicians.models import Musician, Style
 
 User = get_user_model()
+
 
 class MusicianSerializerTest(TestCase):
 

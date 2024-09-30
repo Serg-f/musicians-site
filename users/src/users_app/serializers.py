@@ -1,6 +1,7 @@
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from users_app.models import CustomUser
 
 

@@ -1,6 +1,7 @@
 from django.test import SimpleTestCase
 from django.urls import resolve, reverse
-from users_app.views import RegisterView, CustomTokenObtainPairView
+
+from users_app.views import CustomTokenObtainPairView, RegisterView
 
 
 class TestUrls(SimpleTestCase):

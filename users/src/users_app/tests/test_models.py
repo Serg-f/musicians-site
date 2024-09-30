@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from users_app.models import CustomUser
 
 

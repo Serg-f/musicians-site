@@ -1,6 +1,7 @@
 from django.test import TestCase
-from users_app.serializers import RegisterSerializer
+
 from users_app.models import CustomUser
+from users_app.serializers import RegisterSerializer
 
 
 class RegisterSerializerTest(TestCase):

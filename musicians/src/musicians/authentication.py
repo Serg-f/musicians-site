@@ -1,5 +1,7 @@
 import logging
+
 from rest_framework import authentication
+
 from .serializers import UserSerializer
 
 logger = logging.getLogger(__name__)

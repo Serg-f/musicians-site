@@ -1,11 +1,12 @@
-import pika
 import json
-from django.core.validators import RegexValidator, MinLengthValidator
-from django.db import models
+
+import pika
 from autoslug import AutoSlugField
-from embed_video.fields import EmbedVideoField
-from django.db.models.signals import post_save, post_delete
+from django.core.validators import MinLengthValidator, RegexValidator
+from django.db import models
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from embed_video.fields import EmbedVideoField
 
 TitleValidator = RegexValidator(regex=r'^[A-Z][A-Za-z]*(?:\s[A-Z][A-Za-z]*){0,29}$',
                                 message='Please enter a valid title with 3 to 30 characters.'
@@ -44,7 +45,6 @@ def send_user_stat_update(user_id):
     connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
     channel = connection.channel()
     channel.queue_declare(queue='user_statistics')
-
 
     user_articles = Musician.objects.filter(author_id=user_id)
     article_total = user_articles.count()
