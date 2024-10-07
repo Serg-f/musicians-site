@@ -66,21 +66,6 @@ services:
     networks:
       - app-network
 
-#  frontend-service:
-#    build: ./frontend
-#    container_name: frontend-container
-#    ports:
-#      - "3000:80"
-#    networks:
-#      - app-network
-#    depends_on:
-#      - users-service
-#      - musicians-service
-#    volumes:
-#      - ./frontend/frontend:/project_dir
-#    environment:
-#      REACT_APP_API_GATEWAY_URL: "http://localhost:8000"
-
   redis:
     image: redis:latest
     container_name: redis
