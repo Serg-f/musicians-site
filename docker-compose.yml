@@ -18,7 +18,7 @@ services:
       - "8000:8000" # Proxy
       - "8443:8443" # Proxy SSL
       - "8001:8001" # Admin API
-      - "8444:8444" # Admin API SS
+      - "8444:8444" # Admin API SSL
     networks:
       - app-network
 
@@ -46,7 +46,7 @@ services:
     build: ./musicians
     container_name: musicians-container
     environment:
-      USE_GCP_STORAGE: "${USE_GCP_STORAGE}"
+      GCP_STORAGE_IS_USED: "${GCP_STORAGE_IS_USED}"
       GS_BUCKET_NAME: "${GS_BUCKET_NAME}"
       GOOGLE_APPLICATION_CREDENTIALS: "${GOOGLE_APPLICATION_CREDENTIALS}"
       LOG_LEVEL: "${MUSICIANS_LOG_LEVEL}"

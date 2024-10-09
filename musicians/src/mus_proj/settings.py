@@ -144,9 +144,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Storage configuration
-USE_GCP_STORAGE = env.bool('USE_GCP_STORAGE')
+GCP_STORAGE_IS_USED = env.bool('GCP_STORAGE_IS_USED')
 
-if USE_GCP_STORAGE:
+if GCP_STORAGE_IS_USED:
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
     GS_BUCKET_NAME = env.str('GS_BUCKET_NAME')
     GS_CREDENTIALS = service_account.Credentials.from_service_account_file(

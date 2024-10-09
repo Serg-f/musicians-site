@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: users-service
+  name: users-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: users-service
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/app-network: "true"
+        io.kompose.service: users-service
+    spec:
+      containers:
+      - args:
+        - gunicorn
+        - --workers
+        - "2"
+        - --threads
+        - "4"
+        - --bind
+        - 0.0.0.0:8000
+        - users.wsgi:application
+        env:
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_HOST
+          - name: DB_NAME_USERS
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_NAME_USERS
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_PASSWORD
+          - name: DB_PORT
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_PORT
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_USER
+          - name: DEBUG
+            valueFrom:
+              configMapKeyRef:
+                name: musicians-config
+                key: USERS_DEBUG
+          - name: JWT_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: JWT_PRIVATE_KEY
+          - name: JWT_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: JWT_PUBLIC_KEY
+          - name: LOG_LEVEL
+            valueFrom:
+              configMapKeyRef:
+                name: musicians-config
+                key: USERS_LOG_LEVEL
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: SECRET_KEY
+        image: users-service
+        imagePullPolicy: ""
+        name: users-container
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
