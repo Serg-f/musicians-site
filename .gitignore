@@ -8,3 +8,4 @@ db.sqlite3
 /users/src/fixtures/users.json
 **/celerybeat-schedule
 **/google.json
+**/musicians-secret.yaml
