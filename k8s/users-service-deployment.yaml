@@ -76,7 +76,7 @@ spec:
               secretKeyRef:
                 name: musicians-secret
                 key: SECRET_KEY
-        image: users-service
+        image: musicians-site_users-service:latest
         name: users-container
         resources: {}
       restartPolicy: Always

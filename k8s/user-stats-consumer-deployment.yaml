@@ -81,6 +81,6 @@ spec:
               name: musicians-secret
               key: SECRET_KEY
 
-        image: user-stats-consumer
+        image: musicians-site_user-stats-consumer:latest
         name: user-stats-consumer
       restartPolicy: Always
