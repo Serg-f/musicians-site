@@ -1,10 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
-    kompose.version: 1.21.0 (992df58d8)
-  creationTimestamp: null
   labels:
     io.kompose.service: user-stats-consumer
   name: user-stats-consumer
@@ -13,13 +9,8 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: user-stats-consumer
-  strategy: {}
   template:
     metadata:
-      annotations:
-        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
-        kompose.version: 1.21.0 (992df58d8)
-      creationTimestamp: null
       labels:
         io.kompose.network/app-network: "true"
         io.kompose.service: user-stats-consumer
@@ -91,10 +82,5 @@ spec:
               key: SECRET_KEY
 
         image: user-stats-consumer
-        imagePullPolicy: ""
         name: user-stats-consumer
-        resources: {}
       restartPolicy: Always
-      serviceAccountName: ""
-      volumes: null
-status: {}

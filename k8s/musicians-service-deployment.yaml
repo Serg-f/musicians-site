@@ -1,10 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
-    kompose.version: 1.21.0 (992df58d8)
-  creationTimestamp: null
   labels:
     io.kompose.service: musicians-service
   name: musicians-service
@@ -17,10 +13,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: /snap/kompose/19/kompose-linux-amd64 convert
-        kompose.version: 1.21.0 (992df58d8)
-      creationTimestamp: null
       labels:
         io.kompose.network/app-network: "true"
         io.kompose.service: musicians-service
@@ -91,17 +83,13 @@ spec:
             secretKeyRef:
               name: musicians-secret
               key: SECRET_KEY
-        image: musicians-service
-        imagePullPolicy: ""
+        image: musicians-site_musicians-service:latest
         name: musicians-container
-        resources: {}
         volumeMounts:
         - mountPath: /project_dir
           name: musicians-service-claim0
       restartPolicy: Always
-      serviceAccountName: ""
       volumes:
       - name: musicians-service-claim0
         persistentVolumeClaim:
           claimName: musicians-service-claim0
-status: {}

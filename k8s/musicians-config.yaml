@@ -4,7 +4,7 @@ metadata:
   name: musicians-config
 
 data:
-  GCP_STORAGE_IS_USED: "True"
+  GCP_STORAGE_IS_USED: "False"
   GOOGLE_APPLICATION_CREDENTIALS: "./google.json"
   GS_BUCKET_NAME: "musicians_media"
 
@@ -18,11 +18,11 @@ data:
   KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
   KONG_PLUGINS: "bundled,custom-transformer"
 
-  MUSICIANS_DEBUG: "False"
+  MUSICIANS_DEBUG: "True"
   MUSICIANS_LOG_LEVEL: "info"
 
-  USER_STATS_CONSUMER_DEBUG: "False"
+  USER_STATS_CONSUMER_DEBUG: "True"
   USER_STATS_CONSUMER_LOG_LEVEL: "info"
 
-  USERS_DEBUG: "False"
+  USERS_DEBUG: "True"
   USERS_LOG_LEVEL: "info"
