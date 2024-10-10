@@ -62,7 +62,7 @@ spec:
             configMapKeyRef:
               name: musicians-config
               key: KONG_PLUGINS
-        image: musicians-site_kong:latest
+        image: feelwork/musicians-kong:latest
         name: kong-container
         ports:
         - containerPort: 8000

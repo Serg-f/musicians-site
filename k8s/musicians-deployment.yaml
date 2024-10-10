@@ -19,14 +19,18 @@ spec:
     spec:
       containers:
       - args:
-        - gunicorn
-        - --workers
-        - "2"
-        - --threads
-        - "4"
-        - --bind
+#        - gunicorn
+#        - --workers
+#        - "2"
+#        - --threads
+#        - "4"
+#        - --bind
+#        - 0.0.0.0:8000
+#        - mus_proj.wsgi:application
+        - python
+        - manage.py
+        - runserver
         - 0.0.0.0:8000
-        - mus_proj.wsgi:application
         env:
         - name: DEBUG
           valueFrom:
@@ -83,13 +87,11 @@ spec:
             secretKeyRef:
               name: musicians-secret
               key: SECRET_KEY
-        image: musicians-site_musicians-service:latest
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: musicians-config
+              key: REDIS_URL
+        image: feelwork/musicians-musicians-service:latest
         name: musicians-container
-        volumeMounts:
-        - mountPath: /project_dir
-          name: musicians-service-claim0
       restartPolicy: Always
-      volumes:
-      - name: musicians-service-claim0
-        persistentVolumeClaim:
-          claimName: musicians-service-claim0
