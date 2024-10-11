@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import base64
 import logging
 from datetime import timedelta
 from pathlib import Path
@@ -159,8 +160,8 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": False,
 
     "ALGORITHM": "RS256",
-    "SIGNING_KEY": env.str('JWT_PRIVATE_KEY').replace('\\n', '\n'),
-    "VERIFYING_KEY": env.str('JWT_PUBLIC_KEY').replace('\\n', '\n'),
+    "SIGNING_KEY": base64.b64decode(env.str('JWT_PRIVATE_KEY')).decode('utf-8'),
+    "VERIFYING_KEY": base64.b64decode(env.str('JWT_PUBLIC_KEY')).decode('utf-8'),
     "AUDIENCE": None,
     "ISSUER": "jwt-consumer",
     "JSON_ENCODER": None,

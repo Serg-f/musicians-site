@@ -92,6 +92,6 @@ spec:
             configMapKeyRef:
               name: musicians-config
               key: REDIS_URL
-        image: feelwork/musicians-musicians-service:latest
+        image: feelwork/musicians-musicians-service:1.0.0
         name: musicians-container
       restartPolicy: Always

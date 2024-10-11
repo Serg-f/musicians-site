@@ -76,7 +76,7 @@ spec:
               secretKeyRef:
                 name: musicians-secret
                 key: SECRET_KEY
-        image: feelwork/musicians-users-service:latest
+        image: feelwork/musicians-users-service:1.0.0
         name: users-container
       restartPolicy: Always
 
