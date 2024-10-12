@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import base64
+import json
 import logging
 from pathlib import Path
 
@@ -146,15 +148,17 @@ STATIC_URL = 'static/'
 # Storage configuration
 GCP_STORAGE_IS_USED = env.bool('GCP_STORAGE_IS_USED')
 
-if GCP_STORAGE_IS_USED:
-    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-    GS_BUCKET_NAME = env.str('GS_BUCKET_NAME')
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        env.str('GOOGLE_APPLICATION_CREDENTIALS')
-    )
 
-    GS_CUSTOM_ENDPOINT = f"https://storage.googleapis.com/{GS_BUCKET_NAME}"
-    MEDIA_URL = f"{GS_CUSTOM_ENDPOINT}/"
+if GCP_STORAGE_IS_USED:
+    encoded_credentials = env.str('GOOGLE_STORAGE_CREDENTIALS')
+    decoded_credentials = base64.b64decode(encoded_credentials).decode('utf-8')
+    credentials_info = json.loads(decoded_credentials)
+
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(credentials_info)
+    GS_BUCKET_NAME = env.str('GS_BUCKET_NAME')
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/"
     MEDIA_ROOT = '/'
 else:
     MEDIA_URL = '/media/'
