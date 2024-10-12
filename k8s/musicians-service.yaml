@@ -4,7 +4,7 @@ metadata:
   name: musicians-service
 spec:
   selector:
-    io.kompose.service: musicians-service
+    service: musicians-service
   ports:
     - protocol: TCP
       port: 8000

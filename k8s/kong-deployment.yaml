@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: kong
+    service: kong
   name: kong
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: kong
+      service: kong
   template:
     metadata:
       labels:
-        io.kompose.network/app-network: "true"
-        io.kompose.service: kong
+        network/app-network: "true"
+        service: kong
     spec:
       containers:
       - env:

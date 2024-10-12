@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: rabbitmq
+    service: rabbitmq
   name: rabbitmq
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: rabbitmq
+      service: rabbitmq
   template:
     metadata:
       labels:
-        io.kompose.network/app-network: "true"
-        io.kompose.service: rabbitmq
+        network/app-network: "true"
+        service: rabbitmq
     spec:
       containers:
       - image: rabbitmq:3-management

@@ -11,4 +11,4 @@ spec:
       targetPort: 15672
       name: management
   selector:
-    io.kompose.service: rabbitmq
+    service: rabbitmq

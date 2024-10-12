@@ -44,7 +44,7 @@ Welcome to the Musicians Site repository, a web application designed with a **cl
 ## Technologies Used
 
 - **Frontend**: React, Axios, React-Bootstrap, React-Router-Dom.
-- **Backend**: Django, Django Rest Framework (DRF), PostgreSQL, Redis, RabbitMQ, Unit Testing, Google Cloud Storage.
+- **Backend**: Django, Django Rest Framework (DRF), PostgreSQL, Redis, RabbitMQ, Unit Testing with mock, Google Cloud Storage.
 - **DevOps**: Docker, Docker Compose, Nginx, Kong, Google Cloud Platform, CI/CD with GitHub Actions, Kubernetes.
 - **Other**: JWT (RS256), OpenAPI (Swagger), Postman, Git, GitHub, Docker Hub.
 

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    io.kompose.service: musicians-service-claim0
+    service: musicians-service-claim0
   name: musicians-service-claim0
 spec:
   accessModes:

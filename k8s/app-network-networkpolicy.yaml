@@ -5,9 +5,9 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      io.kompose.network/app-network: "true"
+      network/app-network: "true"
   ingress:
   - from:
     - podSelector:
         matchLabels:
-          io.kompose.network/app-network: "true"
+          network/app-network: "true"

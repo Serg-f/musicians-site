@@ -4,7 +4,7 @@ metadata:
   name: redis
 spec:
   selector:
-    io.kompose.service: redis
+    service: redis
   ports:
     - protocol: TCP
       port: 6379

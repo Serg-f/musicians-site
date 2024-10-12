@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: users-service
+    service: users-service
   name: users-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: users-service
+      service: users-service
   template:
     metadata:
       labels:
-        io.kompose.network/app-network: "true"
-        io.kompose.service: users-service
+        network/app-network: "true"
+        service: users-service
     spec:
       containers:
       - args:
@@ -79,4 +79,3 @@ spec:
         image: feelwork/musicians-users-service:1.0.5
         name: users-container
       restartPolicy: Always
-

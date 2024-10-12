@@ -4,7 +4,7 @@ metadata:
   name: users-service
 spec:
   selector:
-    io.kompose.service: users-service
+    service: users-service
   ports:
     - protocol: TCP
       port: 8000

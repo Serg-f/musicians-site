@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: redis
+    service: redis
   name: redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: redis
+      service: redis
   template:
     metadata:
       labels:
-        io.kompose.network/app-network: "true"
-        io.kompose.service: redis
+        network/app-network: "true"
+        service: redis
     spec:
       containers:
       - image: redis:latest
