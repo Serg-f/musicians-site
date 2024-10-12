@@ -19,18 +19,10 @@ spec:
     spec:
       containers:
       - args:
-        - gunicorn
-        - --workers
-        - "2"
-        - --threads
-        - "4"
-        - --bind
+        - python
+        - manage.py
+        - runserver
         - 0.0.0.0:8000
-        - mus_proj.wsgi:application
-#        - python
-#        - manage.py
-#        - runserver
-#        - 0.0.0.0:8000
         env:
         - name: DEBUG
           valueFrom:

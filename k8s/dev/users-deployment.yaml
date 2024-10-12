@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: users-service
+  name: users-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: users-service
+  template:
+    metadata:
+      labels:
+        network/app-network: "true"
+        service: users-service
+    spec:
+      containers:
+      - args:
+        - python
+        - manage.py
+        - runserver
+        - 0.0.0.0:8000
+        env:
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_HOST
+          - name: DB_NAME_USERS
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_NAME_USERS
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_PASSWORD
+          - name: DB_PORT
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_PORT
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: DB_USER
+          - name: DEBUG
+            valueFrom:
+              configMapKeyRef:
+                name: musicians-config
+                key: USERS_DEBUG
+          - name: JWT_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: JWT_PRIVATE_KEY
+          - name: JWT_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: JWT_PUBLIC_KEY
+          - name: LOG_LEVEL
+            valueFrom:
+              configMapKeyRef:
+                name: musicians-config
+                key: USERS_LOG_LEVEL
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: musicians-secret
+                key: SECRET_KEY
+        image: feelwork/musicians-users-service:1.0.5
+        name: users-container
+      restartPolicy: Always
