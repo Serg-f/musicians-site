@@ -81,6 +81,6 @@ spec:
               name: musicians-secret
               key: SECRET_KEY
 
-        image: feelwork/musicians-users-service:1.0.0
+        image: feelwork/musicians-users-service:1.0.5
         name: user-stats-consumer
       restartPolicy: Always

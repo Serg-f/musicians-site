@@ -7,8 +7,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: api.musicians.com
-      http:
+#    - host: api.musicians.com
+    - http:
         paths:
         - path: /
           pathType: Prefix
