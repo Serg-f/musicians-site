@@ -4,9 +4,7 @@ metadata:
   name: musicians-config
 
 data:
-  GCP_STORAGE_IS_USED: "False"
-  GOOGLE_APPLICATION_CREDENTIALS: "./google.json"
-  GS_BUCKET_NAME: "musicians-bucket"
+  GCP_STORAGE_IS_USED: "True"
 
   KONG_LOG_LEVEL: "info"
   KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
