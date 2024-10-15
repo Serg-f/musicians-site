@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+data:
+  kong.yml: |
+    _format_version: "1.1"
+    services:
+    - name: test-service
+      url: http://mockbin.org
+      routes:
+      - name: test-route
+        paths:
+        - /test

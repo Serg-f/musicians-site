@@ -7,10 +7,11 @@ metadata:
 spec:
   ports:
   - name: "8000"
-    port: 8000
+    port: 80
     targetPort: 8000
   - name: "8443"
-    port: 8443
+    port: 443
     targetPort: 8443
   selector:
     service: kong
+  type: LoadBalancer
