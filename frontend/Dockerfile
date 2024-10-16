@@ -13,6 +13,10 @@ RUN npm install
 # Copy the rest of the code
 COPY ./frontend ./
 
+# Inject the environment variable during build
+ARG API_URL
+ENV REACT_APP_API_URL=$API_URL
+
 # Build the React app
 RUN npm run build
 
