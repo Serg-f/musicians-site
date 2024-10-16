@@ -83,4 +83,12 @@ spec:
 
         image: feelwork/musicians-users-service:1.0.5
         name: user-stats-consumer
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+
       restartPolicy: Always
