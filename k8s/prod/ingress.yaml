@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kong-ingress
+  annotations:
+    kubernetes.io/ingress.class: gce
+    networking.gke.io/managed-certificates: "my-certificate"
+    kubernetes.io/ingress.global-static-ip-name: "api-ip"
+spec:
+  ingressClassName: gce
+  rules:
+    - host: api.musicians-app.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kong
+                port:
+                  number: 8000
+  tls:
+    - hosts:
+        - api.musicians-app.com
