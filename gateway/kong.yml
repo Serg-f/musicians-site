@@ -15,6 +15,15 @@ services:
         paths:
           - /users
 
+  - name: health-check-service
+    url: http://localhost:8001
+    routes:
+      - name: health-check-route
+        paths:
+          - /health
+        methods:
+          - GET
+
 consumers:
   - username: jwt-consumer
     jwt_secrets:

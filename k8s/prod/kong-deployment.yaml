@@ -62,11 +62,12 @@ spec:
             configMapKeyRef:
               name: musicians-config
               key: KONG_PLUGINS
-        image: feelwork/musicians-kong:1.0.0
+        image: feelwork/musicians-kong:1.0.2
         name: kong-container
         ports:
         - containerPort: 8000
         - containerPort: 8443
+        - containerPort: 8001
         resources:
           requests:
             cpu: "100m"

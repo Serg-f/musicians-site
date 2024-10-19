@@ -7,10 +7,8 @@ metadata:
 spec:
   selector:
     service: kong
+  type: NodePort
   ports:
-    - name: "8000"
+    - protocol: TCP
       port: 8000
       targetPort: 8000
-    - name: "8443"
-      port: 8443
-      targetPort: 8443
