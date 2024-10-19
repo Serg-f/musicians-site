@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
             const response = await axiosInstance.get('profile/');
             return response.data;
         } catch (error) {
-            console.error('Failed to fetch user profile:', error);
+            // console.error('Failed to fetch user profile:', error);
             return null;
         }
     };
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
             setAuthorizationHeader(newToken);
             return true;
         } catch (error) {
-            console.error('Token refresh failed:', error);
+            // console.error('Token refresh failed:', error);
             return false;
         }
     }, []);
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('access_token');
         if (!token) {
             setIsAuthenticated(false);
-            console.log("verifyAuth: No token found");
+            // console.log("verifyAuth: No token found");
             setLoading(false);
             return;
         }
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
                 const profile = await getUserProfile();
                 setUser(profile);
                 setIsAuthenticated(true);
-                console.log("verifyAuth: User is authenticated");
+                // console.log("verifyAuth: User is authenticated");
             }
         } catch (error) {
             console.error('Token verification failed:', error);
@@ -61,10 +61,10 @@ export const AuthProvider = ({ children }) => {
                 const profile = await getUserProfile();
                 setUser(profile);
                 setIsAuthenticated(true);
-                console.log("verifyAuth: Token refreshed, user is authenticated");
+                // console.log("verifyAuth: Token refreshed, user is authenticated");
             } else {
                 setIsAuthenticated(false);
-                console.log("verifyAuth: Token verification and refresh failed");
+                // console.log("verifyAuth: Token verification and refresh failed");
             }
         } finally {
             setLoading(false);
