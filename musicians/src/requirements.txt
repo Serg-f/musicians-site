@@ -8,8 +8,11 @@ django-embed-video
 pillow
 django-cors-headers
 drf-spectacular
-celery[rabbitmq]
-requests
+pika
+django-storages
+google-cloud-storage
 django-redis
 gunicorn
 whitenoise
+isort
+flake8

@@ -9,12 +9,13 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import base64
+import json
 import logging
-from datetime import timedelta
 from pathlib import Path
-from celery.schedules import crontab
 
 import environ
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,10 +35,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['*']
-
-USERS_SERVICE_URL = env.str('USERS_SERVICE_URL')
-# Application definition
+ALLOWED_HOSTS = ['localhost', 'musicians-service']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,6 +49,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
     'corsheaders',
+    'storages',
 
     'musicians',
 ]
@@ -87,16 +86,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mus_proj.wsgi.application'
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': env.str('REDIS_URL'),
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         },
-#         'KEY_PREFIX': 'musicians_service',
-#     }
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env.str('REDIS_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'KEY_PREFIX': 'musicians_service',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -146,9 +145,24 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Storage configuration
+GCP_STORAGE_IS_USED = env.bool('GCP_STORAGE_IS_USED')
+
+
+if GCP_STORAGE_IS_USED:
+    encoded_credentials = env.str('GOOGLE_STORAGE_CREDENTIALS')
+    decoded_credentials = base64.b64decode(encoded_credentials).decode('utf-8')
+    credentials_info = json.loads(decoded_credentials)
+
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(credentials_info)
+    GS_BUCKET_NAME = env.str('GS_BUCKET_NAME')
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/"
+    MEDIA_ROOT = '/'
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -172,13 +186,3 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
-
-# Celery
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = env.str('CELERY_RESULT_BACKEND')
-CELERY_BEAT_SCHEDULE = {
-    'update-user-stats': {
-        'task': 'musicians.tasks.update_all_users_stats',
-        'schedule': crontab(hour=0, minute=0),
-    },
-}

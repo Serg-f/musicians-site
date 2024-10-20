@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: musicians-config
+
+data:
+  GCP_STORAGE_IS_USED: "True"
+
+  KONG_LOG_LEVEL: "info"
+  KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
+  KONG_DATABASE: "off"
+  KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+  KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+  KONG_PROXY_ERROR_LOG: "/dev/stderr"
+  KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+  KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+  KONG_PLUGINS: "bundled,custom-transformer"
+
+  REDIS_URL: "redis://redis:6379/1"
+
+  MUSICIANS_DEBUG: "True"
+  MUSICIANS_LOG_LEVEL: "info"
+
+  USER_STATS_CONSUMER_DEBUG: "True"
+  USER_STATS_CONSUMER_LOG_LEVEL: "info"
+
+  USERS_DEBUG: "True"
+  USERS_LOG_LEVEL: "info"

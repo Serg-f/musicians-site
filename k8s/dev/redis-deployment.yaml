@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: redis
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: redis
+  template:
+    metadata:
+      labels:
+        network/app-network: "true"
+        service: redis
+    spec:
+      containers:
+      - image: redis:latest
+        name: redis
+      restartPolicy: Always

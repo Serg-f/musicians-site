@@ -9,11 +9,12 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import base64
+import logging
 from datetime import timedelta
+from pathlib import Path
 
 import environ
-from pathlib import Path
-import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +34,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', 'users-service', 'user-stats-consumer']
 
 # Application definition
 
@@ -158,11 +159,11 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
 
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY,
-    "VERIFYING_KEY": "",
+    "ALGORITHM": "RS256",
+    "SIGNING_KEY": base64.b64decode(env.str('JWT_PRIVATE_KEY')).decode('utf-8'),
+    "VERIFYING_KEY": base64.b64decode(env.str('JWT_PUBLIC_KEY')).decode('utf-8'),
     "AUDIENCE": None,
-    "ISSUER": None,
+    "ISSUER": "jwt-consumer",
     "JSON_ENCODER": None,
     "JWK_URL": None,
     "LEEWAY": 0,

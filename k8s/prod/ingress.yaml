@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kong-ingress
+  annotations:
+    kubernetes.io/ingress.class: gce
+    networking.gke.io/managed-certificates: my-certificate
+spec:
+  ingressClassName: gce
+  defaultBackend:
+    service:
+      name: kong
+      port:
+        number: 8000

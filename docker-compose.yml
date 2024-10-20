@@ -1,22 +1,44 @@
 version: "3.8"
 services:
+
+  kong:
+    build: ./gateway
+    container_name: kong-container
+    environment:
+      KONG_LOG_LEVEL: "${KONG_LOG_LEVEL}"
+      KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
+      KONG_DATABASE: "off"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+      KONG_PLUGINS: "bundled,custom-transformer"
+    ports:
+      - "8000:8000" # Proxy
+      - "8443:8443" # Proxy SSL
+      - "8001:8001" # Admin API
+      - "8444:8444" # Admin API SSL
+    networks:
+      - app-network
+
   users-service:
     build: ./users
     container_name: users-container
     environment:
-      DEBUG: "${DEBUG}"
+      LOG_LEVEL: "${USERS_LOG_LEVEL}"
+      DEBUG: "${USERS_DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
       DB_NAME_USERS: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
+      JWT_PUBLIC_KEY: "${JWT_PUBLIC_KEY}"
+      JWT_PRIVATE_KEY: "${JWT_PRIVATE_KEY}"
     volumes:
       - ./users/src:/project_dir
     command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8020:8000"
     networks:
       - app-network
 
@@ -24,43 +46,27 @@ services:
     build: ./musicians
     container_name: musicians-container
     environment:
-      DEBUG: "${DEBUG}"
+      GCP_STORAGE_IS_USED: "${GCP_STORAGE_IS_USED}"
+      GS_BUCKET_NAME: "${GS_BUCKET_NAME}"
+      GOOGLE_STORAGE_CREDENTIALS: "${GOOGLE_STORAGE_CREDENTIALS}"
+      LOG_LEVEL: "${MUSICIANS_LOG_LEVEL}"
+      DEBUG: "${MUSICIANS_DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
       DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
-      CELERY_RESULT_BACKEND: "rpc://"
       REDIS_URL: "redis://redis:6379/1"
-      USERS_SERVICE_URL: "http://users-service:8000"
+    ports:
+      - "8100:8000"
     volumes:
       - ./musicians/src:/project_dir
     command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8000:8000"
     depends_on:
       - redis
     networks:
       - app-network
-
-  frontend-service:
-    build: ./frontend
-    container_name: frontend-container
-    ports:
-      - "3000:80"
-    networks:
-      - app-network
-    depends_on:
-      - users-service
-      - musicians-service
-    volumes:
-      - ./frontend/frontend:/project_dir
-    environment:
-      REACT_APP_USERS_SERVICE_URL: "http://localhost:8020"
-      REACT_APP_MUSICIANS_SERVICE_URL: "http://localhost:8000"
 
   redis:
     image: redis:latest
@@ -77,59 +83,30 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      - app-network
+        - app-network
 
-  celery-worker:
-    build: ./musicians
-    container_name: celery-worker
-    command: celery -A mus_proj worker --loglevel=info
+  user-stats-consumer:
+    build: ./users
+    container_name: user-stats-consumer
+    command: python manage.py consume_user_stats
     environment:
-      DEBUG: "${DEBUG}"
+      LOG_LEVEL: "${USER_STATS_CONSUMER_LOG_LEVEL}"
+      DEBUG: "${USER_STATS_CONSUMER_DEBUG}"
       SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
-      DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
+      DB_NAME_USERS: "${DB_NAME_USERS}"
       DB_USER: "${DB_USER}"
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_HOST: "${DB_HOST}"
       DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
-      CELERY_RESULT_BACKEND: "rpc://"
-      REDIS_URL: "redis://redis:6379/1"
-      USERS_SERVICE_URL: "http://users-service:8000"
-    volumes:
-      - ./musicians/src:/project_dir
+      JWT_PUBLIC_KEY: "${JWT_PUBLIC_KEY}"
+      JWT_PRIVATE_KEY: "${JWT_PRIVATE_KEY}"
+    ports:
+      - "8200:8000"
     depends_on:
-      - musicians-service
       - rabbitmq
-      - redis
     networks:
       - app-network
 
-  celery-beat:
-    build: ./musicians
-    container_name: celery-beat
-    command: celery -A mus_proj beat --loglevel=info
-    environment:
-      DEBUG: "${DEBUG}"
-      SECRET_KEY: "${SECRET_KEY}"
-      LOG_LEVEL: "${LOG_LEVEL}"
-      DB_NAME_MUSICIANS: "${DB_NAME_MUSICIANS}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_HOST: "${DB_HOST}"
-      DB_PORT: "${DB_PORT}"
-      CELERY_BROKER_URL: "amqp://guest:guest@rabbitmq:5672//"
-      CELERY_RESULT_BACKEND: "rpc://"
-      REDIS_URL: "redis://redis:6379/1"
-      USERS_SERVICE_URL: "http://users-service:8000"
-    volumes:
-      - ./musicians/src:/project_dir
-    depends_on:
-      - musicians-service
-      - rabbitmq
-      - redis
-    networks:
-      - app-network
 
 networks:
   app-network:

@@ -1,19 +1,41 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from .models import Musician, Style
 
 
 class MusicianSerializer(serializers.HyperlinkedModelSerializer):
+    photo = serializers.SerializerMethodField()
+
     class Meta:
         model = Musician
         fields = ('url', 'id', 'title', 'slug', 'content', 'photo', 'time_create', 'time_update', 'is_published',
                   'style', 'video', 'author_id')
         read_only_fields = ('slug', 'time_create', 'time_update', 'author_id')
 
+    def get_photo(self, obj):
+        if obj.photo:
+            return f"{settings.MEDIA_URL}{obj.photo}"
+        return None
+
     def create(self, validated_data):
         request = self.context.get('request')
         validated_data['author_id'] = request.user.id
+
+        # Handle file uploads
+        photo = request.FILES.get('photo')
+        if photo:
+            validated_data['photo'] = photo
+
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        # Handle the image update
+        request = self.context.get('request')
+        photo = request.FILES.get('photo')
+        if photo:
+            validated_data['photo'] = photo
+        return super().update(instance, validated_data)
 
 
 class StyleSerializer(serializers.HyperlinkedModelSerializer):
@@ -24,12 +46,6 @@ class StyleSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    username = serializers.CharField()
-    email = serializers.EmailField()
-    first_name = serializers.CharField(allow_blank=True)
-    last_name = serializers.CharField(allow_blank=True)
-    is_staff = serializers.BooleanField()
-    last_login = serializers.DateTimeField()
 
     def create_user(self, validated_data):
         class User:
@@ -42,12 +58,7 @@ class UserSerializer(serializers.Serializer):
                 return True
 
             def __str__(self):
-                return self.username
+                username = getattr(self, 'username', None)
+                return f'user_id: {self.id}, username: {username}'
 
         return User(**validated_data)
-
-
-class UserStatsSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    articles_published = serializers.IntegerField()
-    articles_total = serializers.IntegerField()

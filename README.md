@@ -1,93 +1,61 @@
 # Musicians Site
 
-Welcome to the Musicians Site repository, a comprehensive web application designed with a microservices architecture, leveraging modern web development practices and technologies, and deployed on Google Cloud Platform.
+Musicians Site is a web application designed with a clean microservices architecture, leveraging modern web development and devOps practices and technologies, and deployed on Google Cloud Platform.
 
 ## Key Features
 
-- **Microservices Architecture**
-  - **Frontend Service**: Built with React, featuring a responsive design.
-  - **Users Service**: Backend service using Django Rest Framework (DRF), responsible for user data manipulation and authentication.
-  - **Musicians Service**: Backend service using DRF, responsible for article data manipulation.
+- **Clean Microservices Architecture**
+  - The system is structured into distinct layers: 
+    - **Frontend**: A React-based interface that interacts with the API gateway.
+    - **API Gateway**: Managed by Kong, handling routing, authentication, and security.
+    - **Infrastructure**: Includes Redis for caching, RabbitMQ as a message broker for communication between services, and PostgreSQL databases for persistent storage.
+    - **Services**: 
+      - **Users-Service**: Manages user data and authentication processes.
+      - **Musicians-Service**: Handles core business logic related to articles.
+  - Each service has its own database, ensuring loose coupling and independent scalability. The services communicate asynchronously via RabbitMQ, making the system highly decoupled and resilient.
 
-- **Auxiliary Services**
-  - **Redis**: Used for caching.
-  - **Celery and RabbitMQ**: Used for triggered and postponed tasks.
-
-- **Database Management**
-  - Backend services use independent remote PostgreSQL databases.
-  - The musicians-service database stores no tokens or user information, except for user IDs in the articles table.
-  - Secure communication between services ensures proper authorization and data manipulation.
-
-- **Authentication and Authorization**
-  - JWT tokens are used for secure authentication and authorization.
-
+- **Authentication**
+  - Authentication is handled by the **Users-Service**, which issues **JWT tokens** signed using the RS256 signature algorithm. 
+  - The **Kong API Gateway** is responsible for validating the JWT tokens using the RS256 public key.
+  - If the token is valid, Kong injects the `user_id` into the `X-User-ID` header of requests to other services.
+  - The **Musicians-Service** (and any additional services) operates directly with the `user_id` from the header, without knowledge of the authentication process itself. This decoupling ensures that the authentication mechanism can be changed or updated independently without affecting other services. It also allows the seamless addition of new services without needing to implement or manage authentication.
+  
 - **User Features**
-  - Users can create, read, update, and delete articles about musicians.
-  - Enhanced filtering and search capabilities using `django_filters` and other tools.
-  - Users can filter articles by style (multiple choices), author, order them by different parameters, and use a search bar. These filters can be applied simultaneously.
+  - Users can perform CRUD operations on their articles, with robust filtering and search capabilities using `django_filters`.
+  - Permission management ensures that:
+    - Admins can view and delete any article.
+    - Users can manage their own articles.
+    - Unpublished articles are only visible to their authors and admins.
+  - A user statistics feature is implemented, which automatically recalculates user metrics (such as the number of published or total articles) whenever a user creates or deletes an article. This is managed via asynchronous messages through RabbitMQ, ensuring real-time updates while maintaining system performance.
 
-- **Permission Management**
-  - Strict permission rules are implemented:
-    - Admins can read and delete any articles, including unpublished ones.
-    - Common users can manage (read, update, publish, delete) their own articles.
+- **Caching and Message Brokering**
+  - **Redis** is used for caching frequently accessed data, improving overall performance.
+  - **RabbitMQ** is the message broker for handling asynchronous tasks and communication between services.
 
-- **User Accounts**
-  - Each user has a personal account displaying general info and statistics about total and published articles.
-  - Automated statistic updates triggered by article creation, updates, or deletions, ensuring accuracy. Celery and RabbitMQ handle these tasks after each article changing. Additionally all users' statistic synchronization scheduled to run nightly.
+## Google Cloud Platform (GCP) Integration
 
-- **Caching**
-  - Redis is used for caching to improve performance.
+- **Google Cloud Storage (GCS)**
+  - User-uploaded media files are served directly from GCS for fast, reliable access. You can verify it by opening any article image in a new tab and checking the URL.
 
-- **Testing**
-  - Unit tests with mocking are implemented for backend services.
+- **PostgreSQL on Compute Engine**
+  - PostgreSQL is hosted on a separate Google Compute Engine VM, ensuring dedicated resources and enhanced performance.
 
-- **Environment Management**
-  - Environment variables and secrets management:
-    - Stored in `.env` file for local development.
-    - Managed via GitHub secrets for repository storage.
-    - Managed via Google Cloud Secrets Manager in production.
+- **Deployment**
+  - The **frontend** is deployed via **Cloud Run**, while the **backend API** runs on **Google Kubernetes Engine (GKE)** for efficient scaling and orchestration.
 
-- **Logging**
-  - Logging with different levels controlled by `LOG_LEVEL` environment variable.
-
-- **Continuous Integration and Deployment**
-  - CI/CD implemented using GitHub Actions.
-  - Main services deployed on GCP using Cloud Run, with continuous deployment. Auxiliary services and PostgreSQL databases are hosted on separate Compute Engine VMs.
-
-- **API Documentation**
-  - Interactive live OpenAPI 3.0 specifications for backend services:
-    - [Users Service](https://users-service-2d4imkwuza-ey.a.run.app/schema/swagger-ui/)
-    - [Musicians Service](https://musicians-service-2d4imkwuza-ey.a.run.app/schema/swagger-ui/)
-
-- **Development Setup**
-  - `docker-compose.yml` is configured for development:
-    - DRF services run with `python manage.py runserver` for debugging.
-  - In production, services run with Gunicorn.
+- **HTTPS & SSL Termination**
+  - **Google Managed Certificates** provide secure HTTPS connections for both frontend (**musicians-app.com**) and backend (**api.musicians-app.com**), backend **SSL termination** is managed by **GKE Ingress**.
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, React, and libraries like Axios, React-Bootstrap, React-Router-Dom, React-Scripts, React-Toastify.
-- **Backend**: Django, DRF, REST API, Django libraries (django-filter, django-environ, django-autoslug, django-embed-video, drf-spectacular, django-redis), Celery, RabbitMQ, PostgreSQL.
-- **DevOps**: Docker, Docker Compose, CI/CD, GitHub Actions, GCP.
-- **Google APIs & Services**:
-  - Compute Engine API, Cloud Logging API, Cloud Run Admin API, Serverless VPC Access API, Secret Manager API, Container Analysis API, Cloud Pub/Sub API, IAM API, IAM Service Account Credentials API, Cloud DNS API.
-
-## How It Works
-
-### Microservices Interaction
-- **Frontend Service**: Manages the user interface and communicates with backend services via REST APIs.
-- **Users Service**: Handles user data and authentication.
-- **Musicians Service**: Manages articles, checks permission, ensuring secure data manipulation by interacting with the Users Service for authorization.
-
-### Data Flow
-- **User Actions**: When users perform actions (create, update, delete articles), events are triggered.
-- **Task Management**: Celery tasks handle asynchronous operations such as statistics updates.
-- **Caching**: Redis improves performance by caching frequently accessed data.
-- **Security**: JWT tokens and HTTPs ensure secure communication between services.
+- **Frontend**: React, Axios, React-Bootstrap, React-Router-Dom.
+- **Backend**: Django, Django Rest Framework (DRF), PostgreSQL, Redis, RabbitMQ, Unit Testing with mock.
+- **DevOps**: Docker, Docker Compose, Nginx, Kong, Google Cloud Platform, CI/CD, Kubernetes.
+- **Other**: JWT (RS256), OpenAPI (Swagger), Postman, Git, GitHub, Docker Hub.
 
 ## Contributing
 
-Anyone interested in contributing to the project is welcome.
+Contributions from the community are welcome.
 
 ## License
 
@@ -95,11 +63,8 @@ This project is licensed under the MIT License.
 
 ## Live Application
 
-Check out the live application here: [Musicians App](https://frontend-service-build-2d4imkwuza-ey.a.run.app/)
-
-The old monolith version of this project is available [here](https://musicians-app.me/).
+Check out the live application here: [musicians-app.com](https://musicians-app.com)
 
 [![CI/CD](https://github.com/Serg-f/musicians-site/actions/workflows/ci.yml/badge.svg)](https://github.com/Serg-f/musicians-site/actions/workflows/ci.yml)
 
-![musicians-service on GCP](musicians-service.png)
 ![live-app](live-app.png)

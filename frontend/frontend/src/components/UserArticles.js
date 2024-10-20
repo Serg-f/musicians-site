@@ -1,22 +1,22 @@
 // src/components/UserArticles.js
 
-import React, { useEffect, useState, useContext, useCallback, useMemo } from 'react';
-import { axiosInstance } from '../context/axiosInstances';
-import { Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
+import React, {useEffect, useState, useContext, useCallback, useMemo} from 'react';
+import {axiosInstance} from '../context/axiosInstances';
+import {Row, Col, Button, Modal, CloseButton} from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import BaseUserArticlesFilter from './filters/BaseUserArticlesFilter';
 import CustomPagination from './Pagination';
-import { AuthContext } from '../context/AuthContext';
-import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import {AuthContext} from '../context/AuthContext';
+import {useSearchParams, useNavigate, Link} from 'react-router-dom';
 import Search from './Search';
-import {musiciansServiceURL } from '../context/serviceUrls';
+import {musiciansServiceURL, usersServiceURL} from '../context/serviceUrls';
 
 const UserArticles = () => {
     const [articles, setArticles] = useState([]);
     const [selectedStyles, setSelectedStyles] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [styles, setStyles] = useState([]);
-    const { user, isAuthenticated } = useContext(AuthContext);
+    const {user, isAuthenticated} = useContext(AuthContext);
     const [showConfirm, setShowConfirm] = useState(false);
     const [articleToDelete, setArticleToDelete] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState('time-create-desc');
@@ -41,6 +41,29 @@ const UserArticles = () => {
         }
     }, []);
 
+
+    // Get author name either from localStorage cache or from user service
+    const getAuthorName = async (authorId) => {
+        const usersCache = JSON.parse(localStorage.getItem('usersCache')) || [];
+        const cachedUser = usersCache.find(user => user.id === authorId);
+
+        if (cachedUser) {
+            return cachedUser.username;
+        } else {
+            try {
+                const response = await axiosInstance.get(`${usersServiceURL}/users/${authorId}/`);
+                const newUser = response.data;
+                usersCache.push(newUser);
+                localStorage.setItem('usersCache', JSON.stringify(usersCache));
+                return newUser.username;
+            } catch (error) {
+                console.error('Error fetching author details:', error);
+                return 'Unknown';
+            }
+        }
+    };
+
+    // Fetch articles with author name
     const fetchArticles = useCallback(async () => {
         const stylesQuery = selectedStyles.length > 0 ? `&style=${encodeURIComponent(selectedStyles.join(','))}` : '';
         const pageSizeQuery = pageSize !== 3 ? `&page_size=${pageSize}` : '';
@@ -57,27 +80,26 @@ const UserArticles = () => {
 
         try {
             const response = await axiosInstance.get(`${musiciansServiceURL}/v1/author/musicians/?page=${page}${stylesQuery}${publishingQuery}${searchQuery}${pageSizeQuery}${orderingQuery}`);
-            const { results, count, next } = response.data;
+            const {results, count, next} = response.data;
 
-            const articlesWithDetails = results.map(article => {
+            const articlesWithDetails = await Promise.all(results.map(async article => {
                 const styleId = parseInt(article.style.split('/').slice(-2, -1)[0]);
-                const style = styles.find(s => s.id === styleId) || { name: 'Unknown' };
-                const author = user || { username: 'Unknown' };
+                const style = styles.find(s => s.id === styleId) || {name: 'Unknown'};
+                const authorName = await getAuthorName(article.author_id);
                 return {
                     ...article,
                     styleName: style.name,
-                    authorName: author.username,
+                    authorName,
                 };
-            });
+            }));
 
             setArticles(articlesWithDetails);
             const totalPages = next ? Math.ceil(count / pageSize) : page;
             setPageCount(totalPages);
-
         } catch (error) {
             console.error('There was an error fetching the articles!', error);
         }
-    }, [page, pageSize, selectedStyles, selectedPublishing, styles, searchTerm, orderParam, user]);
+    }, [page, pageSize, selectedStyles, selectedPublishing, styles, searchTerm, orderParam]);
 
     useEffect(() => {
         fetchStyles();
@@ -98,7 +120,7 @@ const UserArticles = () => {
     }, [styles, styleParams, publishingParam, orderParam]);
 
     const handlePageChange = (newPage) => {
-        const params = { page: newPage };
+        const params = {page: newPage};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -122,7 +144,7 @@ const UserArticles = () => {
 
     const handlePageSizeChange = (e) => {
         const newPageSize = parseInt(e.target.value);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (newPageSize !== 3) {
             params['page-size'] = newPageSize;
         }
@@ -146,7 +168,7 @@ const UserArticles = () => {
 
     const handleStyleChange = (newSelectedStyles) => {
         setSelectedStyles(newSelectedStyles);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -170,7 +192,7 @@ const UserArticles = () => {
 
     const handlePublishingChange = (newPublishing) => {
         setSelectedPublishing(newPublishing);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -194,7 +216,7 @@ const UserArticles = () => {
 
     const handleOrderChange = (newOrder) => {
         setSelectedOrder(newOrder);
-        const params = { page: 1 };
+        const params = {page: 1};
         if (pageSize !== 3) {
             params['page-size'] = pageSize;
         }
@@ -220,7 +242,7 @@ const UserArticles = () => {
         setSelectedStyles([]);
         setSelectedPublishing('all');
         setSelectedOrder('time-create-desc');
-        setSearchParams({ page: 1, 'page-size': pageSize });
+        setSearchParams({page: 1, 'page-size': pageSize});
     };
 
     const handleStyleClick = (styleName) => {
@@ -257,33 +279,37 @@ const UserArticles = () => {
                     />
                 </Col>
                 <Col lg={9} className="mobile-content">
-                    <Search />
+                    <Search/>
                     <Row>
                         {articles.length > 0 ? articles.map(article => (
                             <Col key={article.id} lg={12} className="mb-4">
                                 <Row className="p-3 border-bottom">
                                     {article.photo && (
                                         <Col md="auto" className="mb-3 mb-md-0">
-                                            <img src={article.photo} alt={article.title} className="img-fluid"
-                                                style={{ maxWidth: '300px', width: '100%', height: 'auto' }} />
+                                            <img
+                                                src={article.photo.startsWith('http') ? article.photo : `${musiciansServiceURL}${article.photo}`}
+                                                alt={article.title}
+                                                className="img-fluid"
+                                                style={{maxWidth: '300px', width: '100%', height: 'auto'}}
+                                            />
                                         </Col>
                                     )}
                                     <Col>
                                         <p className="text-muted">
                                             Style: <button
-                                                className="btn btn-link text-decoration-underline text-primary p-0"
-                                                onClick={() => handleStyleClick(article.styleName)}>{article.styleName}</button>
+                                            className="btn btn-link text-decoration-underline text-primary p-0"
+                                            onClick={() => handleStyleClick(article.styleName)}>{article.styleName}</button>
                                         </p>
                                         <p className="text-muted">
                                             Author: <Link to="/"
-                                                className="text-decoration-underline text-primary p-0">{article.authorName}</Link>
+                                                          className="text-decoration-underline text-primary p-0">{article.authorName}</Link>
                                         </p>
                                         <p className="text-muted">Created: {new Date(article.time_create).toLocaleString()}</p>
                                         <h5 className="mt-2">{article.title}</h5>
                                         <p>{article.content.substring(0, 300)}...</p>
                                         <div className="d-flex">
                                             <Button as={Link} to={`/articles/${article.id}`}
-                                                state={{ fromUserArticles: true }}>Read article</Button>
+                                                    state={{fromUserArticles: true}}>Read article</Button>
                                             {isAuthenticated && user?.id === article.author_id && (
                                                 <>
                                                     <Button
@@ -330,7 +356,7 @@ const UserArticles = () => {
             <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
                 <Modal.Header>
                     <Modal.Title>Confirm Delete</Modal.Title>
-                    <CloseButton onClick={() => setShowConfirm(false)} />
+                    <CloseButton onClick={() => setShowConfirm(false)}/>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure you want to delete this article?

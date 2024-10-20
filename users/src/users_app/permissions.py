@@ -1,8 +1,10 @@
-from rest_framework.permissions import BasePermission
 import ipaddress
 import logging
 
+from rest_framework.permissions import BasePermission
+
 logger = logging.getLogger(__name__)
+
 
 class IsFromMusiciansService(BasePermission):
     """

@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { Container, Row, Col, Button, Modal, CloseButton } from 'react-bootstrap';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
+import {useParams, useNavigate, useLocation} from 'react-router-dom';
+import {AuthContext} from '../context/AuthContext';
+import {Container, Row, Col, Button, Modal, CloseButton} from 'react-bootstrap';
 import BaseLayout from './BaseLayout';
 import ReactPlayer from 'react-player';
-import { axiosInstance, axiosInstanceNoAuth } from '../context/axiosInstances'; // Import axios instances
-import { musiciansServiceURL } from '../context/serviceUrls';
+import {axiosInstance, axiosInstanceNoAuth} from '../context/axiosInstances'; // Import axios instances
+import {musiciansServiceURL} from '../context/serviceUrls';
 
 const ArticleDetail = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const location = useLocation();
     const [article, setArticle] = useState(null);
-    const { user, isAuthenticated, loading } = useContext(AuthContext);
+    const {user, isAuthenticated, loading} = useContext(AuthContext);
     const navigate = useNavigate();
     const CACHE_KEY = 'stylesCache';
     const USERS_CACHE_KEY = 'usersCache';
@@ -82,9 +82,14 @@ const ArticleDetail = () => {
                 <Row>
                     <Col lg={8}>
                         {article.photo && (
-                            <img src={article.photo} className="img-fluid mb-3" alt={article.title} />
+                            <img
+                                src={article.photo.startsWith('http') ? article.photo : `${musiciansServiceURL}${article.photo}`}
+                                className="img-fluid mb-3"
+                                alt={article.title}
+                            />
                         )}
                     </Col>
+
                     <Col lg={4}>
                         <p className="text-muted">
                             Style: <Button
@@ -143,7 +148,7 @@ const ArticleDetail = () => {
             <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
                 <Modal.Header>
                     <Modal.Title>Confirm Delete</Modal.Title>
-                    <CloseButton onClick={() => setShowConfirm(false)} />
+                    <CloseButton onClick={() => setShowConfirm(false)}/>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure you want to delete this article?

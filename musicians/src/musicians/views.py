@@ -2,12 +2,12 @@ from django.core.cache import cache
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, filters
+from rest_framework import filters, viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .filters import MusiciansFilter, AuthorMusiciansFilter
+from .filters import AuthorMusiciansFilter, MusiciansFilter
 from .models import Musician, Style
-from .permissions import IsAuthorOrAdmin
+from .permissions import IsAuthor
 from .serializers import MusicianSerializer, StyleSerializer
 
 
@@ -43,14 +43,13 @@ class StylesViewSet(viewsets.ReadOnlyModelViewSet):
 
 class AuthorMusiciansViewSet(FilterMixin, viewsets.ModelViewSet):
     serializer_class = MusicianSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrAdmin]
+    permission_classes = [IsAuthenticated, IsAuthor]
     filterset_class = AuthorMusiciansFilter
 
     def get_queryset(self):
         queryset = cache.get('author_musicians_queryset')
         if queryset is None:
-            author_queryset = Musician.objects.filter(author_id=self.request.user.id)
-            queryset = Musician.objects.all() if self.request.user.is_staff else author_queryset
+            queryset = Musician.objects.filter(author_id=self.request.user.id)
             cache.set('author_musicians_queryset', queryset, 60 * 60 * 2)
         return queryset
 

@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from musicians.models import Musician, Style
 
 

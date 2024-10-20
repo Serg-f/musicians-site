@@ -1,6 +1,7 @@
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from users_app.models import CustomUser
 
 
@@ -16,11 +17,6 @@ class UserPublicSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('id', 'username',)
 
-
-class UserStatsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'articles_published', 'articles_total')
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
