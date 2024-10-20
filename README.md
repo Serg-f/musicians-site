@@ -1,6 +1,6 @@
 # Musicians Site
 
-Welcome to the Musicians Site repository, a web application designed with a **clean microservices architecture**, leveraging modern web development practices and technologies, and deployed on Google Cloud Platform.
+Musicians Site is a web application designed with a clean microservices architecture, leveraging modern web development and devOps practices and technologies, and deployed on Google Cloud Platform.
 
 ## Key Features
 
