@@ -64,7 +64,8 @@ This project is licensed under the MIT License.
 ## Live Application
 
 Check out the live application here: [musicians-app.com](https://musicians-app.com)
-The full content may not load immediately. Some services need a moment to wake up, so this is not a bug and is intentional to save resources. Please wait a few seconds.
+
+The full content may not load immediately. Some services need a moment to wake up, so this is not a bug and is intentional to save resources. Please wait for a few seconds.
 
 [![CI/CD](https://github.com/Serg-f/musicians-site/actions/workflows/ci.yml/badge.svg)](https://github.com/Serg-f/musicians-site/actions/workflows/ci.yml)
 
